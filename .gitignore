@@ -90,3 +90,30 @@ temp/
 !/data/dataset_description.md
 !/data/reports/
 !/data/reports/*.md
+
+# ==============================
+# ML server runtime directories
+# ==============================
+# Keep directory placeholders trackable while ignoring generated contents.
+/data/*
+!/data/raw/
+/data/raw/*
+!/data/raw/.gitkeep
+!/data/dataset_description.md
+!/data/reports/
+/data/reports/*
+!/data/reports/*.md
+
+/outputs/*
+!/outputs/.gitkeep
+/checkpoints/*
+!/checkpoints/.gitkeep
+!/logs/
+/logs/*
+!/logs/.gitkeep
+
+*.pt
+*.pth
+*.ckpt
+wandb/
+mlruns/

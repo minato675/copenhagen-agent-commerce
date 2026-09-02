@@ -1,0 +1,11 @@
+# Core data and preprocessing dependencies
+numpy>=1.26,<3
+pandas>=2.1,<3
+scikit-learn>=1.3,<2
+matplotlib>=3.8,<4
+joblib>=1.3,<2
+
+# Install a PyTorch build compatible with the server's NVIDIA driver/CUDA
+# after checking nvidia-smi. The environment.yml uses the same package as an
+# optional pip dependency for this GPU smoke-test project.
+torch>=2.5,<3
