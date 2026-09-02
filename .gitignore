@@ -1,0 +1,92 @@
+# ==============================
+# Python cache / build artifacts
+# ==============================
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+build/
+dist/
+*.egg-info/
+
+# ==============================
+# Virtual environments
+# ==============================
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# ==============================
+# Environment variables / secrets
+# ==============================
+.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+
+# ==============================
+# IDE / editor settings
+# ==============================
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ==============================
+# OS files
+# ==============================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==============================
+# Logs / temporary files
+# ==============================
+*.log
+logs/
+tmp/
+temp/
+.tmp/
+
+# ==============================
+# Large raw datasets
+# ==============================
+# Keep raw transaction data outside Git. Store it under data/raw/ locally.
+/data/raw/
+!/data/raw/.gitkeep
+
+# Current project-root input files
+/category_tree.csv
+/events.csv
+/item_properties_part1.csv
+/item_properties_part2.csv
+/uae_ecom_fraud_100k.csv
+
+# ==============================
+# Generated datasets / model artifacts
+# ==============================
+/data/processed/*.csv
+/data/processed/*.parquet
+/data/processed/*.joblib
+/data/processed/*.pkl
+/data/processed/*.pickle
+
+# Keep documentation and reports trackable.
+!/data/dataset_description.md
+!/data/reports/
+!/data/reports/*.md
