@@ -1,5 +1,6 @@
-"""Interactive launcher. Keeps credentials out of files and camera subprocesses."""
+"""Interactive or systemd launcher; keeps credentials out of camera subprocesses."""
 import getpass
+import argparse
 import os
 from pathlib import Path
 import platform
@@ -11,6 +12,20 @@ import sys
 import time
 
 ROOT = Path(__file__).resolve().parent
+
+
+def configuration(argv=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('backend', nargs='?', default=os.environ.get('CAMERA_BACKEND', 'usb'), choices=['usb', 'csi'])
+    parser.add_argument('--non-interactive', action='store_true')
+    args = parser.parse_args(argv)
+    tunnel_id = os.environ.get('TUNNEL_ID', '').strip() if args.non_interactive else input('Your OpenAI tunnel ID (tunnel_...): ').strip()
+    if not re.fullmatch(r'tunnel_[A-Za-z0-9]+', tunnel_id) or 'REPLACE' in tunnel_id:
+        raise ValueError('Set a valid TUNNEL_ID in the service environment file.')
+    key = os.environ.get('CONTROL_PLANE_API_KEY', '').strip() if args.non_interactive else None
+    if args.non_interactive and (not key or 'REPLACE' in key):
+        raise ValueError('Set CONTROL_PLANE_API_KEY in the service environment file.')
+    return args.backend, tunnel_id, key, args.non_interactive
 
 
 def occupied(port):
@@ -35,14 +50,9 @@ def stop(process):
 def main():
     if platform.system() != 'Linux' or platform.machine() not in ('aarch64', 'arm64'):
         raise RuntimeError('Run on Raspberry Pi OS 64-bit.')
-    backend = sys.argv[1] if len(sys.argv) > 1 else 'usb'
-    if backend not in ('usb', 'csi'):
-        raise ValueError('Select usb or csi.')
+    backend, tunnel_id, key, unattended = configuration()
     if occupied(8765) or occupied(18765):
         raise RuntimeError('Port 8765 or 18765 already in use. Stop the existing MCP/tunnel first.')
-    tunnel_id = input('Your OpenAI tunnel ID (tunnel_...): ').strip()
-    if not re.fullmatch(r'tunnel_[A-Za-z0-9]+', tunnel_id):
-        raise ValueError('Invalid tunnel ID')
     binaries = [p for p in (ROOT/'bin'/'tunnel-client').rglob('tunnel-client') if p.is_file()]
     if len(binaries) != 1:
         raise RuntimeError('Run setup.sh first; tunnel executable missing.')
@@ -73,9 +83,10 @@ def main():
                 '--profile', 'webcam', '--profile-dir', str(profile), '--tunnel-id', tunnel_id,
                 '--mcp-server-url', 'http://127.0.0.1:8765/mcp',
                 '--health-listen-addr', '127.0.0.1:18765'], env=public_env, check=True)
-        if not sys.stdin.isatty():
-            raise RuntimeError('Interactive terminal required for hidden API key input.')
-        key = getpass.getpass('Runtime API key (hidden, not saved): ').strip()
+        if not unattended:
+            if not sys.stdin.isatty():
+                raise RuntimeError('Interactive terminal required for hidden API key input.')
+            key = getpass.getpass('Runtime API key (hidden, not saved): ').strip()
         if not key:
             raise ValueError('API key is empty.')
         runtime_env = public_env.copy()
@@ -90,7 +101,7 @@ def main():
                                   start_new_session=True)
         runtime_env.pop('CONTROL_PLANE_API_KEY', None)
         print('Tunnel started. Check: curl http://127.0.0.1:18765/readyz', flush=True)
-        print('Keep this terminal open. Ctrl+C stops the tunnel and MCP.', flush=True)
+        print('Managed by systemd; use systemctl to stop.' if unattended else 'Keep this terminal open. Ctrl+C stops the tunnel and MCP.', flush=True)
         while tunnel.poll() is None:
             if server.poll() is not None:
                 raise RuntimeError('MCP exited; stopping tunnel.')

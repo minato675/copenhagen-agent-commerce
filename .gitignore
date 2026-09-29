@@ -4,4 +4,7 @@ profiles/
 logs/
 *.pyc
 .env
+.env.*
+!.env.example
+*.env
 bin/tunnel-client/
