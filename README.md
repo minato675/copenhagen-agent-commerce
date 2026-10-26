@@ -66,3 +66,18 @@ cd backend
 이번 게시 과정에서는 이 발췌본의 전체 배포나 실결제를 다시 검증하지 않았습니다.
 
 [게시 범위와 원본 기준](docs/EXPORT_SCOPE.md) · [포트폴리오 설명](docs/PORTFOLIO.md) · [원본 팀 README](docs/source/README.original.md)
+
+## 함께 정리한 실험과 도구
+
+저는 초기 FDS 전처리 실험과 라즈베리파이 카메라 MCP를 코펜하겐의 관련 코드로 함께 정리했습니다.
+
+| 경로 | 내용 |
+| --- | --- |
+| [experiments/fds-uae-preprocessing](experiments/fds-uae-preprocessing/README.md) | UAE 데이터의 시간순·누수 방지 전처리와 원격 GPU 실행 환경 점검 |
+| [integrations/raspberrypi-camera-mcp](integrations/raspberrypi-camera-mcp/README.md) | Raspberry Pi USB/CSI 카메라 촬영과 ChatGPT 연결용 MCP |
+
+각 폴더에서 별도로 설치·실행하는 실험과 도구입니다. 기존 Core·Pay·MCP 구매 API에 대한
+연동 완료나 실거래 검증 성과로 확대하지 않습니다. 실행·장치 검증 범위는 각 README에 기록했습니다.
+이전 `connect_gpu`와 `ssafy207`의 모든 원본 커밋을 그대로 보존했습니다.
+
+[원본 이력과 통합 기록](docs/REPOSITORY_MERGE.md)

@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-26",
+  "target": "copenhagen-agent-commerce",
+  "sources": [
+    {
+      "source": "connect_gpu",
+      "target": "copenhagen-agent-commerce",
+      "default_branch": "master",
+      "source_head": "d58e23aa233c10ed14a2ccbf0e8cb6759cae537b",
+      "original_files": 28,
+      "original_refs": [
+        {
+          "ref": "refs/heads/master",
+          "oid": "d58e23aa233c10ed14a2ccbf0e8cb6759cae537b",
+          "type": "commit"
+        }
+      ],
+      "commit_count": 2,
+      "lfs_oids": [],
+      "mode": "subtree",
+      "prefix": "experiments/fds-uae-preprocessing",
+      "archive_prefix": null,
+      "mapping_exceptions": {}
+    },
+    {
+      "source": "ssafy207",
+      "target": "copenhagen-agent-commerce",
+      "default_branch": "master",
+      "source_head": "38936d9c41e2603cb0ff597b918aa077cdb813b5",
+      "original_files": 24,
+      "original_refs": [
+        {
+          "ref": "refs/heads/master",
+          "oid": "38936d9c41e2603cb0ff597b918aa077cdb813b5",
+          "type": "commit"
+        }
+      ],
+      "commit_count": 2,
+      "lfs_oids": [],
+      "mode": "subtree",
+      "prefix": "integrations/raspberrypi-camera-mcp",
+      "archive_prefix": null,
+      "mapping_exceptions": {
+        "README.md": "docs/repository-merges/ssafy207/README.original.md"
+      }
+    }
+  ]
+}
