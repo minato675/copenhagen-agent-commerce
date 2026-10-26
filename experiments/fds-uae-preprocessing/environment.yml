@@ -1,0 +1,16 @@
+name: fds-model
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.11
+  - pip
+  - numpy>=1.26,<3
+  - pandas>=2.1,<3
+  - scikit-learn>=1.3,<2
+  - matplotlib>=3.8,<4
+  - joblib>=1.3,<2
+  - pip:
+      # Confirm the server driver with nvidia-smi before installing/running.
+      - torch>=2.5,<3
