@@ -12,7 +12,7 @@ bash setup.sh usb
 bash connect-chatgpt.sh usb
 ```
 
-비공개 저장소에 접근할 수 있는 본인 GitHub 인증이 필요합니다. Raspberry Pi OS 64비트와 장치 설정을 먼저 준비합니다.
+공개 저장소를 내려받을 수 있습니다. Raspberry Pi OS 64비트와 장치 설정을 먼저 준비합니다.
 CSI 모듈을 사용할 때는 각 실행기의 `csi` 옵션을 사용합니다.
 
 이 도구는 별도 프로세스로 실행합니다. 이번 통합으로 구매 API나 Core·Pay와의 자동 연동을 추가하지 않았습니다.
