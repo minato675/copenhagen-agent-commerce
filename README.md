@@ -10,9 +10,9 @@
 | 개인 담당 | MCP 구현과 이상거래 탐지 설계 |
 | 저장소 용도 | 팀 모노레포의 소스·검증 자료를 선별한 비공개 포트폴리오 |
 
-## 개인 기여: MCP 장바구니 도구
+## 제가 맡은 역할: MCP 장바구니 도구
 
-김지호는 MCP 구현과 이상거래 탐지 설계를 담당했습니다. 대표 사례는 `add_cart_item`입니다.
+저는 MCP 구현과 이상거래 탐지 설계를 담당했습니다. 대표적인 구현 사례는 `add_cart_item`입니다.
 Codex를 활용해 판매처·상품·옵션·수량을 Core 계약으로 전달하고,
 응답의 사용자·요청·추가 항목·버전이 맞는지 확인한 뒤 결과를 반환하도록 구성했습니다.
 
@@ -24,9 +24,9 @@ Codex를 활용해 판매처·상품·옵션·수량을 Core 계약으로 전달
 | [CartServiceTest](backend/apps/mcp-server/src/test/java/com/copenhagen/mcp/cart/CartServiceTest.java) | 정상·오류 응답에 대한 테스트 |
 | [QA3 기록](backend/apps/mcp-server/docs/qa3.md) | Mock Core 검증, 사용자 격리·재시도·버전 충돌 확인 범위 |
 
-개인 담당의 근거로 사용한 QA3는 Mock Core 검증을 중심으로 한 당시 기록입니다.
-Core의 저장소 구현·가격 계산·실결제 운영을 개인 MCP 성과로 확대하지 않습니다.
-팀 공용 MCP UI와 Core·Pay·모바일 코드의 포함 여부가 개인 구현 범위를 의미하지 않습니다.
+제가 맡은 MCP 장바구니 도구는 당시 QA3에서 Mock Core를 기반으로 검증했습니다.
+Core의 저장소 구현·가격 계산·실결제 운영은 제 MCP 담당 범위에 포함되지 않습니다.
+팀 전체 흐름을 살펴볼 수 있도록 팀 공용 MCP UI와 Core·Pay·모바일 코드도 함께 담았습니다.
 
 ## 팀 서비스 구조
 
@@ -63,6 +63,6 @@ cd backend
 
 운영 API 키·인증 설정·DB·외부 서비스는 별도 환경 설정이 필요합니다.
 생성 카탈로그 일부와 별도 webcam 패키지의 실행 파일은 게시에서 제외했습니다.
-이 발췌본의 전체 배포나 실결제를 검증한 것으로 해석하지 않습니다.
+이번 게시 과정에서는 이 발췌본의 전체 배포나 실결제를 다시 검증하지 않았습니다.
 
 [게시 범위와 원본 기준](docs/EXPORT_SCOPE.md) · [포트폴리오 설명](docs/PORTFOLIO.md) · [원본 팀 README](docs/source/README.original.md)
