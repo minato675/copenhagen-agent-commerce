@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.Copenhagen.Starting" parent="Theme.Copenhagen">
+        <item name="android:windowBackground">@color/copenhagen_canvas</item>
+        <item name="android:windowSplashScreenBackground">@color/copenhagen_canvas</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash_placeholder</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@android:color/transparent</item>
+    </style>
+</resources>

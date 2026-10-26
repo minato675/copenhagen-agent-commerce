@@ -1,0 +1,41 @@
+services:
+  smoke-http:
+    image: docker.io/curlimages/curl:8.16.0
+    entrypoint: ["/bin/sh", "-c", "trap 'exit 0' TERM INT; while :; do sleep 3600 & wait $$!; done"]
+    # One job-owned probe container handles all requests across service upgrades.
+  core-service:
+    # Short-lived functional smoke: prioritize JVM startup over peak throughput.
+    environment: &smoke-java
+      JAVA_TOOL_OPTIONS: -XX:TieredStopAtLevel=1
+    healthcheck: &app-health
+      interval: 2s
+      start_interval: 1s
+      retries: 60
+  mcp-server:
+    environment: *smoke-java
+    healthcheck: *app-health
+  pay-service:
+    environment: *smoke-java
+    healthcheck: *app-health
+  ucp-merchant-mock:
+    environment: *smoke-java
+    healthcheck: *app-health
+  pg-mock:
+    environment: *smoke-java
+    healthcheck: *app-health
+  core-db:
+    healthcheck: &db-health
+      interval: 1s
+      retries: 60
+  pay-db:
+    healthcheck: *db-health
+  merchant-db:
+    healthcheck: *db-health
+  redis:
+    healthcheck: *db-health
+  nginx:
+    image: ${SMOKE_NGINX_IMAGE:?Smoke Nginx image is required}
+    # CI의 Docker daemon은 job 컨테이너의 파일 경로를 공유하지 않습니다.
+    # 동일 nginx.conf를 이미지에 복사하고 공개 포트 없이 내부망에서 검증합니다.
+    volumes: !reset []
+    ports: !reset []

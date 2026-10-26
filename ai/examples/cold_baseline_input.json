@@ -1,0 +1,139 @@
+{
+  "request": {
+    "evaluation": {
+      "request": {
+        "context": {
+          "evaluation_id": "synthetic-evaluation",
+          "user_id": "synthetic-user",
+          "purchase_request_id": "current-purchase"
+        },
+        "intent": {
+          "purchase_request_id": "current-purchase",
+          "source": "user_direct",
+          "version": "intent-v1"
+        },
+        "order": {
+          "purchase_request_id": "current-purchase",
+          "reference": {
+            "snapshot_id": "synthetic-snapshot",
+            "version": "v1",
+            "snapshot_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "orders": [
+            {
+              "order_id": "current-order",
+              "merchant_id": "synthetic-merchant",
+              "items": [
+                {
+                  "item_id": "synthetic-item",
+                  "name": "Synthetic item",
+                  "quantity": 1,
+                  "unit_price": {
+                    "amount_minor": 10000,
+                    "currency": "KRW"
+                  },
+                  "line_total": {
+                    "amount_minor": 10000,
+                    "currency": "KRW"
+                  }
+                }
+              ],
+              "total": {
+                "amount_minor": 10000,
+                "currency": "KRW"
+              }
+            }
+          ],
+          "total": {
+            "amount_minor": 10000,
+            "currency": "KRW"
+          }
+        }
+      },
+      "evaluated_at": "2026-09-14T00:05:00+09:00",
+      "feature_schema_version": "cold-features-v1",
+      "requested_features": [
+        "amount_minor",
+        "purchase_count_10m",
+        "kst_hour"
+      ]
+    },
+    "population_reference": {
+      "profile_id": "synthetic-population",
+      "version": "demo-v1",
+      "scope": "POPULATION",
+      "cohort_id": "synthetic-cohort"
+    },
+    "policy_id": "cold-demo",
+    "policy_version": "demo-v1"
+  },
+  "population": {
+    "format_version": "cold-reference-v1",
+    "profile": {
+      "reference": {
+        "profile_id": "synthetic-population",
+        "version": "demo-v1",
+        "scope": "POPULATION",
+        "cohort_id": "synthetic-cohort"
+      },
+      "origin": "SYNTHETIC",
+      "source_reference": "synthetic-example-only",
+      "feature_schema_version": "cold-features-v1",
+      "currency": "KRW",
+      "as_of": "2026-09-13T00:00:00+09:00",
+      "generated_at": "2026-09-13T00:01:00+09:00",
+      "valid_until": "2026-09-15T00:00:00+09:00",
+      "observations": [
+        {
+          "feature_id": "amount_minor",
+          "valid_sample_count": 10,
+          "observed_from": "2026-09-01T00:00:00+09:00",
+          "last_observed_at": "2026-09-12T23:59:00+09:00"
+        }
+      ]
+    },
+    "available_at": "2026-09-13T00:02:00+09:00",
+    "validation_status": "UNVALIDATED",
+    "parameters": [
+      {
+        "feature_id": "amount_minor",
+        "unit": "MINOR_UNIT",
+        "method": "ABSOLUTE_DISTANCE",
+        "center": 10000.0,
+        "scale": 20000.0
+      }
+    ]
+  },
+  "policy": {
+    "format_version": "cold-reference-v1",
+    "policy_id": "cold-demo",
+    "version": "demo-v1",
+    "source_reference": "manual-example-only",
+    "origin": "INITIAL_POLICY",
+    "validation_status": "UNVALIDATED",
+    "currency": "KRW",
+    "feature_schema_version": "cold-features-v1",
+    "generated_at": "2026-09-13T00:00:00+09:00",
+    "available_at": "2026-09-13T00:00:00+09:00",
+    "valid_from": "2026-09-13T00:00:00+09:00",
+    "valid_until": "2026-09-15T00:00:00+09:00",
+    "parameters": [
+      {
+        "feature_id": "purchase_count_10m",
+        "unit": "PURCHASE_COUNT",
+        "window_seconds": 600,
+        "method": "UPPER_DISTANCE",
+        "center": 2.0,
+        "scale": 8.0
+      },
+      {
+        "feature_id": "kst_hour",
+        "unit": "KST_HOUR",
+        "method": "CIRCULAR_DISTANCE",
+        "center": 12.0,
+        "scale": 12.0,
+        "period": 24
+      }
+    ]
+  }
+}

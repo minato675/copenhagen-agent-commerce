@@ -1,0 +1,107 @@
+spring:
+  application:
+    name: core-service
+  datasource:
+    url: ${CORE_DB_URL:jdbc:postgresql://core-db:5432/core-db}
+    username: ${CORE_DB_USER:core}
+    password: ${CORE_DB_PASSWORD:core-dev-password}
+  flyway:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+services:
+  pay:
+    base-url: ${PAY_SERVICE_URL:http://pay-service:8080}
+    # pay-service의 PAY_AUTH_CORE_SERVICE_TOKENS_JSON에 등록된 core-service 토큰과 정확히 같아야 한다.
+    # 기본값을 두지 않는다 — 미설정 시 Pay 내부 API 호출이 전부 401이 되는 것이 의도된 동작이다.
+    service-token: ${CORE_PAY_SERVICE_TOKEN:}
+    connect-timeout: PT1S
+    request-timeout: PT3S
+  merchants:
+    - id: ${MERCHANT_ID:merchant-a}
+      # merchants.id. V7__seed_merchants.sql 이 넣는 고정 PK 와 맞춘다(cart_items.merchant_id FK).
+      ref-id: ${MERCHANT_REF_ID:1}
+      display-name: ${MERCHANT_DISPLAY_NAME:Copenhagen Demo Store}
+      base-url: ${MERCHANT_SERVICE_URL:http://ucp-merchant-mock:8080}/api/ucp/v1/merchant-a
+      connect-timeout: PT1S
+      request-timeout: PT3S
+    # 가상 몰 b·c (ucp-merchant-mock 393, ADR 0008). 컨테이너 하나가 몰 셋을 서빙하고 경로의 몰 세그먼트로 가른다.
+    # base-url 뒤에 붙는 /ucp/v1 은 Merchant Mock 의 별칭 필터가 떼어 주므로 이 목록만 더하면 된다.
+    # merchant-a 는 옛 경로 별칭으로 위 항목 그대로 동작한다. 상호 셋은 임시다.
+    - id: merchant-b
+      # merchants.id. V8__seed_merchants_b_c.sql 이 넣는 고정 PK.
+      ref-id: 2
+      display-name: 노을상점
+      base-url: http://ucp-merchant-mock:8080/api/ucp/v1/merchant-b
+      connect-timeout: PT1S
+      request-timeout: PT3S
+    - id: merchant-c
+      # merchants.id. V8__seed_merchants_b_c.sql 이 넣는 고정 PK.
+      ref-id: 3
+      display-name: 별빛몰
+      base-url: http://ucp-merchant-mock:8080/api/ucp/v1/merchant-c
+      connect-timeout: PT1S
+      request-timeout: PT3S
+
+# 개인정보 암호화 키. 기본값을 두지 않는다 — 미설정 시 기동을 실패시키는 것이 의도된 동작이다.
+# 로컬 개발은 application-local.yml, 테스트는 src/test/resources/application-test.yml이 값을 채운다.
+core:
+  payment:
+    worker:
+      # 배포 환경에서만 켠다(이슈 410). Pay·Merchant Mock이 없는 테스트 환경에서 조용히 실패 로그를
+      # 쌓지 않기 위해 기본값은 false다.
+      enabled: ${CORE_PAYMENT_WORKER_ENABLED:false}
+      poll-interval-seconds: ${CORE_PAYMENT_WORKER_POLL_INTERVAL_SECONDS:3}
+  purchase:
+    # Pay 승인 세션 스키마 이관 드레인 구간에만 true로 둔다(이슈 S15P21A207-486). 켜면 새 구매 검증이
+    # merchant checkout을 만들기 전에 503 PURCHASE_SUSPENDED로 반려된다. 워커는 별도로
+    # CORE_PAYMENT_WORKER_ENABLED=false로 내린다. 인계 TTL이 30분이라 드레인 창은 그보다 짧아야 한다.
+    approval-suspended: ${CORE_PURCHASE_APPROVAL_SUSPENDED:false}
+  internal:
+    # 구매 요청 만료. MCP는 생성 시각 +31분을 넘는 응답을 거부한다.
+    handoff-ttl: ${CORE_INTERNAL_HANDOFF_TTL:PT30M}
+    default-page-size: ${CORE_INTERNAL_DEFAULT_PAGE_SIZE:10}
+  ucp:
+    # Merchant가 외부에서 조회할 Core Platform Profile의 기준 URL. 운영은 HTTPS 공개 URL을 명시한다.
+    public-base-url: ${CORE_UCP_PUBLIC_BASE_URL:http://core-service:8080}
+    merchant-profile-cache: PT5M
+  pii:
+    encryption-key: ${CORE_PII_ENC_KEY}
+    hash-pepper: ${CORE_PII_HASH_PEPPER}
+  auth:
+    jwt:
+      # 로그인 Access Token 서명 키(EC secp256r1 개인키를 Base64URL PKCS#8로 인코딩한 값).
+      # 미설정 시 기동마다 새 키 쌍을 생성하므로 재기동 전 발급한 토큰과 pay-service의 검증이 모두 깨진다.
+      # 공개키는 개인키에서 역산하므로 core에는 설정하지 않는다 — pay-service가 JWK Set으로 따로 들고 있다.
+      signing-key: ${CORE_AUTH_JWT_PRIVATE_KEY:}
+      # pay-service의 PAY_AUTH_JWT_JWK_SET_JSON에 담긴 JWK의 kid와 반드시 같아야 한다.
+      # pay-service는 kid로만 검증 키를 찾기 때문에 값이 어긋나면 서명이 맞아도 인증에 실패한다.
+      key-id: ${CORE_AUTH_JWT_KEY_ID:A207}
+
+# Agent OAuth 인가 서버(이슈 S15P21A207-337). issuer/mcp-resource-audience는 기본값을 두지 않는다 —
+# 미설정 시 기동을 실패시키는 것이 의도된 동작이다(mcp-server가 이 값들로 발급 토큰을 검증하므로 잘못된
+# 값으로 조용히 기동하면 안 됨). 로컬은 application-local.yml, 테스트는 application-test.yml이 채운다.
+agent:
+  oauth:
+    issuer: ${AGENT_OAUTH_ISSUER}
+    mcp-resource-audience: ${AGENT_OAUTH_MCP_AUDIENCE}
+    jwt:
+      # Agent Access/Service Token 서명 키. 로그인 토큰(core.auth.jwt)과 별도 키를 쓴다(공개 JWKS 노출
+      # 범위를 분리하기 위함 — 설계서 §4.1). 미설정 시 기동마다 새 키 쌍을 생성한다(재기동 전 발급 토큰 무효화).
+      signing-key: ${AGENT_OAUTH_JWT_PRIVATE_KEY:}
+      key-id: ${AGENT_OAUTH_JWT_KEY_ID:agent-oauth-dev}
+
+# MCP 내부 검색 전용. Core HTTP 제한(기본 5초)보다 짧게 유지한다.
+catalog-search:
+  concurrency: ${CORE_CATALOG_SEARCH_CONCURRENCY:6}
+  queue-capacity: ${CORE_CATALOG_SEARCH_QUEUE_CAPACITY:24}
+  budget: ${CORE_CATALOG_SEARCH_BUDGET:4s}

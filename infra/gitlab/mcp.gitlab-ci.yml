@@ -1,0 +1,155 @@
+.mcp-verify-rules:
+  rules:
+    - if: >-
+        ($CI_PIPELINE_SOURCE == "merge_request_event" &&
+        $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") ||
+        ($CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop")
+      changes:
+        - backend/apps/mcp-server/**/*
+        - backend/libs/internal-api-contract/**/*
+        - backend/libs/test-support/**/*
+        - backend/gradle.properties
+        - backend/build.gradle
+        - backend/settings.gradle
+        - backend/.dockerignore
+        - backend/gradle/**/*
+        - backend/gradlew
+        - backend/gradlew.bat
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+        - infra/gitlab/common.gitlab-ci.yml
+        - infra/gitlab/mcp.gitlab-ci.yml
+      variables:
+        REQUIRE_TEST_ARTIFACT: "true"
+
+.mcp-delivery-rules:
+  rules:
+    - if: >-
+        $CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop"
+      changes:
+        - backend/apps/mcp-server/**/*
+        - backend/libs/internal-api-contract/**/*
+        - backend/libs/test-support/**/*
+        - backend/gradle.properties
+        - backend/build.gradle
+        - backend/settings.gradle
+        - backend/.dockerignore
+        - backend/gradle/**/*
+        - backend/gradlew
+        - backend/gradlew.bat
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+        - infra/gitlab/common.gitlab-ci.yml
+        - infra/gitlab/mcp.gitlab-ci.yml
+    - when: never
+
+mcp-test:
+  extends:
+    - .gradle-test-job
+    - .mcp-verify-rules
+  stage: test
+  variables:
+    GRADLE_MODULE: apps/mcp-server
+    GRADLE_TASK: :apps:mcp-server:test
+
+mcp-ui-test:
+  extends: .mcp-verify-rules
+  image: node:22-alpine
+  stage: test
+  before_script:
+    - cd backend/apps/mcp-server/ui
+  script:
+    - npm ci --no-audit --no-fund
+    - npm test
+    - npm run check
+
+mcp-build:
+  extends:
+    - .gradle-jar-job
+    - .mcp-verify-rules
+  stage: build
+  needs:
+    - job: mcp-test
+      artifacts: true
+      optional: true
+    - job: mcp-ui-test
+      artifacts: false
+      optional: true
+  variables:
+    GRADLE_MODULE: apps/mcp-server
+    GRADLE_TASK: :apps:mcp-server:bootJar
+  artifacts:
+    paths:
+      - backend/apps/mcp-server/build/libs/app.jar
+      - backend/apps/mcp-server/build/libs/app.jar.metadata
+    expire_in: 1 day
+  rules:
+    - !reference [.mcp-verify-rules, rules]
+    - if: >-
+        ($CI_PIPELINE_SOURCE == "merge_request_event" &&
+        $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") ||
+        ($CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop")
+      changes:
+        - backend/**/*
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - infra/gitlab/**/*
+        - infra/nginx/**/*
+        - infra/docker/smoke.override.yml
+        - infra/docker/https.override.yml
+        - scripts/deploy-dev-nginx.sh
+        - infra/docker/smoke-gradle-cache.Dockerfile
+        - scripts/smoke-dockerfiles.py
+        - scripts/deploy-smoke.sh
+        - scripts/smoke-base.sh
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+      variables:
+        REQUIRE_TEST_ARTIFACT: "false"
+    - when: never
+
+mcp-docker-build:
+  extends:
+    - .docker-build-job
+    - .mcp-delivery-rules
+  stage: docker-build
+  needs:
+    - job: deploy-smoke
+      artifacts: false
+    - job: mcp-build
+      artifacts: true
+  variables:
+    GRADLE_MODULE: apps/mcp-server
+    CONTAINER_IMAGE: copenhagen/mcp-server:$CI_COMMIT_SHA
+
+mcp-deploy-dev:
+  extends:
+    - .deploy-dev-job
+    - .mcp-delivery-rules
+  stage: deploy-dev
+  needs:
+    - job: deploy-smoke
+      artifacts: false
+    - job: mcp-docker-build
+      artifacts: false
+  resource_group: development-ec2
+  variables:
+    COMPOSE_SERVICE: mcp-server
+    DEPLOY_IMAGE_VARIABLE: MCP_IMAGE
+    CONTAINER_IMAGE: copenhagen/mcp-server:$CI_COMMIT_SHA

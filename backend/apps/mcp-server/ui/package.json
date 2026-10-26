@@ -1,0 +1,13 @@
+{
+  "name": "copenhagen-mcp-home",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "preview": "node preview.mjs",
+    "build": "node build.mjs",
+    "check": "node build.mjs --check",
+    "test": "node --test src/*.test.js"
+  },
+  "dependencies": { "@modelcontextprotocol/ext-apps": "2.0.0" },
+  "devDependencies": { "esbuild": "0.28.2" }
+}

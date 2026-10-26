@@ -1,0 +1,2 @@
+# Install from the ai directory with python -m pip install -r requirements-dev.txt.
+-e .[test,server]

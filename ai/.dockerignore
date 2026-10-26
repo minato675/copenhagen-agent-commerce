@@ -1,0 +1,18 @@
+# Build with ai/ as the context; include only package sources and public examples.
+**
+!Dockerfile
+!.dockerignore
+!pyproject.toml
+!README.md
+!src/
+!src/**
+!examples/
+!examples/*.json
+!examples/cold_scoring_demo.py
+
+# Keep generated artifacts and environment files excluded inside allowed paths.
+**/__pycache__/
+**/*.py[cod]
+**/*.egg-info/
+**/.env
+**/.env.*

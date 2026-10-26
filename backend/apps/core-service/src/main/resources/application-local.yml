@@ -1,0 +1,20 @@
+# 로컬 개발 전용 프로필.
+#
+# 아래 PII 키는 공개된 개발 전용 값이다. 운영에서 절대 사용하지 마라.
+# 운영 환경은 CORE_PII_ENC_KEY / CORE_PII_HASH_PEPPER 환경변수로 주입하며,
+# 미설정 시 core-service가 기동에 실패한다.
+core:
+  pii:
+    encryption-key: ZGV2LW9ubHktY29yZS1waWkta2V5LTMyLWJ5dGVzISE=
+    hash-pepper: dev-only-core-pii-hash-pepper-value-do-not-use-in-prod
+  auth:
+    jwt:
+      # 아래 서명 키는 공개된 로컬 개발 전용 값이다. 운영에서 절대 사용하지 마라.
+      # pay-service의 PAY_AUTH_JWT_JWK_SET_JSON에 든 kid=A207 공개키와 한 쌍이다.
+      signing-key: MEECAQAwEwYHKoZIzj0CAQYIKoZIzj0DAQcEJzAlAgEBBCAyh5K36nStp8dccrpgKa1lO1LnP8Uh45CWJ0ElrxvBFA
+
+agent:
+  oauth:
+    # 로컬 개발 전용 값. mcp-server 로컬 실행 시 AGENT_OAUTH_MCP_AUDIENCE와 같은 값을 넣어야 검증이 맞는다.
+    issuer: http://localhost:8080
+    mcp-resource-audience: http://localhost:8080/mcp

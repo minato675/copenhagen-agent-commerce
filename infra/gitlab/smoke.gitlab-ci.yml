@@ -1,0 +1,63 @@
+deploy-smoke:
+  image: docker:28-cli
+  stage: deploy-smoke
+  services:
+    - name: docker:28-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+    GIT_DEPTH: "0"
+    SMOKE_USE_CI_ARTIFACTS: "true"
+    SMOKE_GRADLE_CACHE: "$CI_PROJECT_DIR/tmp/smoke-gradle-cache"
+    SMOKE_RUNTIME_CACHE: "$CI_PROJECT_DIR/tmp/smoke-runtime-cache"
+    FF_USE_FASTZIP: "true"
+    CACHE_COMPRESSION_LEVEL: "fastest"
+  cache:
+    key: "smoke-gradle-v1-$CI_COMMIT_REF_SLUG"
+    fallback_keys:
+      - smoke-gradle-v1-develop
+    paths:
+      - tmp/smoke-gradle-cache/
+      - tmp/smoke-runtime-cache/
+  dependencies:
+    - core-build
+    - mcp-build
+    - pay-build
+    - merchant-mock-build
+    - pg-mock-build
+  before_script:
+    - apk add --no-cache bash git jq python3
+  script:
+    - bash scripts/deploy-smoke.sh
+  allow_failure: false
+  timeout: 30m
+  artifacts:
+    when: always
+    paths:
+      - tmp/deploy-smoke/
+    expire_in: 1 day
+  rules:
+    - if: >-
+        ($CI_PIPELINE_SOURCE == "merge_request_event" &&
+        $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") ||
+        ($CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop")
+      changes:
+        - backend/**/*
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - infra/gitlab/**/*
+        - infra/nginx/**/*
+        - infra/docker/smoke.override.yml
+        - infra/docker/https.override.yml
+        - scripts/deploy-dev-nginx.sh
+        - infra/docker/smoke-gradle-cache.Dockerfile
+        - scripts/deploy-smoke.sh
+        - scripts/smoke-base.sh
+        - scripts/smoke-dockerfiles.py
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+    - when: never

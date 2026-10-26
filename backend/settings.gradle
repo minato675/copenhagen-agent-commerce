@@ -1,0 +1,31 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'copenhagen-backend'
+
+include(
+    'apps:core-service',
+    'apps:mcp-server',
+    'apps:pay-service',
+    'mocks:ucp-merchant-mock',
+    'mocks:pg-mock',
+    'libs:ucp-contract',
+    'libs:payment-handler-contract',
+    'libs:internal-api-contract',
+    'libs:test-support'
+)

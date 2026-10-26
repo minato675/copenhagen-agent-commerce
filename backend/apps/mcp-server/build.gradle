@@ -1,0 +1,30 @@
+plugins {
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    id 'java'
+}
+
+dependencies {
+    implementation project(':libs:internal-api-contract')
+    implementation libs.spring.boot.starter.web
+    implementation libs.spring.boot.starter.actuator
+    implementation libs.nimbus.jose.jwt
+    implementation 'io.modelcontextprotocol.sdk:mcp:2.0.1'
+
+    testImplementation libs.spring.boot.starter.test
+    testImplementation project(':libs:test-support')
+}
+
+// QA 실행기는 test classpath에만 존재하며 운영 bootJar에는 포함하지 않는다.
+tasks.register('writeQaClasspath') {
+    dependsOn tasks.named('testClasses')
+    def runtimeClasspath = sourceSets.test.runtimeClasspath
+    def outputFile = layout.buildDirectory.file('qa/classpath.txt')
+    inputs.files(runtimeClasspath)
+    outputs.file(outputFile)
+    doLast {
+        def destination = outputFile.get().asFile
+        destination.parentFile.mkdirs()
+        destination.setText(runtimeClasspath.asPath, 'UTF-8')
+    }
+}

@@ -1,0 +1,13 @@
+<resources>
+    <style name="Theme.Copenhagen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:colorAccent">#0f62fe</item>
+        <item name="android:windowBackground">#ffffff</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+    <style name="Theme.Copenhagen.Starting" parent="Theme.Copenhagen">
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+</resources>

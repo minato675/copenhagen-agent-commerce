@@ -1,0 +1,277 @@
+{
+  "input": {
+    "format_version": "cold-evaluation-v1",
+    "feature_input": {
+      "evaluation": {
+        "request": {
+          "context": {
+            "evaluation_id": "synthetic-evaluation",
+            "user_id": "synthetic-user",
+            "purchase_request_id": "current-purchase"
+          },
+          "intent": {
+            "purchase_request_id": "current-purchase",
+            "source": "user_direct",
+            "version": "intent-v1"
+          },
+          "order": {
+            "purchase_request_id": "current-purchase",
+            "reference": {
+              "snapshot_id": "synthetic-snapshot",
+              "version": "v1",
+              "snapshot_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "orders": [
+              {
+                "order_id": "current-order",
+                "merchant_id": "synthetic-merchant",
+                "items": [
+                  {
+                    "item_id": "synthetic-item",
+                    "name": "Synthetic item",
+                    "quantity": 1,
+                    "unit_price": {
+                      "amount_minor": 10000,
+                      "currency": "KRW"
+                    },
+                    "line_total": {
+                      "amount_minor": 10000,
+                      "currency": "KRW"
+                    }
+                  }
+                ],
+                "total": {
+                  "amount_minor": 10000,
+                  "currency": "KRW"
+                }
+              }
+            ],
+            "total": {
+              "amount_minor": 10000,
+              "currency": "KRW"
+            }
+          }
+        },
+        "evaluated_at": "2026-09-14T00:05:00+09:00",
+        "feature_schema_version": "cold-features-v1",
+        "requested_features": [
+          "amount_minor",
+          "purchase_count_10m",
+          "purchase_count_1h",
+          "purchase_count_24h",
+          "attempt_count_10m",
+          "attempt_count_1h",
+          "attempt_count_24h",
+          "kst_hour",
+          "kst_day_of_week"
+        ]
+      },
+      "current_occurred_at": "2026-09-14T00:00:00+09:00",
+      "current_available_at": "2026-09-14T00:00:00+09:00",
+      "current_attempt_id": "current-attempt",
+      "history": {
+        "as_of": "2026-09-14T00:05:00+09:00",
+        "purchases": {
+          "status": "COLLECTED",
+          "complete_from": "2026-09-13T00:00:00+09:00",
+          "complete_until": "2026-09-14T00:05:00+09:00"
+        },
+        "attempts": {
+          "status": "COLLECTED",
+          "complete_from": "2026-09-13T00:00:00+09:00",
+          "complete_until": "2026-09-14T00:05:00+09:00"
+        },
+        "events": [
+          {
+            "event_id": "event-1",
+            "kind": "PURCHASE_REQUESTED",
+            "user_id": "synthetic-user",
+            "purchase_request_id": "previous-purchase",
+            "order_id": "order-a",
+            "attempt_id": null,
+            "occurred_at": "2026-09-13T23:55:00+09:00",
+            "available_at": "2026-09-13T23:55:00+09:00",
+            "currency": "KRW"
+          },
+          {
+            "event_id": "event-1",
+            "kind": "PURCHASE_REQUESTED",
+            "user_id": "synthetic-user",
+            "purchase_request_id": "previous-purchase",
+            "order_id": "order-a",
+            "attempt_id": null,
+            "occurred_at": "2026-09-13T23:55:00+09:00",
+            "available_at": "2026-09-13T23:55:00+09:00",
+            "currency": "KRW"
+          },
+          {
+            "event_id": "event-merchant-copy",
+            "kind": "PURCHASE_REQUESTED",
+            "user_id": "synthetic-user",
+            "purchase_request_id": "previous-purchase",
+            "order_id": "order-b",
+            "attempt_id": null,
+            "occurred_at": "2026-09-13T23:55:00+09:00",
+            "available_at": "2026-09-13T23:55:00+09:00",
+            "currency": "KRW"
+          },
+          {
+            "event_id": "event-2",
+            "kind": "PAYMENT_ATTEMPTED",
+            "user_id": "synthetic-user",
+            "purchase_request_id": "previous-purchase",
+            "order_id": "order-a",
+            "attempt_id": "attempt-1",
+            "occurred_at": "2026-09-13T23:56:00+09:00",
+            "available_at": "2026-09-13T23:56:00+09:00",
+            "currency": "KRW"
+          },
+          {
+            "event_id": "event-3",
+            "kind": "PAYMENT_ATTEMPTED",
+            "user_id": "synthetic-user",
+            "purchase_request_id": "current-purchase",
+            "order_id": "current-order",
+            "attempt_id": "previous-attempt",
+            "occurred_at": "2026-09-14T00:01:00+09:00",
+            "available_at": "2026-09-14T00:01:00+09:00",
+            "currency": "KRW"
+          }
+        ]
+      }
+    },
+    "population_reference": {
+      "profile_id": "synthetic-population",
+      "version": "demo-v1",
+      "scope": "POPULATION",
+      "cohort_id": "synthetic-cohort"
+    },
+    "policy_id": "cold-evaluation-demo",
+    "policy_version": "demo-v1",
+    "trace_id": "synthetic-cold-evaluation-trace"
+  },
+  "population": {
+    "format_version": "cold-reference-v1",
+    "profile": {
+      "reference": {
+        "profile_id": "synthetic-population",
+        "version": "demo-v1",
+        "scope": "POPULATION",
+        "cohort_id": "synthetic-cohort"
+      },
+      "origin": "SYNTHETIC",
+      "source_reference": "synthetic-example-only",
+      "feature_schema_version": "cold-features-v1",
+      "currency": "KRW",
+      "as_of": "2026-09-13T00:00:00+09:00",
+      "generated_at": "2026-09-13T00:01:00+09:00",
+      "valid_until": "2026-09-15T00:00:00+09:00",
+      "observations": [
+        {
+          "feature_id": "amount_minor",
+          "valid_sample_count": 10,
+          "observed_from": "2026-09-01T00:00:00+09:00",
+          "last_observed_at": "2026-09-12T23:59:00+09:00"
+        }
+      ]
+    },
+    "available_at": "2026-09-13T00:02:00+09:00",
+    "validation_status": "UNVALIDATED",
+    "parameters": [
+      {
+        "feature_id": "amount_minor",
+        "unit": "MINOR_UNIT",
+        "method": "ABSOLUTE_DISTANCE",
+        "center": 10000.0,
+        "scale": 20000.0
+      }
+    ]
+  },
+  "policy": {
+    "format_version": "cold-reference-v1",
+    "policy_id": "cold-evaluation-demo",
+    "version": "demo-v1",
+    "source_reference": "synthetic-cold-evaluation-policy-v1",
+    "origin": "INITIAL_POLICY",
+    "validation_status": "UNVALIDATED",
+    "currency": "KRW",
+    "feature_schema_version": "cold-features-v1",
+    "generated_at": "2026-09-13T00:00:00+09:00",
+    "available_at": "2026-09-13T00:00:00+09:00",
+    "valid_from": "2026-09-13T00:00:00+09:00",
+    "valid_until": "2026-09-15T00:00:00+09:00",
+    "parameters": [
+      {
+        "feature_id": "amount_minor",
+        "unit": "MINOR_UNIT",
+        "method": "UPPER_DISTANCE",
+        "center": 10000.0,
+        "scale": 20000.0
+      },
+      {
+        "feature_id": "purchase_count_10m",
+        "unit": "PURCHASE_COUNT",
+        "method": "UPPER_DISTANCE",
+        "center": 2.0,
+        "scale": 8.0,
+        "window_seconds": 600
+      },
+      {
+        "feature_id": "purchase_count_1h",
+        "unit": "PURCHASE_COUNT",
+        "method": "UPPER_DISTANCE",
+        "center": 2.0,
+        "scale": 8.0,
+        "window_seconds": 3600
+      },
+      {
+        "feature_id": "purchase_count_24h",
+        "unit": "PURCHASE_COUNT",
+        "method": "UPPER_DISTANCE",
+        "center": 2.0,
+        "scale": 8.0,
+        "window_seconds": 86400
+      },
+      {
+        "feature_id": "attempt_count_10m",
+        "unit": "ATTEMPT_COUNT",
+        "method": "UPPER_DISTANCE",
+        "center": 1.0,
+        "scale": 4.0,
+        "window_seconds": 600
+      },
+      {
+        "feature_id": "attempt_count_1h",
+        "unit": "ATTEMPT_COUNT",
+        "method": "UPPER_DISTANCE",
+        "center": 1.0,
+        "scale": 4.0,
+        "window_seconds": 3600
+      },
+      {
+        "feature_id": "attempt_count_24h",
+        "unit": "ATTEMPT_COUNT",
+        "method": "UPPER_DISTANCE",
+        "center": 1.0,
+        "scale": 4.0,
+        "window_seconds": 86400
+      },
+      {
+        "feature_id": "kst_hour",
+        "unit": "KST_HOUR",
+        "method": "CIRCULAR_DISTANCE",
+        "center": 12.0,
+        "scale": 12.0,
+        "period": 24
+      },
+      {
+        "feature_id": "kst_day_of_week",
+        "unit": "KST_WEEKDAY",
+        "method": "CIRCULAR_DISTANCE",
+        "center": 0.0,
+        "scale": 3.5,
+        "period": 7
+      }
+    ]
+  }
+}

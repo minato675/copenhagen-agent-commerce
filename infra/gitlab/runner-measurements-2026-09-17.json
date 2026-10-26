@@ -1,0 +1,4263 @@
+{
+  "issue": "S15P21A207-392",
+  "date": "2026-09-17",
+  "time_units": "seconds unless key names specify milliseconds or MiB",
+  "measurement_status": "Stopped at user request because of time constraints; no completed improved cohort or concurrent/worker comparison",
+  "baseline_mr_summary": {
+    "cohort": "A",
+    "pipeline_ids": [
+      202122,
+      202123,
+      202125
+    ],
+    "complete": true,
+    "start": "2026-09-17T13:56:08+09:00",
+    "end": "2026-09-17T14:34:14+09:00",
+    "pipeline_wall_seconds": [
+      1653,
+      1982,
+      2257
+    ],
+    "pipeline_wall_median_seconds": 1982,
+    "cohort_makespan_seconds": 2286,
+    "sample_count": 70,
+    "external_job_ids": [
+      "561454",
+      "561455",
+      "561457",
+      "561494",
+      "562152",
+      "562343"
+    ],
+    "external_job_sample_count": 19,
+    "cpu_idle_median_pct": 1.87,
+    "cpu_idle_below_5_pct_sample_count": 43,
+    "iowait_max_pct": 7.35,
+    "memory_available_min_mib": 10326,
+    "runnable_max": 45,
+    "health_request_count": 210,
+    "health_failure_count": 3,
+    "health_success_ms_median": 7.24,
+    "health_success_ms_p95": 26.81,
+    "health_success_ms_max": 149.07,
+    "unhealthy_sample_count": 0,
+    "health_starting_sample_count": 2,
+    "job_medians": {
+      "backend-lint": {
+        "duration_seconds": 76,
+        "queued_seconds": 167,
+        "cache_restore_seconds": 6,
+        "cache_save_seconds": 21,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      },
+      "ci-config-test": {
+        "duration_seconds": 28,
+        "queued_seconds": 419,
+        "cache_restore_seconds": null,
+        "cache_save_seconds": null,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      },
+      "core-build": {
+        "duration_seconds": 23,
+        "queued_seconds": 103,
+        "cache_restore_seconds": 9,
+        "cache_save_seconds": 1,
+        "artifact_download_seconds": 2,
+        "artifact_upload_seconds": 3
+      },
+      "core-test": {
+        "duration_seconds": 95,
+        "queued_seconds": 30,
+        "cache_restore_seconds": 11,
+        "cache_save_seconds": 21,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": 4
+      },
+      "deploy-smoke": {
+        "duration_seconds": 1120,
+        "queued_seconds": 3,
+        "cache_restore_seconds": null,
+        "cache_save_seconds": null,
+        "artifact_download_seconds": 8,
+        "artifact_upload_seconds": 1
+      },
+      "mcp-build": {
+        "duration_seconds": 24,
+        "queued_seconds": 111,
+        "cache_restore_seconds": 10,
+        "cache_save_seconds": 1,
+        "artifact_download_seconds": 1,
+        "artifact_upload_seconds": 3
+      },
+      "mcp-test": {
+        "duration_seconds": 83,
+        "queued_seconds": 76,
+        "cache_restore_seconds": 10,
+        "cache_save_seconds": 23,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": 3
+      },
+      "merchant-mock-build": {
+        "duration_seconds": 22,
+        "queued_seconds": 72,
+        "cache_restore_seconds": 7,
+        "cache_save_seconds": 1,
+        "artifact_download_seconds": 2,
+        "artifact_upload_seconds": 3
+      },
+      "merchant-mock-test": {
+        "duration_seconds": 83,
+        "queued_seconds": 139,
+        "cache_restore_seconds": 10,
+        "cache_save_seconds": 20,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": 3
+      },
+      "pay-build": {
+        "duration_seconds": 31,
+        "queued_seconds": 58,
+        "cache_restore_seconds": 11,
+        "cache_save_seconds": 1,
+        "artifact_download_seconds": 3,
+        "artifact_upload_seconds": 8
+      },
+      "pay-test": {
+        "duration_seconds": 95,
+        "queued_seconds": 121,
+        "cache_restore_seconds": 10,
+        "cache_save_seconds": 22,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": 7
+      },
+      "pg-mock-build": {
+        "duration_seconds": 21,
+        "queued_seconds": 9,
+        "cache_restore_seconds": 8,
+        "cache_save_seconds": 0,
+        "artifact_download_seconds": 1,
+        "artifact_upload_seconds": 2
+      },
+      "pg-mock-test": {
+        "duration_seconds": 80,
+        "queued_seconds": 217,
+        "cache_restore_seconds": 10,
+        "cache_save_seconds": 22,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": 2
+      },
+      "repository-lint": {
+        "duration_seconds": 8,
+        "queued_seconds": 164,
+        "cache_restore_seconds": null,
+        "cache_save_seconds": null,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      }
+    }
+  },
+  "baseline_mr_runs": [
+    {
+      "pipeline": 202122,
+      "created": "2026-09-17T13:56:08+09:00",
+      "sha": "814cabe997aa64d0381bbca92a4c0c3bee1a9e50",
+      "comparison_base": "14b70b7bfac2e0eff8da12da8915e91744cd223e",
+      "concurrent": 3,
+      "workers": null,
+      "artifact_images": false,
+      "classification": "fixed baseline burst",
+      "status": "passed",
+      "smoke_job": 561523,
+      "jobs": [
+        {
+          "name": "repository-lint",
+          "id": 561510,
+          "duration_seconds": 9,
+          "queued_seconds": 38,
+          "runner": 2063,
+          "cache_restore_seconds": null,
+          "script_seconds": 3,
+          "cache_save_seconds": null,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": null
+        },
+        {
+          "name": "backend-lint",
+          "id": 561511,
+          "duration_seconds": 111,
+          "queued_seconds": 48,
+          "runner": 2063,
+          "cache_restore_seconds": 11,
+          "script_seconds": 70,
+          "cache_save_seconds": 23,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": null,
+          "gradle": {
+            "duration_seconds": 69,
+            "actionable_tasks": 36,
+            "executed": 8,
+            "from_cache": 28,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "ci-config-test",
+          "id": 561512,
+          "duration_seconds": 26,
+          "queued_seconds": 159,
+          "runner": 2063,
+          "cache_restore_seconds": null,
+          "script_seconds": 21,
+          "cache_save_seconds": null,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": null
+        },
+        {
+          "name": "core-test",
+          "id": 561513,
+          "duration_seconds": 95,
+          "queued_seconds": 4,
+          "runner": 2063,
+          "cache_restore_seconds": 12,
+          "script_seconds": 45,
+          "cache_save_seconds": 21,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 4,
+          "gradle": {
+            "duration_seconds": 41,
+            "actionable_tasks": 13,
+            "executed": 7,
+            "from_cache": 6,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "mcp-test",
+          "id": 561514,
+          "duration_seconds": 157,
+          "queued_seconds": 76,
+          "runner": 2063,
+          "cache_restore_seconds": 13,
+          "script_seconds": 110,
+          "cache_save_seconds": 25,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 3,
+          "gradle": {
+            "duration_seconds": 107,
+            "actionable_tasks": 10,
+            "executed": 6,
+            "from_cache": 4,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "pay-test",
+          "id": 561515,
+          "duration_seconds": 88,
+          "queued_seconds": 100,
+          "runner": 2063,
+          "cache_restore_seconds": 11,
+          "script_seconds": 46,
+          "cache_save_seconds": 18,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 6,
+          "gradle": {
+            "duration_seconds": 44,
+            "actionable_tasks": 13,
+            "executed": 7,
+            "from_cache": 6,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "merchant-mock-test",
+          "id": 561516,
+          "duration_seconds": 64,
+          "queued_seconds": 126,
+          "runner": 2063,
+          "cache_restore_seconds": 10,
+          "script_seconds": 31,
+          "cache_save_seconds": 14,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 3,
+          "gradle": {
+            "duration_seconds": 28,
+            "actionable_tasks": 15,
+            "executed": 8,
+            "from_cache": 7,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "pg-mock-test",
+          "id": 561517,
+          "duration_seconds": 62,
+          "queued_seconds": 187,
+          "runner": 2063,
+          "cache_restore_seconds": 10,
+          "script_seconds": 27,
+          "cache_save_seconds": 17,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 2,
+          "gradle": {
+            "duration_seconds": 24,
+            "actionable_tasks": 10,
+            "executed": 5,
+            "from_cache": 5,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "core-build",
+          "id": 561518,
+          "duration_seconds": 21,
+          "queued_seconds": 91,
+          "runner": 2063,
+          "cache_restore_seconds": 7,
+          "script_seconds": 1,
+          "cache_save_seconds": 1,
+          "artifact_download_seconds": 2,
+          "artifact_upload_seconds": 3
+        },
+        {
+          "name": "mcp-build",
+          "id": 561519,
+          "duration_seconds": 21,
+          "queued_seconds": 10,
+          "runner": 2063,
+          "cache_restore_seconds": 6,
+          "script_seconds": 1,
+          "cache_save_seconds": 1,
+          "artifact_download_seconds": 1,
+          "artifact_upload_seconds": 5
+        },
+        {
+          "name": "pay-build",
+          "id": 561520,
+          "duration_seconds": 31,
+          "queued_seconds": 24,
+          "runner": 2063,
+          "cache_restore_seconds": 11,
+          "script_seconds": 0,
+          "cache_save_seconds": 1,
+          "artifact_download_seconds": 3,
+          "artifact_upload_seconds": 8
+        },
+        {
+          "name": "merchant-mock-build",
+          "id": 561521,
+          "duration_seconds": 17,
+          "queued_seconds": 41,
+          "runner": 2063,
+          "cache_restore_seconds": 6,
+          "script_seconds": 1,
+          "cache_save_seconds": 1,
+          "artifact_download_seconds": 1,
+          "artifact_upload_seconds": 2
+        },
+        {
+          "name": "pg-mock-build",
+          "id": 561522,
+          "duration_seconds": 18,
+          "queued_seconds": 0,
+          "runner": 2063,
+          "cache_restore_seconds": 7,
+          "script_seconds": 1,
+          "cache_save_seconds": 0,
+          "artifact_download_seconds": 1,
+          "artifact_upload_seconds": 2
+        },
+        {
+          "name": "deploy-smoke",
+          "id": 561523,
+          "duration_seconds": 1192,
+          "queued_seconds": 2,
+          "runner": 2063,
+          "cache_restore_seconds": null,
+          "script_seconds": 1155,
+          "cache_save_seconds": null,
+          "artifact_download_seconds": 8,
+          "artifact_upload_seconds": 2,
+          "docker_gradle_builds": [
+            {
+              "phase": "candidate",
+              "service": "pg-mock",
+              "duration_seconds": 87,
+              "actionable_tasks": 6,
+              "executed": 6,
+              "from_cache": 0
+            },
+            {
+              "phase": "candidate",
+              "service": "pay-service",
+              "duration_seconds": 160,
+              "actionable_tasks": 8,
+              "executed": 8,
+              "from_cache": 0
+            },
+            {
+              "phase": "candidate",
+              "service": "ucp-merchant-mock",
+              "duration_seconds": 34,
+              "actionable_tasks": 10,
+              "executed": 8,
+              "from_cache": 2
+            },
+            {
+              "phase": "candidate",
+              "service": "core-service",
+              "duration_seconds": 47,
+              "actionable_tasks": 8,
+              "executed": 6,
+              "from_cache": 2
+            },
+            {
+              "phase": "candidate",
+              "service": "mcp-server",
+              "duration_seconds": 34,
+              "actionable_tasks": 6,
+              "executed": 5,
+              "from_cache": 1
+            },
+            {
+              "phase": "baseline",
+              "service": "pg-mock",
+              "duration_seconds": 42,
+              "actionable_tasks": 6,
+              "executed": 5,
+              "from_cache": 1
+            },
+            {
+              "phase": "baseline",
+              "service": "pay-service",
+              "duration_seconds": 57,
+              "actionable_tasks": 8,
+              "executed": 5,
+              "from_cache": 3
+            },
+            {
+              "phase": "baseline",
+              "service": "ucp-merchant-mock",
+              "duration_seconds": 33,
+              "actionable_tasks": 10,
+              "executed": 6,
+              "from_cache": 4
+            },
+            {
+              "phase": "baseline",
+              "service": "core-service",
+              "duration_seconds": 35,
+              "actionable_tasks": 8,
+              "executed": 5,
+              "from_cache": 3
+            },
+            {
+              "phase": "baseline",
+              "service": "mcp-server",
+              "duration_seconds": 36,
+              "actionable_tasks": 6,
+              "executed": 4,
+              "from_cache": 2
+            }
+          ]
+        }
+      ],
+      "cohort": "A",
+      "smoke_use_ci_artifacts": false,
+      "comparison_base_sha": "14b70b7bfac2e0eff8da12da8915e91744cd223e",
+      "finished": "2026-09-17T14:23:41+09:00"
+    },
+    {
+      "pipeline": 202123,
+      "created": "2026-09-17T13:56:27+09:00",
+      "sha": "814cabe997aa64d0381bbca92a4c0c3bee1a9e50",
+      "comparison_base": "14b70b7bfac2e0eff8da12da8915e91744cd223e",
+      "concurrent": 3,
+      "workers": null,
+      "artifact_images": false,
+      "classification": "fixed baseline burst",
+      "status": "passed",
+      "smoke_job": 561537,
+      "jobs": [
+        {
+          "name": "repository-lint",
+          "id": 561524,
+          "duration_seconds": 8,
+          "queued_seconds": 164,
+          "runner": 2063,
+          "cache_restore_seconds": null,
+          "script_seconds": 2,
+          "cache_save_seconds": null,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": null
+        },
+        {
+          "name": "backend-lint",
+          "id": 561525,
+          "duration_seconds": 76,
+          "queued_seconds": 167,
+          "runner": 2063,
+          "cache_restore_seconds": 6,
+          "script_seconds": 43,
+          "cache_save_seconds": 21,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": null,
+          "gradle": {
+            "duration_seconds": 41,
+            "actionable_tasks": 36,
+            "executed": 8,
+            "from_cache": 28,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "ci-config-test",
+          "id": 561526,
+          "duration_seconds": 28,
+          "queued_seconds": 419,
+          "runner": 2063,
+          "cache_restore_seconds": null,
+          "script_seconds": 21,
+          "cache_save_seconds": null,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": null
+        },
+        {
+          "name": "core-test",
+          "id": 561527,
+          "duration_seconds": 90,
+          "queued_seconds": 30,
+          "runner": 2063,
+          "cache_restore_seconds": 11,
+          "script_seconds": 40,
+          "cache_save_seconds": 21,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 4,
+          "gradle": {
+            "duration_seconds": 38,
+            "actionable_tasks": 13,
+            "executed": 7,
+            "from_cache": 6,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "mcp-test",
+          "id": 561528,
+          "duration_seconds": 82,
+          "queued_seconds": 57,
+          "runner": 2063,
+          "cache_restore_seconds": 10,
+          "script_seconds": 40,
+          "cache_save_seconds": 23,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 2,
+          "gradle": {
+            "duration_seconds": 37,
+            "actionable_tasks": 10,
+            "executed": 5,
+            "from_cache": 5,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "pay-test",
+          "id": 561529,
+          "duration_seconds": 95,
+          "queued_seconds": 121,
+          "runner": 2063,
+          "cache_restore_seconds": 9,
+          "script_seconds": 51,
+          "cache_save_seconds": 22,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 7,
+          "gradle": {
+            "duration_seconds": 49,
+            "actionable_tasks": 13,
+            "executed": 7,
+            "from_cache": 6,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "merchant-mock-test",
+          "id": 561530,
+          "duration_seconds": 85,
+          "queued_seconds": 139,
+          "runner": 2063,
+          "cache_restore_seconds": 10,
+          "script_seconds": 45,
+          "cache_save_seconds": 20,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 2,
+          "gradle": {
+            "duration_seconds": 43,
+            "actionable_tasks": 15,
+            "executed": 8,
+            "from_cache": 7,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "pg-mock-test",
+          "id": 561531,
+          "duration_seconds": 80,
+          "queued_seconds": 217,
+          "runner": 2063,
+          "cache_restore_seconds": 7,
+          "script_seconds": 38,
+          "cache_save_seconds": 26,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 2,
+          "gradle": {
+            "duration_seconds": 35,
+            "actionable_tasks": 10,
+            "executed": 5,
+            "from_cache": 5,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "core-build",
+          "id": 561532,
+          "duration_seconds": 26,
+          "queued_seconds": 103,
+          "runner": 2063,
+          "cache_restore_seconds": 10,
+          "script_seconds": 1,
+          "cache_save_seconds": 2,
+          "artifact_download_seconds": 2,
+          "artifact_upload_seconds": 3
+        },
+        {
+          "name": "mcp-build",
+          "id": 561533,
+          "duration_seconds": 24,
+          "queued_seconds": 111,
+          "runner": 2063,
+          "cache_restore_seconds": 10,
+          "script_seconds": 0,
+          "cache_save_seconds": 1,
+          "artifact_download_seconds": 2,
+          "artifact_upload_seconds": 3
+        },
+        {
+          "name": "pay-build",
+          "id": 561534,
+          "duration_seconds": 31,
+          "queued_seconds": 58,
+          "runner": 2063,
+          "cache_restore_seconds": 12,
+          "script_seconds": 1,
+          "cache_save_seconds": 1,
+          "artifact_download_seconds": 3,
+          "artifact_upload_seconds": 7
+        },
+        {
+          "name": "merchant-mock-build",
+          "id": 561535,
+          "duration_seconds": 22,
+          "queued_seconds": 72,
+          "runner": 2063,
+          "cache_restore_seconds": 7,
+          "script_seconds": 1,
+          "cache_save_seconds": 1,
+          "artifact_download_seconds": 2,
+          "artifact_upload_seconds": 4
+        },
+        {
+          "name": "pg-mock-build",
+          "id": 561536,
+          "duration_seconds": 21,
+          "queued_seconds": 9,
+          "runner": 2063,
+          "cache_restore_seconds": 8,
+          "script_seconds": 1,
+          "cache_save_seconds": 1,
+          "artifact_download_seconds": 1,
+          "artifact_upload_seconds": 3
+        },
+        {
+          "name": "deploy-smoke",
+          "id": 561537,
+          "duration_seconds": 1120,
+          "queued_seconds": 83,
+          "runner": 2063,
+          "cache_restore_seconds": null,
+          "script_seconds": 1083,
+          "cache_save_seconds": null,
+          "artifact_download_seconds": 9,
+          "artifact_upload_seconds": 1,
+          "docker_gradle_builds": [
+            {
+              "phase": "candidate",
+              "service": "pg-mock",
+              "duration_seconds": 99,
+              "actionable_tasks": 6,
+              "executed": 6,
+              "from_cache": 0
+            },
+            {
+              "phase": "candidate",
+              "service": "pay-service",
+              "duration_seconds": 142,
+              "actionable_tasks": 8,
+              "executed": 7,
+              "from_cache": 1
+            },
+            {
+              "phase": "candidate",
+              "service": "ucp-merchant-mock",
+              "duration_seconds": 45,
+              "actionable_tasks": 10,
+              "executed": 8,
+              "from_cache": 2
+            },
+            {
+              "phase": "candidate",
+              "service": "core-service",
+              "duration_seconds": 45,
+              "actionable_tasks": 8,
+              "executed": 6,
+              "from_cache": 2
+            },
+            {
+              "phase": "candidate",
+              "service": "mcp-server",
+              "duration_seconds": 46,
+              "actionable_tasks": 6,
+              "executed": 5,
+              "from_cache": 1
+            },
+            {
+              "phase": "baseline",
+              "service": "pg-mock",
+              "duration_seconds": 41,
+              "actionable_tasks": 6,
+              "executed": 4,
+              "from_cache": 2
+            },
+            {
+              "phase": "baseline",
+              "service": "pay-service",
+              "duration_seconds": 59,
+              "actionable_tasks": 8,
+              "executed": 5,
+              "from_cache": 3
+            },
+            {
+              "phase": "baseline",
+              "service": "ucp-merchant-mock",
+              "duration_seconds": 37,
+              "actionable_tasks": 10,
+              "executed": 6,
+              "from_cache": 4
+            },
+            {
+              "phase": "baseline",
+              "service": "core-service",
+              "duration_seconds": 34,
+              "actionable_tasks": 8,
+              "executed": 5,
+              "from_cache": 3
+            },
+            {
+              "phase": "baseline",
+              "service": "mcp-server",
+              "duration_seconds": 26,
+              "actionable_tasks": 6,
+              "executed": 4,
+              "from_cache": 2
+            }
+          ]
+        }
+      ],
+      "cohort": "A",
+      "smoke_use_ci_artifacts": false,
+      "comparison_base_sha": "14b70b7bfac2e0eff8da12da8915e91744cd223e",
+      "finished": "2026-09-17T14:29:29+09:00"
+    },
+    {
+      "pipeline": 202125,
+      "created": "2026-09-17T13:56:37+09:00",
+      "sha": "814cabe997aa64d0381bbca92a4c0c3bee1a9e50",
+      "comparison_base": "14b70b7bfac2e0eff8da12da8915e91744cd223e",
+      "concurrent": 3,
+      "workers": null,
+      "artifact_images": false,
+      "classification": "fixed baseline burst",
+      "status": "passed",
+      "smoke_job": 561552,
+      "jobs": [
+        {
+          "name": "repository-lint",
+          "id": 561539,
+          "duration_seconds": 7,
+          "queued_seconds": 422,
+          "runner": 2063,
+          "cache_restore_seconds": null,
+          "script_seconds": 2,
+          "cache_save_seconds": null,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": null
+        },
+        {
+          "name": "backend-lint",
+          "id": 561540,
+          "duration_seconds": 66,
+          "queued_seconds": 427,
+          "runner": 2063,
+          "cache_restore_seconds": 6,
+          "script_seconds": 33,
+          "cache_save_seconds": 21,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": null,
+          "gradle": {
+            "duration_seconds": 32,
+            "actionable_tasks": 36,
+            "executed": 8,
+            "from_cache": 28,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "ci-config-test",
+          "id": 561541,
+          "duration_seconds": 30,
+          "queued_seconds": 436,
+          "runner": 2063,
+          "cache_restore_seconds": null,
+          "script_seconds": 25,
+          "cache_save_seconds": null,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": null
+        },
+        {
+          "name": "core-test",
+          "id": 561542,
+          "duration_seconds": 95,
+          "queued_seconds": 263,
+          "runner": 2063,
+          "cache_restore_seconds": 10,
+          "script_seconds": 45,
+          "cache_save_seconds": 24,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 4,
+          "gradle": {
+            "duration_seconds": 43,
+            "actionable_tasks": 13,
+            "executed": 7,
+            "from_cache": 6,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "mcp-test",
+          "id": 561543,
+          "duration_seconds": 83,
+          "queued_seconds": 271,
+          "runner": 2063,
+          "cache_restore_seconds": 7,
+          "script_seconds": 43,
+          "cache_save_seconds": 23,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 3,
+          "gradle": {
+            "duration_seconds": 41,
+            "actionable_tasks": 10,
+            "executed": 5,
+            "from_cache": 5,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "pay-test",
+          "id": 561544,
+          "duration_seconds": 101,
+          "queued_seconds": 359,
+          "runner": 2063,
+          "cache_restore_seconds": 10,
+          "script_seconds": 49,
+          "cache_save_seconds": 27,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 9,
+          "gradle": {
+            "duration_seconds": 45,
+            "actionable_tasks": 13,
+            "executed": 7,
+            "from_cache": 6,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "merchant-mock-test",
+          "id": 561545,
+          "duration_seconds": 83,
+          "queued_seconds": 461,
+          "runner": 2063,
+          "cache_restore_seconds": 10,
+          "script_seconds": 38,
+          "cache_save_seconds": 24,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 3,
+          "gradle": {
+            "duration_seconds": 36,
+            "actionable_tasks": 15,
+            "executed": 8,
+            "from_cache": 7,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "pg-mock-test",
+          "id": 561546,
+          "duration_seconds": 85,
+          "queued_seconds": 544,
+          "runner": 2063,
+          "cache_restore_seconds": 10,
+          "script_seconds": 43,
+          "cache_save_seconds": 22,
+          "artifact_download_seconds": null,
+          "artifact_upload_seconds": 3,
+          "gradle": {
+            "duration_seconds": 41,
+            "actionable_tasks": 10,
+            "executed": 5,
+            "from_cache": 5,
+            "up_to_date": 0
+          }
+        },
+        {
+          "name": "core-build",
+          "id": 561547,
+          "duration_seconds": 23,
+          "queued_seconds": 271,
+          "runner": 2063,
+          "cache_restore_seconds": 9,
+          "script_seconds": 1,
+          "cache_save_seconds": 1,
+          "artifact_download_seconds": 2,
+          "artifact_upload_seconds": 3
+        },
+        {
+          "name": "mcp-build",
+          "id": 561548,
+          "duration_seconds": 24,
+          "queued_seconds": 299,
+          "runner": 2063,
+          "cache_restore_seconds": 11,
+          "script_seconds": 1,
+          "cache_save_seconds": 1,
+          "artifact_download_seconds": 1,
+          "artifact_upload_seconds": 3
+        },
+        {
+          "name": "pay-build",
+          "id": 561549,
+          "duration_seconds": 30,
+          "queued_seconds": 217,
+          "runner": 2063,
+          "cache_restore_seconds": 10,
+          "script_seconds": 1,
+          "cache_save_seconds": 1,
+          "artifact_download_seconds": 4,
+          "artifact_upload_seconds": 8
+        },
+        {
+          "name": "merchant-mock-build",
+          "id": 561550,
+          "duration_seconds": 23,
+          "queued_seconds": 164,
+          "runner": 2063,
+          "cache_restore_seconds": 10,
+          "script_seconds": 1,
+          "cache_save_seconds": 1,
+          "artifact_download_seconds": 2,
+          "artifact_upload_seconds": 3
+        },
+        {
+          "name": "pg-mock-build",
+          "id": 561551,
+          "duration_seconds": 22,
+          "queued_seconds": 103,
+          "runner": 2063,
+          "cache_restore_seconds": 10,
+          "script_seconds": 1,
+          "cache_save_seconds": 0,
+          "artifact_download_seconds": 2,
+          "artifact_upload_seconds": 2
+        },
+        {
+          "name": "deploy-smoke",
+          "id": 561552,
+          "duration_seconds": 1002,
+          "queued_seconds": 3,
+          "runner": 2063,
+          "cache_restore_seconds": null,
+          "script_seconds": 963,
+          "cache_save_seconds": null,
+          "artifact_download_seconds": 8,
+          "artifact_upload_seconds": 1,
+          "docker_gradle_builds": [
+            {
+              "phase": "candidate",
+              "service": "pg-mock",
+              "duration_seconds": 87,
+              "actionable_tasks": 6,
+              "executed": 6,
+              "from_cache": 0
+            },
+            {
+              "phase": "candidate",
+              "service": "pay-service",
+              "duration_seconds": 144,
+              "actionable_tasks": 8,
+              "executed": 7,
+              "from_cache": 1
+            },
+            {
+              "phase": "candidate",
+              "service": "ucp-merchant-mock",
+              "duration_seconds": 93,
+              "actionable_tasks": 10,
+              "executed": 10,
+              "from_cache": 0
+            },
+            {
+              "phase": "candidate",
+              "service": "core-service",
+              "duration_seconds": 43,
+              "actionable_tasks": 8,
+              "executed": 6,
+              "from_cache": 2
+            },
+            {
+              "phase": "candidate",
+              "service": "mcp-server",
+              "duration_seconds": 37,
+              "actionable_tasks": 6,
+              "executed": 5,
+              "from_cache": 1
+            },
+            {
+              "phase": "baseline",
+              "service": "pg-mock",
+              "duration_seconds": 42,
+              "actionable_tasks": 6,
+              "executed": 5,
+              "from_cache": 1
+            },
+            {
+              "phase": "baseline",
+              "service": "pay-service",
+              "duration_seconds": 85,
+              "actionable_tasks": 8,
+              "executed": 6,
+              "from_cache": 2
+            },
+            {
+              "phase": "baseline",
+              "service": "ucp-merchant-mock",
+              "duration_seconds": 15,
+              "actionable_tasks": 10,
+              "executed": 6,
+              "from_cache": 4
+            },
+            {
+              "phase": "baseline",
+              "service": "core-service",
+              "duration_seconds": 15,
+              "actionable_tasks": 8,
+              "executed": 5,
+              "from_cache": 3
+            },
+            {
+              "phase": "baseline",
+              "service": "mcp-server",
+              "duration_seconds": 15,
+              "actionable_tasks": 6,
+              "executed": 4,
+              "from_cache": 2
+            }
+          ]
+        }
+      ],
+      "cohort": "A",
+      "smoke_use_ci_artifacts": false,
+      "comparison_base_sha": "14b70b7bfac2e0eff8da12da8915e91744cd223e",
+      "finished": "2026-09-17T14:34:14+09:00"
+    }
+  ],
+  "functional_artifact_mr_run": {
+    "pipeline": 201980,
+    "sha": "7bfaa3dabc6a93e3c130741b93519e25680426b2",
+    "created": "2026-09-17T13:24:38+09:00",
+    "concurrent": 3,
+    "workers": null,
+    "status": "passed",
+    "jobs": [
+      {
+        "name": "backend-lint",
+        "id": 560939,
+        "queued_seconds": 1,
+        "duration_seconds": 78,
+        "runner": 2063
+      },
+      {
+        "name": "ci-config-test",
+        "id": 560940,
+        "queued_seconds": 1,
+        "duration_seconds": 25,
+        "runner": 2063
+      },
+      {
+        "name": "repository-lint",
+        "id": 560938,
+        "queued_seconds": 1,
+        "duration_seconds": 7,
+        "runner": 2063
+      },
+      {
+        "name": "core-test",
+        "id": 560942,
+        "queued_seconds": 3,
+        "duration_seconds": 182,
+        "runner": 2063
+      },
+      {
+        "name": "mcp-test",
+        "id": 560944,
+        "queued_seconds": 3,
+        "duration_seconds": 158,
+        "runner": 2063
+      },
+      {
+        "name": "merchant-mock-test",
+        "id": 560947,
+        "queued_seconds": 182,
+        "duration_seconds": 103,
+        "runner": 2063
+      },
+      {
+        "name": "pay-test",
+        "id": 560946,
+        "queued_seconds": 161,
+        "duration_seconds": 93,
+        "runner": 2063
+      },
+      {
+        "name": "pg-mock-test",
+        "id": 560948,
+        "queued_seconds": 185,
+        "duration_seconds": 86,
+        "runner": 2063
+      },
+      {
+        "name": "core-build",
+        "id": 560949,
+        "queued_seconds": 69,
+        "duration_seconds": 19,
+        "runner": 2063
+      },
+      {
+        "name": "mcp-build",
+        "id": 560950,
+        "queued_seconds": 110,
+        "duration_seconds": 17,
+        "runner": 2063
+      },
+      {
+        "name": "merchant-mock-build",
+        "id": 560952,
+        "queued_seconds": 2,
+        "duration_seconds": 18,
+        "runner": 2063
+      },
+      {
+        "name": "pay-build",
+        "id": 560951,
+        "queued_seconds": 19,
+        "duration_seconds": 30,
+        "runner": 2063
+      },
+      {
+        "name": "pg-mock-build",
+        "id": 560953,
+        "queued_seconds": 14,
+        "duration_seconds": 19,
+        "runner": 2063
+      },
+      {
+        "name": "deploy-smoke",
+        "id": 560954,
+        "queued_seconds": 3,
+        "duration_seconds": 461,
+        "runner": 2063
+      }
+    ],
+    "smoke_job": 560954,
+    "finished": "2026-09-17T13:38:52+09:00",
+    "finished_precision": "GitLab pipeline time datetime attribute",
+    "artifact_images": true,
+    "classification": "functional warmup; excluded from burst comparison",
+    "gitlab_duration_seconds": 846
+  },
+  "historical_develop_reference": {
+    "pipeline": 201566,
+    "sha": "32828bf1d8c61d84ba95a33f5809a226bc1093cd",
+    "created": "2026-09-17T11:41:25+09:00",
+    "finished": "2026-09-17T12:22:50+09:00",
+    "wall_seconds": 2485,
+    "gitlab_duration_seconds": 1269,
+    "concurrent": null,
+    "workers": null,
+    "status": "passed",
+    "jobs": [
+      {
+        "name": "backend-lint",
+        "id": 559298,
+        "duration_seconds": 143,
+        "queued_seconds": 1,
+        "runner": 2063,
+        "cache_restore_seconds": 1,
+        "script_seconds": 127,
+        "cache_save_seconds": 11,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      },
+      {
+        "name": "repository-lint",
+        "id": 559297,
+        "duration_seconds": 8,
+        "queued_seconds": 1,
+        "runner": 2063,
+        "cache_restore_seconds": null,
+        "script_seconds": 1,
+        "cache_save_seconds": null,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      },
+      {
+        "name": "core-test",
+        "id": 559299,
+        "duration_seconds": 126,
+        "queued_seconds": 2,
+        "runner": 2063,
+        "cache_restore_seconds": 17,
+        "script_seconds": 66,
+        "cache_save_seconds": 30,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      },
+      {
+        "name": "mcp-test",
+        "id": 559660,
+        "duration_seconds": 203,
+        "queued_seconds": 1,
+        "runner": 2063,
+        "cache_restore_seconds": 13,
+        "script_seconds": 160,
+        "cache_save_seconds": 25,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      },
+      {
+        "name": "merchant-mock-test",
+        "id": 559302,
+        "duration_seconds": 266,
+        "queued_seconds": 3,
+        "runner": 2063,
+        "cache_restore_seconds": 0,
+        "script_seconds": 242,
+        "cache_save_seconds": 17,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      },
+      {
+        "name": "pay-test",
+        "id": 559301,
+        "duration_seconds": 232,
+        "queued_seconds": 3,
+        "runner": 2063,
+        "cache_restore_seconds": 19,
+        "script_seconds": 175,
+        "cache_save_seconds": 28,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      },
+      {
+        "name": "pg-mock-test",
+        "id": 559303,
+        "duration_seconds": 207,
+        "queued_seconds": 4,
+        "runner": 2063,
+        "cache_restore_seconds": 1,
+        "script_seconds": 183,
+        "cache_save_seconds": 16,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      },
+      {
+        "name": "core-build",
+        "id": 559304,
+        "duration_seconds": 124,
+        "queued_seconds": 2,
+        "runner": 2063,
+        "cache_restore_seconds": 14,
+        "script_seconds": 70,
+        "cache_save_seconds": 27,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": 4
+      },
+      {
+        "name": "mcp-build",
+        "id": 559305,
+        "duration_seconds": 108,
+        "queued_seconds": 1,
+        "runner": 2063,
+        "cache_restore_seconds": 11,
+        "script_seconds": 60,
+        "cache_save_seconds": 25,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": 3
+      },
+      {
+        "name": "merchant-mock-build",
+        "id": 559307,
+        "duration_seconds": 89,
+        "queued_seconds": 2,
+        "runner": 2063,
+        "cache_restore_seconds": 9,
+        "script_seconds": 48,
+        "cache_save_seconds": 22,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": 3
+      },
+      {
+        "name": "pay-build",
+        "id": 559306,
+        "duration_seconds": 102,
+        "queued_seconds": 1,
+        "runner": 2063,
+        "cache_restore_seconds": 8,
+        "script_seconds": 56,
+        "cache_save_seconds": 22,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": 8
+      },
+      {
+        "name": "pg-mock-build",
+        "id": 559308,
+        "duration_seconds": 75,
+        "queued_seconds": 3,
+        "runner": 2063,
+        "cache_restore_seconds": 9,
+        "script_seconds": 40,
+        "cache_save_seconds": 14,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": 2
+      },
+      {
+        "name": "core-docker-build",
+        "id": 559309,
+        "duration_seconds": 200,
+        "queued_seconds": 1,
+        "runner": 2063,
+        "cache_restore_seconds": null,
+        "script_seconds": 169,
+        "cache_save_seconds": null,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null,
+        "docker_gradle": {
+          "duration_seconds": 133,
+          "actionable_tasks": 8,
+          "executed": 8,
+          "from_cache": 0
+        }
+      },
+      {
+        "name": "mcp-docker-build",
+        "id": 559310,
+        "duration_seconds": 159,
+        "queued_seconds": 2,
+        "runner": 2063,
+        "cache_restore_seconds": null,
+        "script_seconds": 132,
+        "cache_save_seconds": null,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null,
+        "docker_gradle": {
+          "duration_seconds": 97,
+          "actionable_tasks": 6,
+          "executed": 6,
+          "from_cache": 0
+        }
+      },
+      {
+        "name": "merchant-mock-docker-build",
+        "id": 559312,
+        "duration_seconds": 194,
+        "queued_seconds": 0,
+        "runner": 2063,
+        "cache_restore_seconds": null,
+        "script_seconds": 165,
+        "cache_save_seconds": null,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null,
+        "docker_gradle": {
+          "duration_seconds": 130,
+          "actionable_tasks": 10,
+          "executed": 10,
+          "from_cache": 0
+        }
+      },
+      {
+        "name": "pay-docker-build",
+        "id": 559311,
+        "duration_seconds": 264,
+        "queued_seconds": 2,
+        "runner": 2063,
+        "cache_restore_seconds": null,
+        "script_seconds": 234,
+        "cache_save_seconds": null,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null,
+        "docker_gradle": {
+          "duration_seconds": 198,
+          "actionable_tasks": 8,
+          "executed": 8,
+          "from_cache": 0
+        }
+      },
+      {
+        "name": "pg-mock-docker-build",
+        "id": 559313,
+        "duration_seconds": 191,
+        "queued_seconds": 0,
+        "runner": 2063,
+        "cache_restore_seconds": null,
+        "script_seconds": 162,
+        "cache_save_seconds": null,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null,
+        "docker_gradle": {
+          "duration_seconds": 125,
+          "actionable_tasks": 6,
+          "executed": 6,
+          "from_cache": 0
+        }
+      },
+      {
+        "name": "core-deploy-dev",
+        "id": 559314,
+        "duration_seconds": 48,
+        "queued_seconds": 0,
+        "runner": 2063,
+        "cache_restore_seconds": null,
+        "script_seconds": 41,
+        "cache_save_seconds": null,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      },
+      {
+        "name": "mcp-deploy-dev",
+        "id": 559315,
+        "duration_seconds": 29,
+        "queued_seconds": 2,
+        "runner": 2063,
+        "cache_restore_seconds": null,
+        "script_seconds": 23,
+        "cache_save_seconds": null,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      },
+      {
+        "name": "merchant-mock-deploy-dev",
+        "id": 559317,
+        "duration_seconds": 28,
+        "queued_seconds": 0,
+        "runner": 2063,
+        "cache_restore_seconds": null,
+        "script_seconds": 23,
+        "cache_save_seconds": null,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      },
+      {
+        "name": "pay-deploy-dev",
+        "id": 559316,
+        "duration_seconds": 20,
+        "queued_seconds": 2,
+        "runner": 2063,
+        "cache_restore_seconds": null,
+        "script_seconds": 16,
+        "cache_save_seconds": null,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      },
+      {
+        "name": "pg-mock-deploy-dev",
+        "id": 559318,
+        "duration_seconds": 30,
+        "queued_seconds": 2,
+        "runner": 2063,
+        "cache_restore_seconds": null,
+        "script_seconds": 25,
+        "cache_save_seconds": null,
+        "artifact_download_seconds": null,
+        "artifact_upload_seconds": null
+      }
+    ],
+    "limitations": [
+      "Different SHA and unknown historical Runner concurrent; excluded from controlled comparison",
+      "Latest successful Job attempts visible in pipeline graph only; earlier attempts not included",
+      "No host samples during this historical run"
+    ]
+  },
+  "aborted_artifact_cohort": [
+    202384,
+    202386,
+    202387
+  ],
+  "not_run": [
+    "concurrent=3, workers=2, artifact images, three runs",
+    "concurrent=2, workers=2, artifact images, three runs",
+    "post-merge develop deployment of this MR"
+  ],
+  "limitations": [
+    "Three overlapping pipelines are a burst cohort, not three independent standalone trials",
+    "Gradle job caches were already populated; no shared cache was deleted",
+    "DinD cache is local to each job; source image builds reuse cache inside that job",
+    "Other jobs and a Core redeployment overlap cohort A",
+    "Three failed health requests coincide with Core restart at 2026-09-17T13:56:11+09:00; retained in raw samples",
+    "Health p95 uses nearest rank over successful requests only",
+    "No speedup percentage or optimal worker/concurrent setting is established",
+    "Job 561494 in non-measurement jobs was our canceled auxiliary run, not another team"
+  ],
+  "runner_final_state": {
+    "concurrent": 3,
+    "config_matches_original_backup": true,
+    "config_mode": "0600",
+    "service": "active",
+    "temporary_tag_removed": true,
+    "run_untagged": true,
+    "application_code_edited_on_ec2": false
+  },
+  "sample_columns": [
+    "utc",
+    "concurrent",
+    "cpu_idle_pct",
+    "cpu_iowait_pct",
+    "mem_available_mib",
+    "loadavg",
+    "health_probes_status_ms",
+    "running_job_ids",
+    "service_status"
+  ],
+  "samples": [
+    [
+      "2026-09-17T04:56:21.372409+00:00",
+      3,
+      10.48,
+      7.35,
+      12469,
+      "8.02 7.22 7.37 22/995 494846",
+      [
+        [
+          0,
+          0.56
+        ],
+        [
+          0,
+          0.27
+        ],
+        [
+          0,
+          0.18
+        ]
+      ],
+      [
+        "561454",
+        "561455",
+        "561494"
+      ],
+      {
+        "core-service": "Up 7 seconds (health: starting)",
+        "mcp-server": "Up 34 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T04:56:53.884374+00:00",
+      3,
+      0.46,
+      0.02,
+      12380,
+      "10.80 8.04 7.64 16/933 496623",
+      [
+        [
+          200,
+          16.68
+        ],
+        [
+          200,
+          23.9
+        ],
+        [
+          200,
+          10.01
+        ]
+      ],
+      [
+        "561454",
+        "561455"
+      ],
+      {
+        "core-service": "Up 39 seconds (health: starting)",
+        "mcp-server": "Up 34 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T04:57:26.458782+00:00",
+      3,
+      0.8,
+      0.17,
+      11663,
+      "10.98 8.36 7.76 13/1056 498672",
+      [
+        [
+          200,
+          6.82
+        ],
+        [
+          200,
+          14.67
+        ],
+        [
+          200,
+          6.21
+        ]
+      ],
+      [
+        "561454",
+        "561455",
+        "561511"
+      ],
+      {
+        "core-service": "Up About a minute (healthy)",
+        "mcp-server": "Up 35 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T04:57:59.013507+00:00",
+      3,
+      0.08,
+      0.02,
+      11292,
+      "12.63 9.04 8.01 12/1156 499588",
+      [
+        [
+          200,
+          10.66
+        ],
+        [
+          200,
+          8.41
+        ],
+        [
+          200,
+          7.41
+        ]
+      ],
+      [
+        "561454",
+        "561455",
+        "561511"
+      ],
+      {
+        "core-service": "Up About a minute (healthy)",
+        "mcp-server": "Up 36 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T04:58:31.672392+00:00",
+      3,
+      0.11,
+      0.02,
+      11637,
+      "12.93 9.48 8.19 18/1162 500702",
+      [
+        [
+          200,
+          10.58
+        ],
+        [
+          200,
+          11.08
+        ],
+        [
+          200,
+          10.92
+        ]
+      ],
+      [
+        "561454",
+        "561455",
+        "561511"
+      ],
+      {
+        "core-service": "Up 2 minutes (healthy)",
+        "mcp-server": "Up 36 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T04:59:04.049911+00:00",
+      3,
+      6.66,
+      1.13,
+      12294,
+      "9.88 9.09 8.10 5/867 503343",
+      [
+        [
+          200,
+          13.85
+        ],
+        [
+          200,
+          5.97
+        ],
+        [
+          200,
+          10.95
+        ]
+      ],
+      [
+        "561454",
+        "561455",
+        "561512"
+      ],
+      {
+        "core-service": "Up 2 minutes (healthy)",
+        "mcp-server": "Up 37 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T04:59:36.582545+00:00",
+      3,
+      17.4,
+      5.12,
+      12870,
+      "8.95 8.93 8.08 7/781 507858",
+      [
+        [
+          200,
+          13.88
+        ],
+        [
+          200,
+          12.94
+        ],
+        [
+          200,
+          9.2
+        ]
+      ],
+      [
+        "561455",
+        "561513",
+        "561525"
+      ],
+      {
+        "core-service": "Up 3 minutes (healthy)",
+        "mcp-server": "Up 37 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:00:09.328573+00:00",
+      3,
+      1.47,
+      0.86,
+      12109,
+      "9.26 8.93 8.11 18/952 509869",
+      [
+        [
+          200,
+          16.93
+        ],
+        [
+          200,
+          9.86
+        ],
+        [
+          200,
+          8.11
+        ]
+      ],
+      [
+        "561457",
+        "561513",
+        "561525"
+      ],
+      {
+        "core-service": "Up 3 minutes (healthy)",
+        "mcp-server": "Up 38 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:00:41.816980+00:00",
+      3,
+      0.47,
+      0.14,
+      12837,
+      "8.65 8.84 8.11 8/829 511791",
+      [
+        [
+          200,
+          15.73
+        ],
+        [
+          200,
+          12.95
+        ],
+        [
+          200,
+          14.01
+        ]
+      ],
+      [
+        "561457",
+        "561513",
+        "561514"
+      ],
+      {
+        "core-service": "Up 4 minutes (healthy)",
+        "mcp-server": "Up 38 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:01:15.242398+00:00",
+      3,
+      5.94,
+      6.49,
+      12934,
+      "7.69 8.58 8.05 21/848 514197",
+      [
+        [
+          200,
+          62.66
+        ],
+        [
+          200,
+          21.69
+        ],
+        [
+          200,
+          31.23
+        ]
+      ],
+      [
+        "561457",
+        "561514",
+        "561515"
+      ],
+      {
+        "core-service": "Up 5 minutes (healthy)",
+        "mcp-server": "Up 39 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:01:47.921180+00:00",
+      3,
+      1.01,
+      0.48,
+      11940,
+      "8.48 8.68 8.10 21/1047 516376",
+      [
+        [
+          200,
+          32.3
+        ],
+        [
+          200,
+          134.3
+        ],
+        [
+          200,
+          6.56
+        ]
+      ],
+      [
+        "561514",
+        "561515",
+        "561516"
+      ],
+      {
+        "core-service": "Up 5 minutes (healthy)",
+        "mcp-server": "Up 39 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:02:20.174265+00:00",
+      3,
+      12.48,
+      1.84,
+      12446,
+      "7.72 8.47 8.05 7/1037 517795",
+      [
+        [
+          200,
+          13.75
+        ],
+        [
+          200,
+          9.12
+        ],
+        [
+          200,
+          5.34
+        ]
+      ],
+      [
+        "561514",
+        "561516"
+      ],
+      {
+        "core-service": "Up 6 minutes (healthy)",
+        "mcp-server": "Up 40 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:02:52.588947+00:00",
+      3,
+      16.11,
+      4.69,
+      12802,
+      "7.10 8.22 7.98 8/824 521646",
+      [
+        [
+          200,
+          9.13
+        ],
+        [
+          200,
+          5.57
+        ],
+        [
+          200,
+          5.22
+        ]
+      ],
+      [
+        "561514",
+        "561517",
+        "561520"
+      ],
+      {
+        "core-service": "Up 6 minutes (healthy)",
+        "mcp-server": "Up 40 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:03:25.037922+00:00",
+      3,
+      12.99,
+      4.0,
+      13349,
+      "6.24 7.92 7.89 12/793 525355",
+      [
+        [
+          200,
+          8.76
+        ],
+        [
+          200,
+          12.8
+        ],
+        [
+          200,
+          11.66
+        ]
+      ],
+      [
+        "561517",
+        "561521"
+      ],
+      {
+        "core-service": "Up 7 minutes (healthy)",
+        "mcp-server": "Up 41 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:03:57.343037+00:00",
+      3,
+      27.75,
+      7.13,
+      13236,
+      "5.20 7.47 7.74 5/764 532599",
+      [
+        [
+          200,
+          9.19
+        ],
+        [
+          200,
+          7.59
+        ],
+        [
+          200,
+          5.44
+        ]
+      ],
+      [
+        "561523",
+        "561526",
+        "561540"
+      ],
+      {
+        "core-service": "Up 7 minutes (healthy)",
+        "mcp-server": "Up 42 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:04:29.791100+00:00",
+      3,
+      8.63,
+      0.52,
+      12570,
+      "5.36 7.27 7.66 11/927 536776",
+      [
+        [
+          200,
+          5.9
+        ],
+        [
+          200,
+          5.32
+        ],
+        [
+          200,
+          5.15
+        ]
+      ],
+      [
+        "561523",
+        "561540"
+      ],
+      {
+        "core-service": "Up 8 minutes (healthy)",
+        "mcp-server": "Up 42 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:05:02.246994+00:00",
+      3,
+      6.3,
+      3.4,
+      12361,
+      "6.36 7.29 7.65 12/988 539402",
+      [
+        [
+          200,
+          8.66
+        ],
+        [
+          200,
+          12.16
+        ],
+        [
+          200,
+          8.12
+        ]
+      ],
+      [
+        "561523",
+        "561527",
+        "561528"
+      ],
+      {
+        "core-service": "Up 8 minutes (healthy)",
+        "mcp-server": "Up 43 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:05:34.710214+00:00",
+      3,
+      0.36,
+      0.01,
+      11911,
+      "8.17 7.62 7.75 20/1048 540669",
+      [
+        [
+          200,
+          7.46
+        ],
+        [
+          200,
+          10.13
+        ],
+        [
+          200,
+          12.02
+        ]
+      ],
+      [
+        "561523",
+        "561527",
+        "561528"
+      ],
+      {
+        "core-service": "Up 9 minutes (healthy)",
+        "mcp-server": "Up 43 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:06:07.243599+00:00",
+      3,
+      0.47,
+      0.1,
+      12301,
+      "7.53 7.54 7.72 11/977 542607",
+      [
+        [
+          200,
+          19.65
+        ],
+        [
+          200,
+          20.94
+        ],
+        [
+          200,
+          8.04
+        ]
+      ],
+      [
+        "561523",
+        "561528",
+        "561529"
+      ],
+      {
+        "core-service": "Up 9 minutes (healthy)",
+        "mcp-server": "Up 44 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:06:39.772890+00:00",
+      3,
+      5.04,
+      4.97,
+      12256,
+      "7.48 7.51 7.70 17/1089 544992",
+      [
+        [
+          200,
+          11.14
+        ],
+        [
+          200,
+          6.57
+        ],
+        [
+          200,
+          7.86
+        ]
+      ],
+      [
+        "561523",
+        "561529",
+        "561530"
+      ],
+      {
+        "core-service": "Up 10 minutes (healthy)",
+        "mcp-server": "Up 44 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:07:12.480460+00:00",
+      3,
+      0.15,
+      0.0,
+      12329,
+      "10.21 8.20 7.93 21/1085 546094",
+      [
+        [
+          200,
+          6.45
+        ],
+        [
+          200,
+          29.54
+        ],
+        [
+          200,
+          6.28
+        ]
+      ],
+      [
+        "561523",
+        "561529",
+        "561530"
+      ],
+      {
+        "core-service": "Up 10 minutes (healthy)",
+        "mcp-server": "Up 45 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:07:44.854634+00:00",
+      3,
+      7.44,
+      0.94,
+      12629,
+      "8.63 8.00 7.87 5/893 548367",
+      [
+        [
+          200,
+          5.6
+        ],
+        [
+          200,
+          5.59
+        ],
+        [
+          200,
+          14.68
+        ]
+      ],
+      [
+        "561523",
+        "561531",
+        "561532"
+      ],
+      {
+        "core-service": "Up 11 minutes (healthy)",
+        "mcp-server": "Up 45 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:08:17.481058+00:00",
+      3,
+      4.23,
+      0.95,
+      11905,
+      "10.32 8.46 8.02 10/1034 550987",
+      [
+        [
+          200,
+          10.56
+        ],
+        [
+          200,
+          8.06
+        ],
+        [
+          200,
+          8.37
+        ]
+      ],
+      [
+        "561523",
+        "561531",
+        "561533"
+      ],
+      {
+        "core-service": "Up 12 minutes (healthy)",
+        "mcp-server": "Up 46 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:08:51.533387+00:00",
+      3,
+      1.35,
+      1.01,
+      12569,
+      "9.55 8.45 8.03 7/930 553510",
+      [
+        [
+          200,
+          7.93
+        ],
+        [
+          200,
+          10.1
+        ],
+        [
+          200,
+          7.41
+        ]
+      ],
+      [
+        "561523",
+        "561531",
+        "561534"
+      ],
+      {
+        "core-service": "Up 12 minutes (healthy)",
+        "mcp-server": "Up 46 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:09:24.221817+00:00",
+      3,
+      7.15,
+      1.94,
+      12587,
+      "8.19 8.19 7.96 16/926 557952",
+      [
+        [
+          200,
+          6.19
+        ],
+        [
+          200,
+          4.86
+        ],
+        [
+          200,
+          4.53
+        ]
+      ],
+      [
+        "561523",
+        "561542"
+      ],
+      {
+        "core-service": "Up 13 minutes (healthy)",
+        "mcp-server": "Up 47 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:09:56.738226+00:00",
+      3,
+      7.5,
+      7.2,
+      12184,
+      "8.89 8.33 8.01 13/995 560329",
+      [
+        [
+          200,
+          19.25
+        ],
+        [
+          200,
+          8.69
+        ],
+        [
+          200,
+          4.53
+        ]
+      ],
+      [
+        "561523",
+        "561542",
+        "561543"
+      ],
+      {
+        "core-service": "Up 13 minutes (healthy)",
+        "mcp-server": "Up 48 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:10:29.128276+00:00",
+      3,
+      0.18,
+      0.04,
+      12694,
+      "10.83 8.87 8.20 6/803 561557",
+      [
+        [
+          200,
+          8.14
+        ],
+        [
+          200,
+          5.04
+        ],
+        [
+          200,
+          4.19
+        ]
+      ],
+      [
+        "561523",
+        "561542",
+        "561543"
+      ],
+      {
+        "core-service": "Up 14 minutes (healthy)",
+        "mcp-server": "Up 48 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:11:01.496979+00:00",
+      3,
+      5.0,
+      1.83,
+      12727,
+      "9.64 8.76 8.19 6/950 564216",
+      [
+        [
+          200,
+          6.21
+        ],
+        [
+          200,
+          5.79
+        ],
+        [
+          200,
+          7.23
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561544"
+      ],
+      {
+        "core-service": "Up 14 minutes (healthy)",
+        "mcp-server": "Up 49 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:11:34.603286+00:00",
+      3,
+      10.55,
+      4.65,
+      12724,
+      "9.57 8.81 8.22 45/1082 567042",
+      [
+        [
+          200,
+          80.8
+        ],
+        [
+          200,
+          149.07
+        ],
+        [
+          200,
+          85.91
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561544"
+      ],
+      {
+        "core-service": "Up 15 minutes (healthy)",
+        "mcp-server": "Up 49 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:12:07.496207+00:00",
+      3,
+      0.29,
+      0.13,
+      12246,
+      "12.27 9.61 8.52 16/1092 569184",
+      [
+        [
+          200,
+          26.81
+        ],
+        [
+          200,
+          5.24
+        ],
+        [
+          200,
+          11.7
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561544"
+      ],
+      {
+        "core-service": "Up 15 minutes (healthy)",
+        "mcp-server": "Up 50 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:12:39.936510+00:00",
+      3,
+      0.1,
+      0.05,
+      11900,
+      "13.71 10.21 8.75 11/1176 571530",
+      [
+        [
+          200,
+          7.01
+        ],
+        [
+          200,
+          5.63
+        ],
+        [
+          200,
+          8.08
+        ]
+      ],
+      [
+        "561523",
+        "561537"
+      ],
+      {
+        "core-service": "Up 16 minutes (healthy)",
+        "mcp-server": "Up 50 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:13:12.373262+00:00",
+      3,
+      0.42,
+      0.09,
+      11233,
+      "11.96 10.14 8.78 15/1323 573578",
+      [
+        [
+          200,
+          7.33
+        ],
+        [
+          200,
+          11.24
+        ],
+        [
+          200,
+          4.94
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561545"
+      ],
+      {
+        "core-service": "Up 16 minutes (healthy)",
+        "mcp-server": "Up 51 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:13:44.824209+00:00",
+      3,
+      0.71,
+      0.29,
+      11653,
+      "10.71 10.01 8.78 14/1133 577428",
+      [
+        [
+          200,
+          8.69
+        ],
+        [
+          200,
+          11.1
+        ],
+        [
+          200,
+          5.91
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561545"
+      ],
+      {
+        "core-service": "Up 17 minutes (healthy)",
+        "mcp-server": "Up 51 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:14:17.426527+00:00",
+      3,
+      1.51,
+      0.24,
+      12274,
+      "10.54 10.04 8.84 15/1044 579705",
+      [
+        [
+          200,
+          7.44
+        ],
+        [
+          200,
+          5.68
+        ],
+        [
+          200,
+          6.81
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561546"
+      ],
+      {
+        "core-service": "Up 18 minutes (healthy)",
+        "mcp-server": "Up 52 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:14:50.193904+00:00",
+      3,
+      0.55,
+      0.05,
+      11832,
+      "10.48 10.07 8.89 17/1128 580843",
+      [
+        [
+          200,
+          15.02
+        ],
+        [
+          200,
+          5.42
+        ],
+        [
+          200,
+          5.92
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561546"
+      ],
+      {
+        "core-service": "Up 18 minutes (healthy)",
+        "mcp-server": "Up 52 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:15:22.630974+00:00",
+      3,
+      0.13,
+      0.0,
+      12003,
+      "10.90 10.21 8.98 23/1072 582011",
+      [
+        [
+          200,
+          10.66
+        ],
+        [
+          200,
+          18.07
+        ],
+        [
+          200,
+          6.8
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561546"
+      ],
+      {
+        "core-service": "Up 19 minutes (healthy)",
+        "mcp-server": "Up 53 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:15:55.182391+00:00",
+      3,
+      1.55,
+      0.44,
+      12769,
+      "10.61 10.20 9.02 12/963 585153",
+      [
+        [
+          200,
+          7.24
+        ],
+        [
+          200,
+          4.86
+        ],
+        [
+          200,
+          4.89
+        ]
+      ],
+      [
+        "561523",
+        "561537"
+      ],
+      {
+        "core-service": "Up 19 minutes (healthy)",
+        "mcp-server": "Up 53 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:16:29.895889+00:00",
+      3,
+      0.77,
+      0.08,
+      12384,
+      "10.16 10.14 9.04 16/1031 587702",
+      [
+        [
+          200,
+          10.68
+        ],
+        [
+          200,
+          6.04
+        ],
+        [
+          200,
+          17.19
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561549"
+      ],
+      {
+        "core-service": "Up 20 minutes (healthy)",
+        "mcp-server": "Up 54 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:17:02.555638+00:00",
+      3,
+      0.79,
+      0.13,
+      12499,
+      "10.73 10.32 9.14 10/981 590396",
+      [
+        [
+          200,
+          7.35
+        ],
+        [
+          200,
+          7.06
+        ],
+        [
+          200,
+          4.62
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561550"
+      ],
+      {
+        "core-service": "Up 20 minutes (healthy)",
+        "mcp-server": "Up 55 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:17:35.060682+00:00",
+      3,
+      2.25,
+      0.43,
+      12954,
+      "9.81 10.14 9.12 15/968 594051",
+      [
+        [
+          200,
+          4.87
+        ],
+        [
+          200,
+          4.61
+        ],
+        [
+          200,
+          4.84
+        ]
+      ],
+      [
+        "561523",
+        "561537"
+      ],
+      {
+        "core-service": "Up 21 minutes (healthy)",
+        "mcp-server": "Up 55 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:18:07.730290+00:00",
+      3,
+      1.96,
+      0.05,
+      12039,
+      "10.88 10.31 9.21 16/1142 596700",
+      [
+        [
+          200,
+          6.07
+        ],
+        [
+          200,
+          33.95
+        ],
+        [
+          200,
+          10.57
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 21 minutes (healthy)",
+        "mcp-server": "Up 56 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:18:40.190581+00:00",
+      3,
+      5.1,
+      1.29,
+      11900,
+      "11.08 10.42 9.28 19/1295 599460",
+      [
+        [
+          200,
+          8.54
+        ],
+        [
+          200,
+          8.42
+        ],
+        [
+          200,
+          9.54
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 22 minutes (healthy)",
+        "mcp-server": "Up 56 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:19:12.838286+00:00",
+      3,
+      2.28,
+      0.02,
+      10882,
+      "12.53 10.82 9.45 28/1517 602330",
+      [
+        [
+          200,
+          24.71
+        ],
+        [
+          200,
+          4.73
+        ],
+        [
+          200,
+          5.04
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 22 minutes (healthy)",
+        "mcp-server": "Up 57 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:19:45.285332+00:00",
+      3,
+      0.43,
+      0.05,
+      10654,
+      "12.86 11.10 9.59 11/1649 606687",
+      [
+        [
+          200,
+          5.18
+        ],
+        [
+          200,
+          5.02
+        ],
+        [
+          200,
+          4.64
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 23 minutes (healthy)",
+        "mcp-server": "Up 57 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:20:17.803455+00:00",
+      3,
+      0.38,
+      0.13,
+      10596,
+      "12.93 11.32 9.73 21/1634 611144",
+      [
+        [
+          200,
+          13.01
+        ],
+        [
+          200,
+          4.59
+        ],
+        [
+          200,
+          4.44
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 24 minutes (healthy)",
+        "mcp-server": "Up 58 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:20:50.276980+00:00",
+      3,
+      5.48,
+      1.4,
+      11339,
+      "12.68 11.40 9.80 12/1406 617205",
+      [
+        [
+          200,
+          6.22
+        ],
+        [
+          200,
+          5.71
+        ],
+        [
+          200,
+          5.55
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 24 minutes (healthy)",
+        "mcp-server": "Up 58 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:21:22.834671+00:00",
+      3,
+      0.56,
+      0.13,
+      10819,
+      "10.92 11.12 9.77 14/1361 620651",
+      [
+        [
+          200,
+          6.1
+        ],
+        [
+          200,
+          5.15
+        ],
+        [
+          200,
+          6.22
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 25 minutes (healthy)",
+        "mcp-server": "Up 59 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:21:55.773818+00:00",
+      3,
+      0.16,
+      0.02,
+      10784,
+      "10.97 11.12 9.81 13/1495 622619",
+      [
+        [
+          200,
+          13.18
+        ],
+        [
+          200,
+          6.31
+        ],
+        [
+          200,
+          7.53
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 25 minutes (healthy)",
+        "mcp-server": "Up 59 minutes (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:22:28.261359+00:00",
+      3,
+      1.19,
+      0.16,
+      12002,
+      "12.39 11.52 10.00 16/1353 626354",
+      [
+        [
+          200,
+          6.58
+        ],
+        [
+          200,
+          6.79
+        ],
+        [
+          200,
+          6.7
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 26 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 2 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:23:00.802294+00:00",
+      3,
+      1.22,
+      0.19,
+      11094,
+      "13.19 11.79 10.14 26/1441 631908",
+      [
+        [
+          200,
+          15.64
+        ],
+        [
+          200,
+          8.88
+        ],
+        [
+          200,
+          4.99
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 26 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 2 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:23:33.389873+00:00",
+      3,
+      0.51,
+      0.2,
+      10983,
+      "10.58 11.31 10.04 19/1497 635552",
+      [
+        [
+          200,
+          6.8
+        ],
+        [
+          200,
+          4.59
+        ],
+        [
+          200,
+          5.44
+        ]
+      ],
+      [
+        "561523",
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 27 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:24:05.866920+00:00",
+      3,
+      1.49,
+      0.32,
+      12669,
+      "10.28 11.20 10.05 12/997 637668",
+      [
+        [
+          200,
+          4.82
+        ],
+        [
+          200,
+          3.76
+        ],
+        [
+          200,
+          5.03
+        ]
+      ],
+      [
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 27 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 2 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:24:38.288489+00:00",
+      3,
+      3.34,
+      0.36,
+      12195,
+      "10.65 11.20 10.09 14/1126 639983",
+      [
+        [
+          200,
+          12.02
+        ],
+        [
+          200,
+          10.55
+        ],
+        [
+          200,
+          8.72
+        ]
+      ],
+      [
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 28 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:25:10.750109+00:00",
+      3,
+      1.3,
+      0.01,
+      11860,
+      "10.93 11.24 10.14 9/1207 641993",
+      [
+        [
+          200,
+          4.77
+        ],
+        [
+          200,
+          4.57
+        ],
+        [
+          200,
+          4.85
+        ]
+      ],
+      [
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 28 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:25:43.129752+00:00",
+      3,
+      18.32,
+      1.74,
+      12013,
+      "9.42 10.83 10.04 14/1248 646345",
+      [
+        [
+          200,
+          10.67
+        ],
+        [
+          200,
+          11.59
+        ],
+        [
+          200,
+          4.74
+        ]
+      ],
+      [
+        "561537",
+        "561552"
+      ],
+      {
+        "core-service": "Up 29 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:26:15.786896+00:00",
+      3,
+      3.74,
+      0.82,
+      11272,
+      "12.21 11.30 10.22 15/1409 651524",
+      [
+        [
+          200,
+          7.26
+        ],
+        [
+          200,
+          4.46
+        ],
+        [
+          200,
+          4.15
+        ]
+      ],
+      [
+        "561537",
+        "561552",
+        "562152"
+      ],
+      {
+        "core-service": "Up 30 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:26:48.175041+00:00",
+      3,
+      0.37,
+      0.05,
+      11002,
+      "12.35 11.46 10.32 15/1508 655653",
+      [
+        [
+          200,
+          8.33
+        ],
+        [
+          200,
+          9.23
+        ],
+        [
+          200,
+          6.83
+        ]
+      ],
+      [
+        "561537",
+        "561552",
+        "562152"
+      ],
+      {
+        "core-service": "Up 30 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:27:20.630204+00:00",
+      3,
+      2.03,
+      0.05,
+      10326,
+      "12.15 11.53 10.38 14/1664 658804",
+      [
+        [
+          200,
+          4.95
+        ],
+        [
+          200,
+          4.42
+        ],
+        [
+          200,
+          17.45
+        ]
+      ],
+      [
+        "561537",
+        "561552",
+        "562152"
+      ],
+      {
+        "core-service": "Up 31 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:27:53.093725+00:00",
+      3,
+      0.88,
+      0.12,
+      11222,
+      "12.94 11.81 10.52 20/1395 664406",
+      [
+        [
+          200,
+          5.58
+        ],
+        [
+          200,
+          8.81
+        ],
+        [
+          200,
+          8.78
+        ]
+      ],
+      [
+        "561537",
+        "561552",
+        "562152"
+      ],
+      {
+        "core-service": "Up 31 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:28:25.560003+00:00",
+      3,
+      0.49,
+      0.1,
+      10554,
+      "14.46 12.27 10.71 14/1501 668095",
+      [
+        [
+          200,
+          5.47
+        ],
+        [
+          200,
+          6.78
+        ],
+        [
+          200,
+          19.22
+        ]
+      ],
+      [
+        "561537",
+        "561552",
+        "562152"
+      ],
+      {
+        "core-service": "Up 32 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:28:58.042724+00:00",
+      3,
+      1.78,
+      0.43,
+      11678,
+      "11.48 11.75 10.59 9/1287 674254",
+      [
+        [
+          200,
+          5.27
+        ],
+        [
+          200,
+          9.6
+        ],
+        [
+          200,
+          5.97
+        ]
+      ],
+      [
+        "561537",
+        "561552",
+        "562152"
+      ],
+      {
+        "core-service": "Up 32 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:29:30.396395+00:00",
+      3,
+      14.82,
+      1.22,
+      12635,
+      "10.19 11.39 10.51 5/872 678382",
+      [
+        [
+          200,
+          5.33
+        ],
+        [
+          200,
+          4.22
+        ],
+        [
+          200,
+          4.39
+        ]
+      ],
+      [
+        "561552"
+      ],
+      {
+        "core-service": "Up 33 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:30:02.680955+00:00",
+      3,
+      20.41,
+      0.52,
+      13351,
+      "7.56 10.62 10.28 9/794 679382",
+      [
+        [
+          200,
+          6.32
+        ],
+        [
+          200,
+          5.99
+        ],
+        [
+          200,
+          5.71
+        ]
+      ],
+      [
+        "561552"
+      ],
+      {
+        "core-service": "Up 33 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:30:34.917625+00:00",
+      3,
+      23.29,
+      0.27,
+      13340,
+      "6.11 9.97 10.07 4/779 680723",
+      [
+        [
+          200,
+          4.36
+        ],
+        [
+          200,
+          2.93
+        ],
+        [
+          200,
+          3.43
+        ]
+      ],
+      [
+        "561552"
+      ],
+      {
+        "core-service": "Up 34 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:31:07.268431+00:00",
+      3,
+      33.48,
+      1.14,
+      13045,
+      "4.64 9.17 9.80 8/908 682772",
+      [
+        [
+          200,
+          7.94
+        ],
+        [
+          200,
+          7.48
+        ],
+        [
+          200,
+          3.96
+        ]
+      ],
+      [
+        "561552"
+      ],
+      {
+        "core-service": "Up 34 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:31:39.655180+00:00",
+      3,
+      22.81,
+      0.2,
+      12286,
+      "4.95 8.84 9.67 14/1071 684886",
+      [
+        [
+          200,
+          5.16
+        ],
+        [
+          200,
+          8.12
+        ],
+        [
+          200,
+          5.6
+        ]
+      ],
+      [
+        "561552"
+      ],
+      {
+        "core-service": "Up 35 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:32:11.997471+00:00",
+      3,
+      39.96,
+      2.36,
+      12270,
+      "3.95 8.23 9.44 5/1066 690572",
+      [
+        [
+          200,
+          4.9
+        ],
+        [
+          200,
+          4.61
+        ],
+        [
+          200,
+          4.22
+        ]
+      ],
+      [
+        "561552"
+      ],
+      {
+        "core-service": "Up 35 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:32:44.429957+00:00",
+      3,
+      24.36,
+      2.07,
+      11881,
+      "4.27 7.80 9.25 10/1144 696506",
+      [
+        [
+          200,
+          38.38
+        ],
+        [
+          200,
+          21.16
+        ],
+        [
+          200,
+          13.37
+        ]
+      ],
+      [
+        "561552",
+        "562343"
+      ],
+      {
+        "core-service": "Up 36 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:33:16.811405+00:00",
+      3,
+      4.8,
+      0.35,
+      11544,
+      "7.01 8.12 9.31 14/1210 699941",
+      [
+        [
+          200,
+          4.36
+        ],
+        [
+          200,
+          4.13
+        ],
+        [
+          200,
+          4.28
+        ]
+      ],
+      [
+        "561552",
+        "562343"
+      ],
+      {
+        "core-service": "Up 37 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ],
+    [
+      "2026-09-17T05:33:49.201419+00:00",
+      3,
+      23.55,
+      2.42,
+      11362,
+      "6.16 7.79 9.16 10/1195 705369",
+      [
+        [
+          200,
+          5.06
+        ],
+        [
+          200,
+          4.66
+        ],
+        [
+          200,
+          4.31
+        ]
+      ],
+      [
+        "561552",
+        "562343"
+      ],
+      {
+        "core-service": "Up 37 minutes (healthy)",
+        "mcp-server": "Up About an hour (healthy)",
+        "pay-service": "Up 3 hours (healthy)",
+        "ucp-merchant-mock": "Up 3 hours (healthy)",
+        "pg-mock": "Up 3 hours (healthy)",
+        "nginx": "Up 5 hours",
+        "core-db": "Up 13 days (healthy)",
+        "pay-db": "Up 13 days (healthy)",
+        "merchant-db": "Up 13 days (healthy)",
+        "redis": "Up 13 days (healthy)"
+      }
+    ]
+  ]
+}

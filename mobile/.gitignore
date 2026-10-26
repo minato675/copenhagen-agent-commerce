@@ -1,0 +1,28 @@
+.gradle/
+.idea/
+**/build/
+local.properties
+environment.properties
+app/google-services.json
+*.iml
+*.jks
+*.keystore
+gradle/wrapper/bootstrap.lock
+.kotlin/
+.cxx/
+.externalNativeBuild/
+captures/
+.DS_Store
+AGENTS.md
+
+# Keep Android data packages tracked despite the repository runtime data/ rule.
+!app/src/**/data/
+!app/src/**/data/**
+
+# Local fixture tools
+__pycache__/
+*.pyc
+
+# Generated local APKs and visual verification evidence
+/artifacts/
+/docs/redesign/evidence/

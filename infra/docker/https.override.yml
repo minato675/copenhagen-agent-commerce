@@ -1,0 +1,15 @@
+# 개발 EC2 전용. 인증서는 서버에서 발급·갱신하며 Git에 포함하지 않습니다.
+# 경로는 첫 번째 Compose 파일(docker-compose.yml)의 디렉터리를 기준으로 합니다.
+services:
+  core-service:
+    environment:
+      # 공개 OAuth metadata/JWT 대상. 기본 Compose의 로컬 개발 주소를 서버에 노출하지 않습니다.
+      AGENT_OAUTH_ISSUER: ${AGENT_OAUTH_ISSUER:-https://j15a207.p.ssafy.io}
+      AGENT_OAUTH_MCP_AUDIENCE: ${AGENT_OAUTH_MCP_AUDIENCE:-https://j15a207.p.ssafy.io/mcp}
+  nginx:
+    ports:
+      - "${NGINX_HTTPS_PORT:-443}:443"
+    volumes:
+      - ./infra/nginx/nginx.https.conf:/etc/nginx/nginx.conf:ro,Z
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/lib/letsencrypt/www:/var/www/certbot:ro

@@ -1,0 +1,287 @@
+{
+  "version": "personal-replay-settings-v1",
+  "personalization": {
+    "schema_version": "personalization-config-v1",
+    "version": "personal-replay-demo-v1",
+    "score_scale_version": "behavior-deviation-blend-v1",
+    "transition_policy_version": "feature-readiness-min-v1",
+    "validation_status": "UNVALIDATED",
+    "features": [
+      {
+        "feature_id": "amount_minor",
+        "score_version": "personal-amount-upper-linear-v1",
+        "readiness": {
+          "minimum_samples": 5,
+          "full_samples": 30,
+          "minimum_observed_seconds": 604800.0,
+          "full_observed_seconds": 2419200.0,
+          "fresh_for_seconds": 1209600.0,
+          "stale_after_seconds": 2592000.0,
+          "minimum_available_fraction": 0.5,
+          "full_available_fraction": 0.9
+        }
+      },
+      {
+        "feature_id": "purchase_count_10m",
+        "score_version": "personal-frequency-upper-linear-v1",
+        "readiness": {
+          "minimum_samples": 5,
+          "full_samples": 30,
+          "minimum_observed_seconds": 604800.0,
+          "full_observed_seconds": 2419200.0,
+          "fresh_for_seconds": 1209600.0,
+          "stale_after_seconds": 2592000.0,
+          "minimum_available_fraction": 0.5,
+          "full_available_fraction": 0.9
+        }
+      },
+      {
+        "feature_id": "purchase_count_1h",
+        "score_version": "personal-frequency-upper-linear-v1",
+        "readiness": {
+          "minimum_samples": 5,
+          "full_samples": 30,
+          "minimum_observed_seconds": 604800.0,
+          "full_observed_seconds": 2419200.0,
+          "fresh_for_seconds": 1209600.0,
+          "stale_after_seconds": 2592000.0,
+          "minimum_available_fraction": 0.5,
+          "full_available_fraction": 0.9
+        }
+      },
+      {
+        "feature_id": "purchase_count_24h",
+        "score_version": "personal-frequency-upper-linear-v1",
+        "readiness": {
+          "minimum_samples": 5,
+          "full_samples": 30,
+          "minimum_observed_seconds": 604800.0,
+          "full_observed_seconds": 2419200.0,
+          "fresh_for_seconds": 1209600.0,
+          "stale_after_seconds": 2592000.0,
+          "minimum_available_fraction": 0.5,
+          "full_available_fraction": 0.9
+        }
+      },
+      {
+        "feature_id": "attempt_count_10m",
+        "score_version": "personal-frequency-upper-linear-v1",
+        "readiness": {
+          "minimum_samples": 5,
+          "full_samples": 30,
+          "minimum_observed_seconds": 604800.0,
+          "full_observed_seconds": 2419200.0,
+          "fresh_for_seconds": 1209600.0,
+          "stale_after_seconds": 2592000.0,
+          "minimum_available_fraction": 0.5,
+          "full_available_fraction": 0.9
+        }
+      },
+      {
+        "feature_id": "attempt_count_1h",
+        "score_version": "personal-frequency-upper-linear-v1",
+        "readiness": {
+          "minimum_samples": 5,
+          "full_samples": 30,
+          "minimum_observed_seconds": 604800.0,
+          "full_observed_seconds": 2419200.0,
+          "fresh_for_seconds": 1209600.0,
+          "stale_after_seconds": 2592000.0,
+          "minimum_available_fraction": 0.5,
+          "full_available_fraction": 0.9
+        }
+      },
+      {
+        "feature_id": "attempt_count_24h",
+        "score_version": "personal-frequency-upper-linear-v1",
+        "readiness": {
+          "minimum_samples": 5,
+          "full_samples": 30,
+          "minimum_observed_seconds": 604800.0,
+          "full_observed_seconds": 2419200.0,
+          "fresh_for_seconds": 1209600.0,
+          "stale_after_seconds": 2592000.0,
+          "minimum_available_fraction": 0.5,
+          "full_available_fraction": 0.9
+        }
+      },
+      {
+        "feature_id": "kst_hour",
+        "score_version": "personal-time-circular-rarity-v1",
+        "readiness": {
+          "minimum_samples": 5,
+          "full_samples": 30,
+          "minimum_observed_seconds": 604800.0,
+          "full_observed_seconds": 2419200.0,
+          "fresh_for_seconds": 1209600.0,
+          "stale_after_seconds": 2592000.0,
+          "minimum_available_fraction": 0.5,
+          "full_available_fraction": 0.9
+        }
+      },
+      {
+        "feature_id": "kst_day_of_week",
+        "score_version": "personal-time-circular-rarity-v1",
+        "readiness": {
+          "minimum_samples": 5,
+          "full_samples": 30,
+          "minimum_observed_seconds": 604800.0,
+          "full_observed_seconds": 2419200.0,
+          "fresh_for_seconds": 1209600.0,
+          "stale_after_seconds": 2592000.0,
+          "minimum_available_fraction": 0.5,
+          "full_available_fraction": 0.9
+        }
+      }
+    ]
+  },
+  "scoring": {
+    "scale_version": "behavior-deviation-blend-v1",
+    "validation_status": "UNVALIDATED",
+    "numeric_semantics": "UPPER_DEVIATION_ONLY",
+    "time_semantics": "CIRCULAR_DISTANCE_RARITY_HEURISTIC",
+    "failure_policy": "COLD_FALLBACK_WITH_FAILURE_RETAINED",
+    "amount": {
+      "version": "personal-amount-upper-linear-v1",
+      "validation_status": "UNVALIDATED",
+      "spread_multiplier": 3.0,
+      "relative_scale_floor": 0.1,
+      "minimum_scale_minor": 1
+    },
+    "frequency": {
+      "version": "personal-frequency-upper-linear-v1",
+      "validation_status": "UNVALIDATED",
+      "spread_multiplier": 3.0,
+      "relative_scale_floor": 0.1,
+      "minimum_scale_count": 1
+    },
+    "time": {
+      "version": "personal-time-circular-rarity-v1",
+      "validation_status": "UNVALIDATED",
+      "hour_neighbor_weight": 0.25,
+      "weekday_neighbor_weight": 0.25,
+      "pseudocount": 1.0
+    }
+  },
+  "profile": {
+    "version": "personal-statistics-config-v1",
+    "recent_days": 7,
+    "long_term_days": 90,
+    "min_samples": 5,
+    "timezone": "Asia/Seoul",
+    "quantile_method": "LINEAR_N_MINUS_ONE"
+  },
+  "admission": {
+    "version": "admission-config-v1",
+    "max_admissions_per_user_day": 10,
+    "min_reference_samples": 5,
+    "deviation_ratio": 3.0,
+    "amount_floor_minor": 1,
+    "count_floor": 1,
+    "hour_tolerance": 2,
+    "weekday_tolerance": 0,
+    "adaptation_window_days": 28,
+    "adaptation_min_samples": 5,
+    "adaptation_min_days": 3,
+    "similarity_ratio": 1.5,
+    "timezone": "Asia/Seoul"
+  },
+  "profile_valid_for_seconds": 604800,
+  "cold_policy": {
+    "format_version": "cold-reference-v1",
+    "policy_id": "personal-replay-demo",
+    "version": "demo-v1",
+    "source_reference": "explicit-unvalidated-demo-settings",
+    "origin": "INITIAL_POLICY",
+    "validation_status": "UNVALIDATED",
+    "currency": "KRW",
+    "feature_schema_version": "cold-features-v1",
+    "generated_at": "2025-12-01T00:00:00+09:00",
+    "available_at": "2025-12-01T00:00:00+09:00",
+    "valid_from": "2025-12-01T00:00:00+09:00",
+    "valid_until": "2027-01-01T00:00:00+09:00",
+    "parameters": [
+      {
+        "feature_id": "amount_minor",
+        "unit": "MINOR_UNIT",
+        "window_seconds": null,
+        "method": "UPPER_DISTANCE",
+        "center": 100000.0,
+        "scale": 300000.0,
+        "period": null
+      },
+      {
+        "feature_id": "purchase_count_10m",
+        "unit": "PURCHASE_COUNT",
+        "window_seconds": 600,
+        "method": "UPPER_DISTANCE",
+        "center": 2.0,
+        "scale": 5.0,
+        "period": null
+      },
+      {
+        "feature_id": "purchase_count_1h",
+        "unit": "PURCHASE_COUNT",
+        "window_seconds": 3600,
+        "method": "UPPER_DISTANCE",
+        "center": 5.0,
+        "scale": 10.0,
+        "period": null
+      },
+      {
+        "feature_id": "purchase_count_24h",
+        "unit": "PURCHASE_COUNT",
+        "window_seconds": 86400,
+        "method": "UPPER_DISTANCE",
+        "center": 20.0,
+        "scale": 50.0,
+        "period": null
+      },
+      {
+        "feature_id": "attempt_count_10m",
+        "unit": "ATTEMPT_COUNT",
+        "window_seconds": 600,
+        "method": "UPPER_DISTANCE",
+        "center": 3.0,
+        "scale": 10.0,
+        "period": null
+      },
+      {
+        "feature_id": "attempt_count_1h",
+        "unit": "ATTEMPT_COUNT",
+        "window_seconds": 3600,
+        "method": "UPPER_DISTANCE",
+        "center": 10.0,
+        "scale": 20.0,
+        "period": null
+      },
+      {
+        "feature_id": "attempt_count_24h",
+        "unit": "ATTEMPT_COUNT",
+        "window_seconds": 86400,
+        "method": "UPPER_DISTANCE",
+        "center": 30.0,
+        "scale": 60.0,
+        "period": null
+      },
+      {
+        "feature_id": "kst_hour",
+        "unit": "KST_HOUR",
+        "window_seconds": null,
+        "method": "CIRCULAR_DISTANCE",
+        "center": 14.0,
+        "scale": 6.0,
+        "period": 24
+      },
+      {
+        "feature_id": "kst_day_of_week",
+        "unit": "KST_WEEKDAY",
+        "window_seconds": null,
+        "method": "CIRCULAR_DISTANCE",
+        "center": 2.0,
+        "scale": 3.0,
+        "period": 7
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp" android:viewportWidth="1000" android:viewportHeight="1000">
+    <!-- Original logo geometry, flattened to white for Android's alpha-only small icon. -->
+    <group android:translateX="-116.5" android:translateY="-113.5">
+        <path android:fillColor="#FFFFFFFF"
+            android:pathData="@string/brand_dock_path" />
+        <path android:fillColor="#FFFFFFFF" android:fillType="evenOdd"
+            android:pathData="@string/brand_boat_path" />
+    </group>
+</vector>

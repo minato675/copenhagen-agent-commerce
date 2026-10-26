@@ -1,0 +1,152 @@
+.core-verify-rules:
+  rules:
+    - if: >-
+        ($CI_PIPELINE_SOURCE == "merge_request_event" &&
+        $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") ||
+        ($CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop")
+      changes:
+        - backend/apps/core-service/**/*
+        - backend/libs/ucp-contract/**/*
+        - backend/libs/internal-api-contract/**/*
+        - backend/libs/test-support/**/*
+        - backend/gradle.properties
+        - backend/build.gradle
+        - backend/settings.gradle
+        - backend/gradle/**/*
+        - backend/gradlew
+        - backend/gradlew.bat
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - infra/docker/https.override.yml
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+        - infra/gitlab/common.gitlab-ci.yml
+        - infra/gitlab/core.gitlab-ci.yml
+      variables:
+        REQUIRE_TEST_ARTIFACT: "true"
+
+.core-delivery-rules:
+  rules:
+    - if: >-
+        $CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop"
+      changes:
+        - backend/apps/core-service/**/*
+        - backend/libs/ucp-contract/**/*
+        - backend/libs/internal-api-contract/**/*
+        - backend/libs/test-support/**/*
+        - backend/gradle.properties
+        - backend/build.gradle
+        - backend/settings.gradle
+        - backend/gradle/**/*
+        - backend/gradlew
+        - backend/gradlew.bat
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - infra/docker/https.override.yml
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+        - infra/gitlab/common.gitlab-ci.yml
+        - infra/gitlab/core.gitlab-ci.yml
+    - when: never
+
+core-test:
+  extends:
+    - .gradle-test-job
+    - .core-verify-rules
+  stage: test
+  services:
+    - name: postgres:17-alpine
+      alias: postgres
+  variables:
+    GRADLE_MODULE: apps/core-service
+    GRADLE_TASK: :apps:core-service:test
+    POSTGRES_DB: core-test
+    POSTGRES_USER: core
+    POSTGRES_PASSWORD: core-dev-password
+    CORE_TEST_DB_URL: jdbc:postgresql://postgres:5432/core-test
+    CORE_TEST_DB_USER: core
+    CORE_TEST_DB_PASSWORD: core-dev-password
+
+core-build:
+  extends:
+    - .gradle-jar-job
+    - .core-verify-rules
+  stage: build
+  needs:
+    - job: core-test
+      artifacts: true
+      optional: true
+  variables:
+    GRADLE_MODULE: apps/core-service
+    GRADLE_TASK: :apps:core-service:bootJar
+  artifacts:
+    paths:
+      - backend/apps/core-service/build/libs/app.jar
+      - backend/apps/core-service/build/libs/app.jar.metadata
+    expire_in: 1 day
+  rules:
+    - !reference [.core-verify-rules, rules]
+    - if: >-
+        ($CI_PIPELINE_SOURCE == "merge_request_event" &&
+        $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") ||
+        ($CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop")
+      changes:
+        - backend/**/*
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - infra/gitlab/**/*
+        - infra/nginx/**/*
+        - infra/docker/smoke.override.yml
+        - infra/docker/https.override.yml
+        - scripts/deploy-dev-nginx.sh
+        - infra/docker/smoke-gradle-cache.Dockerfile
+        - scripts/smoke-dockerfiles.py
+        - scripts/deploy-smoke.sh
+        - scripts/smoke-base.sh
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+      variables:
+        REQUIRE_TEST_ARTIFACT: "false"
+    - when: never
+
+core-docker-build:
+  extends:
+    - .docker-build-job
+    - .core-delivery-rules
+  stage: docker-build
+  needs:
+    - job: deploy-smoke
+      artifacts: false
+    - job: core-build
+      artifacts: true
+  variables:
+    GRADLE_MODULE: apps/core-service
+    CONTAINER_IMAGE: copenhagen/core-service:$CI_COMMIT_SHA
+
+core-deploy-dev:
+  extends:
+    - .deploy-dev-job
+    - .core-delivery-rules
+  stage: deploy-dev
+  needs:
+    - job: deploy-smoke
+      artifacts: false
+    - job: core-docker-build
+      artifacts: false
+  resource_group: development-ec2
+  variables:
+    COMPOSE_SERVICE: core-service
+    DEPLOY_IMAGE_VARIABLE: CORE_IMAGE
+    CONTAINER_IMAGE: copenhagen/core-service:$CI_COMMIT_SHA

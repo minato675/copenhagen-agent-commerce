@@ -1,0 +1,139 @@
+{
+  "evaluation": {
+    "request": {
+      "context": {
+        "evaluation_id": "synthetic-evaluation",
+        "user_id": "synthetic-user",
+        "purchase_request_id": "current-purchase"
+      },
+      "intent": {
+        "purchase_request_id": "current-purchase",
+        "source": "user_direct",
+        "version": "intent-v1"
+      },
+      "order": {
+        "purchase_request_id": "current-purchase",
+        "reference": {
+          "snapshot_id": "synthetic-snapshot",
+          "version": "v1",
+          "snapshot_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "orders": [
+          {
+            "order_id": "current-order",
+            "merchant_id": "synthetic-merchant",
+            "items": [
+              {
+                "item_id": "synthetic-item",
+                "name": "Synthetic item",
+                "quantity": 1,
+                "unit_price": {
+                  "amount_minor": 10000,
+                  "currency": "KRW"
+                },
+                "line_total": {
+                  "amount_minor": 10000,
+                  "currency": "KRW"
+                }
+              }
+            ],
+            "total": {
+              "amount_minor": 10000,
+              "currency": "KRW"
+            }
+          }
+        ],
+        "total": {
+          "amount_minor": 10000,
+          "currency": "KRW"
+        }
+      }
+    },
+    "evaluated_at": "2026-09-14T00:05:00+09:00",
+    "feature_schema_version": "cold-features-v1",
+    "requested_features": [
+      "amount_minor",
+      "purchase_count_10m",
+      "purchase_count_1h",
+      "purchase_count_24h",
+      "attempt_count_10m",
+      "attempt_count_1h",
+      "attempt_count_24h",
+      "kst_hour",
+      "kst_day_of_week"
+    ]
+  },
+  "current_occurred_at": "2026-09-14T00:00:00+09:00",
+  "current_available_at": "2026-09-14T00:00:00+09:00",
+  "current_attempt_id": "current-attempt",
+  "history": {
+    "as_of": "2026-09-14T00:05:00+09:00",
+    "purchases": {
+      "status": "COLLECTED",
+      "complete_from": "2026-09-13T00:00:00+09:00",
+      "complete_until": "2026-09-14T00:05:00+09:00"
+    },
+    "attempts": {
+      "status": "COLLECTED",
+      "complete_from": "2026-09-13T00:00:00+09:00",
+      "complete_until": "2026-09-14T00:05:00+09:00"
+    },
+    "events": [
+      {
+        "event_id": "event-1",
+        "kind": "PURCHASE_REQUESTED",
+        "user_id": "synthetic-user",
+        "purchase_request_id": "previous-purchase",
+        "order_id": "order-a",
+        "attempt_id": null,
+        "occurred_at": "2026-09-13T23:55:00+09:00",
+        "available_at": "2026-09-13T23:55:00+09:00",
+        "currency": "KRW"
+      },
+      {
+        "event_id": "event-1",
+        "kind": "PURCHASE_REQUESTED",
+        "user_id": "synthetic-user",
+        "purchase_request_id": "previous-purchase",
+        "order_id": "order-a",
+        "attempt_id": null,
+        "occurred_at": "2026-09-13T23:55:00+09:00",
+        "available_at": "2026-09-13T23:55:00+09:00",
+        "currency": "KRW"
+      },
+      {
+        "event_id": "event-merchant-copy",
+        "kind": "PURCHASE_REQUESTED",
+        "user_id": "synthetic-user",
+        "purchase_request_id": "previous-purchase",
+        "order_id": "order-b",
+        "attempt_id": null,
+        "occurred_at": "2026-09-13T23:55:00+09:00",
+        "available_at": "2026-09-13T23:55:00+09:00",
+        "currency": "KRW"
+      },
+      {
+        "event_id": "event-2",
+        "kind": "PAYMENT_ATTEMPTED",
+        "user_id": "synthetic-user",
+        "purchase_request_id": "previous-purchase",
+        "order_id": "order-a",
+        "attempt_id": "attempt-1",
+        "occurred_at": "2026-09-13T23:56:00+09:00",
+        "available_at": "2026-09-13T23:56:00+09:00",
+        "currency": "KRW"
+      },
+      {
+        "event_id": "event-3",
+        "kind": "PAYMENT_ATTEMPTED",
+        "user_id": "synthetic-user",
+        "purchase_request_id": "current-purchase",
+        "order_id": "current-order",
+        "attempt_id": "previous-attempt",
+        "occurred_at": "2026-09-14T00:01:00+09:00",
+        "available_at": "2026-09-14T00:01:00+09:00",
+        "currency": "KRW"
+      }
+    ]
+  }
+}

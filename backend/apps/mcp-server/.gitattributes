@@ -1,0 +1,5 @@
+ui/** text eol=lf
+ui/**/*.woff2 -text
+ui/**/*.webp -text
+ui/**/*.png -text
+src/main/resources/mcp-ui/*.html text eol=lf

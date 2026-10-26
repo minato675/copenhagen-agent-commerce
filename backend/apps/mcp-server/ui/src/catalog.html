@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Copenhagen 상품 탐색</title>
+  <style>
+    /* FONTS */
+    /* STYLES */
+  </style>
+</head>
+<body data-cart-enabled="__CART_ENABLED__" data-handoff-enabled="__HANDOFF_ENABLED__" data-handoff-link-base="__HANDOFF_LINK_BASE__">
+  <script>/* BRIDGE */</script>
+  <main>
+    <header><img src="__LOGO__" alt="COPENHAGEN"><div class="header-tools"><button id="cart-open" class="secondary" hidden>장바구니</button></div><span class="sr-only" id="mode">상품 탐색</span></header>
+    <h1>찾고, 비교하고.</h1><p class="sub">원하는 상품을 고르면 판매처별 가격을 비교할 수 있어요.</p>
+    <section id="cart-bar" hidden><p id="cart-status" role="status" aria-live="polite"></p><button id="cart-retry" hidden>같은 요청으로 결과 확인</button></section>
+    <form id="search-form">
+      <label for="query" class="sr-only">상품명</label><div class="row"><input id="query" maxlength="120" placeholder="어떤 상품을 찾으세요?" autocomplete="off"><button type="submit">검색</button></div>
+      <div class="search-options"><details id="search-filters"><summary id="filter-label">필터 · 상품군 · 판매처</summary><div class="filters">
+        <label>상품군<select id="category"><option value="">전체 상품군</option></select></label><label>판매처<select id="merchantId"><option value="">전체 판매처</option></select></label>
+        <label>최소 가격<input id="minPrice" type="number" min="0" max="1000000000000" step="1" placeholder="제한 없음"></label>
+        <label>최대 가격<input id="maxPrice" type="number" min="0" max="1000000000000" step="1" placeholder="제한 없음"></label>
+        <label>브랜드<input id="brand" maxlength="120" placeholder="브랜드 정확히 입력"></label>
+        <label>정렬<select id="sort"><option value="RELEVANCE">기본 순</option><option value="PRICE_ASC">낮은 가격 순</option><option value="PRICE_DESC">높은 가격 순</option></select></label>
+      </div></details><button class="secondary" type="button" id="reset">초기화</button></div>
+    </form>
+    <div id="status" role="status" aria-live="polite">상품 정보를 연결하고 있습니다.</div>
+    <button id="retry" class="secondary" hidden>다시 시도</button>
+    <section id="cards" aria-label="옆으로 넘기는 상품 목록" tabindex="0"></section>
+    <div class="carousel-controls" id="carousel-controls" hidden><button id="slide-previous" class="secondary" aria-label="앞 상품 보기">‹</button><span id="slide-position" aria-live="polite"></span><button id="slide-next" class="secondary" aria-label="뒤 상품 보기">›</button></div>
+    <nav aria-label="상품 페이지"><button id="previous" class="secondary" disabled>이전 결과</button><span id="page">1 페이지</span><button id="next" class="secondary" disabled>다음 결과</button></nav>
+    <footer><span id="notice"></span><time id="checked-at"></time></footer>
+  </main>
+  <dialog id="comparison" aria-labelledby="comparison-title"><div class="dialog-head"><h2 id="comparison-title">판매처 비교</h2><button id="close-dialog" aria-label="비교 닫기">✕</button></div><div class="dialog-body" id="comparison-body"></div><div id="comparison-actions"></div></dialog>
+  <dialog id="cart-dialog" aria-labelledby="cart-title"><div class="dialog-head"><h2 id="cart-title">내 장바구니</h2><button id="cart-close" aria-label="장바구니 닫기">✕</button></div><p id="cart-message" role="status" aria-live="polite"></p><button id="cart-dialog-retry" hidden>같은 요청으로 결과 확인</button><div class="dialog-body" id="cart-body"></div><div id="cart-summary"></div><div class="cart-actions"><button id="cart-confirm">장바구니 확인</button><button id="cart-continue" class="secondary">계속하기</button></div></dialog>
+  <dialog id="handoff-dialog" aria-labelledby="handoff-title">
+    <div class="dialog-head"><h2 id="handoff-title">구매 인계</h2><button id="handoff-close" aria-label="인계 닫기">✕</button></div>
+    <div class="dialog-body">
+      <p id="handoff-status" role="status" aria-live="polite"></p><p id="handoff-expiry" class="sub"></p>
+      <div class="handoff-actions"><button id="handoff-open" hidden>앱 열기</button><button id="handoff-retry" class="secondary" hidden>같은 요청으로 확인</button></div>
+      <details><summary>앱이 열리지 않나요?</summary>
+        <button class="secondary" data-handoff-help="NOT_INSTALLED">미설치 안내</button>
+        <button class="secondary" data-handoff-help="LOGIN_REQUIRED">로그인 안내</button>
+        <button class="secondary" data-handoff-help="CANCELLED">이동 취소 안내</button>
+        <p class="sub">QA에서는 실제 앱 설치·로그인 상태를 감지하지 않습니다.</p>
+      </details>
+      <label id="handoff-scenarios" hidden>로컬 Mock 안내 시나리오<select id="handoff-scenario">
+        <option value="">시나리오 선택</option><option value="LOGIN_REQUIRED">로그인 필요</option>
+        <option value="NOT_INSTALLED">미설치</option><option value="CANCELLED">이동 취소</option><option value="EXPIRED">만료</option>
+      </select></label>
+      <button id="handoff-back" class="secondary">장바구니로 돌아가기</button>
+    </div>
+  </dialog>
+  <script>/* SCRIPT */</script>
+</body>
+</html>

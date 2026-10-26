@@ -1,0 +1,19 @@
+# 테스트 전용 프로필.
+#
+# 아래 PII 키는 공개된 테스트 전용 값이다. 운영에서 절대 사용하지 마라.
+spring:
+  datasource:
+    hikari:
+      # 캐시된 테스트 컨텍스트마다 유휴 연결을 미리 채우지 않는다.
+      # maximum-pool-size는 유지해 동시 로그인·REQUIRES_NEW 테스트의 연결을 보장한다.
+      minimum-idle: 0
+
+core:
+  pii:
+    encryption-key: ZGV2LW9ubHktY29yZS1waWkta2V5LTMyLWJ5dGVzISE=
+    hash-pepper: dev-only-core-pii-hash-pepper-value-do-not-use-in-prod
+
+agent:
+  oauth:
+    issuer: http://localhost:8080
+    mcp-resource-audience: http://localhost:8080/mcp

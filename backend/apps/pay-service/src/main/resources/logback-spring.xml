@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <appender name="APP" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %5p [%15.15t] service=pay-service %-48.48logger{48} req=%X{requestId:-} principal=%X{principalId:-} user=%X{userId:-} approval=%X{approvalId:-} payment=%X{paymentId:-} order=%X{orderId:-} event=%X{eventId:-} push=%X{pushId:-} fid=%X{fidHash:-} app=%X{appVersion:-} os=%X{osVersion:-} platform=%X{platform:-} : %m%n%wEx</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="APP"/>
+    </root>
+</configuration>

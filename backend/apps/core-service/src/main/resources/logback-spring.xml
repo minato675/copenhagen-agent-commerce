@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  로그 한 줄에 추적 식별자를 찍는다(이슈 374, 구현순서 26).
+  req=requestId usr=userId. 비어 있으면 빈 칸이다.
+  access 로거는 한 줄 JSON을 그대로 내보낸다. 접두어 ACCESS로 grep 한다.
+  ucp-merchant-mock의 logback-spring.xml(이슈 187)과 같은 구조다 — 그쪽은 audit, 이쪽은 access다.
+-->
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <appender name="APP" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %5p [%15.15t] %-36.36logger{36} req=%X{requestId:-} usr=%X{userId:-} : %m%n%wEx</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ACCESS" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} ACCESS %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="access" level="INFO" additivity="false">
+        <appender-ref ref="ACCESS"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="APP"/>
+    </root>
+</configuration>

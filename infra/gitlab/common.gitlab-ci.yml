@@ -1,0 +1,286 @@
+workflow:
+  rules:
+    - if: >-
+        $CI_PIPELINE_SOURCE == "merge_request_event" &&
+        $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"
+    - if: >-
+        $CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop"
+    - when: never
+
+stages:
+  - lint
+  - test
+  - build
+  - deploy-smoke
+  - docker-build
+  - deploy-dev
+
+variables:
+  GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle"
+  DEV_DEPLOY_WAIT_TIMEOUT: "120"
+  # 측정할 pipeline에서만 1 또는 2 등을 지정합니다. 미지정 시 기존 동작 유지.
+  CI_GRADLE_MAX_WORKERS: ""
+
+.gradle-job:
+  image: eclipse-temurin:21-jdk-alpine
+  cache:
+    key: "gradle-$CI_COMMIT_REF_SLUG"
+    paths:
+      - .gradle/caches/
+      - .gradle/wrapper/
+  before_script:
+    - cd backend
+    - chmod +x gradlew
+  script:
+    - sh ../scripts/run-ci-gradle.sh "$GRADLE_TASK"
+
+.gradle-test-job:
+  extends: .gradle-job
+  script:
+    - sh ../scripts/run-ci-gradle.sh "$GRADLE_TASK" "${GRADLE_TASK%:test}:bootJar"
+    - sh ../scripts/ci-jar.sh record "$GRADLE_MODULE"
+  artifacts:
+    paths:
+      - backend/$GRADLE_MODULE/build/libs/app.jar
+      - backend/$GRADLE_MODULE/build/libs/app.jar.metadata
+    expire_in: 1 day
+
+.gradle-jar-job:
+  extends: .gradle-job
+  script:
+    - sh ../scripts/build-ci-jar.sh "$GRADLE_MODULE"
+
+.ssh-dev-job:
+  before_script:
+    - apk add --no-cache openssh-client
+    - test -n "$DEV_DEPLOY_HOST"
+    - test -n "$DEV_DEPLOY_USER"
+    - test -n "$DEV_DEPLOY_PATH"
+    - test -f "$DEV_SSH_PRIVATE_KEY"
+    - test -f "$DEV_SSH_KNOWN_HOSTS"
+    - install -d -m 700 "$CI_PROJECT_DIR/.ssh"
+    - cp "$DEV_SSH_KNOWN_HOSTS" "$CI_PROJECT_DIR/.ssh/known_hosts"
+    - chmod 600 "$CI_PROJECT_DIR/.ssh/known_hosts"
+    - chmod 400 "$DEV_SSH_PRIVATE_KEY"
+
+.docker-build-job:
+  extends: .ssh-dev-job
+  image: docker:28-cli
+  services:
+    - name: docker:28-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    - set -o pipefail
+    - docker info
+    - sh scripts/build-ci-image.sh "$GRADLE_MODULE" "$CONTAINER_IMAGE"
+    - >-
+      docker save "$CONTAINER_IMAGE" | gzip -1 |
+      ssh -F /dev/null
+      -i "$DEV_SSH_PRIVATE_KEY"
+      -o UserKnownHostsFile="$CI_PROJECT_DIR/.ssh/known_hosts"
+      -o StrictHostKeyChecking=yes
+      "$DEV_DEPLOY_USER@$DEV_DEPLOY_HOST"
+      "bash -o pipefail -c 'gunzip | docker load'"
+
+  environment:
+    name: development
+    action: prepare
+
+.deploy-dev-config:
+  extends: .ssh-dev-job
+  image: alpine:3.22
+  script:
+    - test -f docker-compose.yml
+    - test -f infra/nginx/nginx.conf
+    - test -f infra/nginx/nginx.https.conf
+    - test -f infra/docker/https.override.yml
+    - test -f scripts/deploy-dev-nginx.sh
+    - test -f scripts/deploy-dev-service.sh
+    - >-
+      ssh -F /dev/null
+      -i "$DEV_SSH_PRIVATE_KEY"
+      -o UserKnownHostsFile="$CI_PROJECT_DIR/.ssh/known_hosts"
+      -o StrictHostKeyChecking=yes
+      "$DEV_DEPLOY_USER@$DEV_DEPLOY_HOST"
+      "mkdir -p
+      '$DEV_DEPLOY_PATH/infra/nginx'
+      '$DEV_DEPLOY_PATH/infra/docker'
+      '$DEV_DEPLOY_PATH/scripts'"
+    - >-
+      scp -F /dev/null
+      -i "$DEV_SSH_PRIVATE_KEY"
+      -o UserKnownHostsFile="$CI_PROJECT_DIR/.ssh/known_hosts"
+      -o StrictHostKeyChecking=yes
+      docker-compose.yml
+      "$DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_PATH/docker-compose.yml"
+    - >-
+      scp -F /dev/null
+      -i "$DEV_SSH_PRIVATE_KEY"
+      -o UserKnownHostsFile="$CI_PROJECT_DIR/.ssh/known_hosts"
+      -o StrictHostKeyChecking=yes
+      infra/nginx/nginx.conf
+      infra/nginx/nginx.https.conf
+      "$DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_PATH/infra/nginx/"
+    - >-
+      scp -F /dev/null
+      -i "$DEV_SSH_PRIVATE_KEY"
+      -o UserKnownHostsFile="$CI_PROJECT_DIR/.ssh/known_hosts"
+      -o StrictHostKeyChecking=yes
+      infra/docker/https.override.yml
+      "$DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_PATH/infra/docker/https.override.yml"
+    - >-
+      scp -F /dev/null
+      -i "$DEV_SSH_PRIVATE_KEY"
+      -o UserKnownHostsFile="$CI_PROJECT_DIR/.ssh/known_hosts"
+      -o StrictHostKeyChecking=yes
+      scripts/deploy-dev-service.sh
+      scripts/deploy-dev-nginx.sh
+      "$DEV_DEPLOY_USER@$DEV_DEPLOY_HOST:$DEV_DEPLOY_PATH/scripts/"
+    - >-
+      ssh -F /dev/null
+      -i "$DEV_SSH_PRIVATE_KEY"
+      -o UserKnownHostsFile="$CI_PROJECT_DIR/.ssh/known_hosts"
+      -o StrictHostKeyChecking=yes
+      "$DEV_DEPLOY_USER@$DEV_DEPLOY_HOST"
+      "cd '$DEV_DEPLOY_PATH' && sh scripts/deploy-dev-nginx.sh"
+  environment:
+    name: development
+
+.deploy-dev-job:
+  extends: .deploy-dev-config
+  script:
+    - !reference [.deploy-dev-config, script]
+    - >-
+      ssh -F /dev/null
+      -i "$DEV_SSH_PRIVATE_KEY"
+      -o UserKnownHostsFile="$CI_PROJECT_DIR/.ssh/known_hosts"
+      -o StrictHostKeyChecking=yes
+      "$DEV_DEPLOY_USER@$DEV_DEPLOY_HOST"
+      "cd '$DEV_DEPLOY_PATH' &&
+      chmod 700 scripts/deploy-dev-service.sh &&
+      ./scripts/deploy-dev-service.sh
+      '$COMPOSE_SERVICE'
+      '$DEPLOY_IMAGE_VARIABLE'
+      '$CONTAINER_IMAGE'
+      'docker-compose.yml'
+      '$DEV_DEPLOY_WAIT_TIMEOUT'
+      'infra/docker/https.override.yml'"
+  environment:
+    name: development
+
+nginx-deploy-dev:
+  extends: .deploy-dev-config
+  stage: deploy-dev
+  needs:
+    - job: deploy-smoke
+      artifacts: false
+    - job: nginx-config-test
+      artifacts: false
+  resource_group: development-ec2
+  rules:
+    - if: >-
+        $CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop"
+      changes:
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - infra/gitlab/common.gitlab-ci.yml
+        - infra/nginx/**/*
+        - infra/docker/https.override.yml
+        - scripts/deploy-dev-nginx.sh
+    - when: never
+
+nginx-config-test:
+  image: docker:28-cli
+  stage: test
+  services:
+    - name: docker:28-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - apk add --no-cache python3 openssl
+  script:
+    - python3 scripts/test-mcp-deployment.py
+    - python3 scripts/test-nginx-config.py
+  rules:
+    - changes:
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - infra/gitlab/common.gitlab-ci.yml
+        - infra/nginx/**/*
+        - infra/docker/https.override.yml
+        - scripts/deploy-dev-nginx.sh
+        - scripts/test-nginx-config.py
+        - scripts/test-mcp-deployment.py
+    - when: never
+
+repository-lint:
+  image: alpine:3.22
+  stage: lint
+  variables:
+    GIT_DEPTH: "0"
+  before_script:
+    - apk add --no-cache git
+    - git config core.whitespace "blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol"
+  script:
+    - |
+      if [ "$CI_PIPELINE_SOURCE" = "merge_request_event" ]; then
+        git diff --check "$CI_MERGE_REQUEST_DIFF_BASE_SHA" "$CI_COMMIT_SHA"
+      else
+        git show --check --format= "$CI_COMMIT_SHA"
+      fi
+  rules:
+    - if: >-
+        $CI_PIPELINE_SOURCE == "merge_request_event" &&
+        $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"
+    - if: >-
+        $CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop"
+    - when: never
+
+backend-lint:
+  extends: .gradle-job
+  stage: lint
+  script:
+    - sh ../scripts/run-ci-gradle.sh checkstyleMain checkstyleTest
+  rules:
+    - if: >-
+        ($CI_PIPELINE_SOURCE == "merge_request_event" &&
+        $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") ||
+        ($CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop")
+      changes:
+        - backend/**/*
+        - scripts/run-ci-gradle.sh
+    - when: never
+
+ci-config-test:
+  image: alpine:3.22
+  stage: lint
+  before_script:
+    - apk add --no-cache python3 py3-yaml bash git jq shellcheck
+  script:
+    - PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/tests -v
+    - sh -n scripts/ci-jar.sh
+    - sh -n scripts/build-ci-jar.sh
+    - sh -n scripts/build-ci-image.sh
+    - sh -n scripts/run-ci-gradle.sh
+    - sh -n scripts/smoke-base.sh
+    - sh -n scripts/deploy-dev-service.sh
+    - sh -n scripts/deploy-dev-nginx.sh
+    - shellcheck scripts/smoke-base.sh scripts/deploy-smoke.sh scripts/deploy-dev-service.sh
+    - shellcheck scripts/deploy-dev-nginx.sh
+    - shellcheck scripts/ci-jar.sh scripts/build-ci-jar.sh scripts/build-ci-image.sh scripts/run-ci-gradle.sh
+    - bash -n scripts/deploy-smoke.sh
+  rules:
+    - changes:
+        - .gitlab-ci.yml
+        - infra/gitlab/**/*
+        - scripts/**/*
+        - backend/**/Dockerfile
+        - backend/gradle.properties
+    - when: never

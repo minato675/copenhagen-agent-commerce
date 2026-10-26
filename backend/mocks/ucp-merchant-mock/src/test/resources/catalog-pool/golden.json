@@ -1,0 +1,869 @@
+{
+ "note": "tools/mall_variation_golden.py 가 tools/mall_rules.py 로 뽑았다. 규칙을 바꾸면 다시 뽑는다",
+ "primitives": {
+  "externalId": "kurly:1000017436",
+  "mall": "merchant-a",
+  "uPrice": 0.21992344349105586,
+  "uStock": 0.0791124479161977,
+  "factor": 0.9439846886982112,
+  "id": "db93e024-2a0c-57c7-855e-f45ce0649436"
+ },
+ "cases": [
+  {
+   "externalId": "daiso:1001712",
+   "basePrice": 5000,
+   "variants": [
+    {
+     "sku": "daiso:1001712-default",
+     "optionName": "option",
+     "optionValue": "기본",
+     "priceDelta": 0,
+     "stock": 100,
+     "status": "ACTIVE"
+    }
+   ],
+   "malls": {
+    "merchant-a": {
+     "id": "c645846c-422c-59c5-bcd0-5088a1231c25",
+     "basePrice": 5030,
+     "variants": [
+      {
+       "sku": "daiso:1001712-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 0,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-b": {
+     "id": "1344ee25-f602-5351-828d-7ebf5c63fae3",
+     "basePrice": 4520,
+     "variants": [
+      {
+       "sku": "daiso:1001712-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-c": {
+     "id": "ad049258-3248-5767-9638-7022b0cf6dc2",
+     "basePrice": 4910,
+     "variants": [
+      {
+       "sku": "daiso:1001712-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "externalId": "daiso:1001715",
+   "basePrice": 5000,
+   "variants": [
+    {
+     "sku": "daiso:1001715-default",
+     "optionName": "option",
+     "optionValue": "기본",
+     "priceDelta": 0,
+     "stock": 100,
+     "status": "ACTIVE"
+    }
+   ],
+   "malls": {
+    "merchant-a": {
+     "id": "782045f2-36f4-556d-8310-165731fc61a7",
+     "basePrice": 5250,
+     "variants": [
+      {
+       "sku": "daiso:1001715-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-b": {
+     "id": "85bfee84-a14d-5d03-a285-57e823992ec8",
+     "basePrice": 5330,
+     "variants": [
+      {
+       "sku": "daiso:1001715-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-c": {
+     "id": "e1569fb3-6d2f-5f2c-a504-bcb94922f626",
+     "basePrice": 5460,
+     "variants": [
+      {
+       "sku": "daiso:1001715-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "externalId": "daiso:1004144",
+   "basePrice": 2000,
+   "variants": [
+    {
+     "sku": "daiso:1004144-default",
+     "optionName": "option",
+     "optionValue": "기본",
+     "priceDelta": 0,
+     "stock": 100,
+     "status": "ACTIVE"
+    }
+   ],
+   "malls": {
+    "merchant-a": {
+     "id": "421d5c1b-838e-5efe-a09b-ec768b0149c5",
+     "basePrice": 2060,
+     "variants": [
+      {
+       "sku": "daiso:1004144-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-b": {
+     "id": "b63ddc8e-e168-5ad3-8aa9-b4dd06fcb19d",
+     "basePrice": 2010,
+     "variants": [
+      {
+       "sku": "daiso:1004144-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-c": {
+     "id": "82a929dc-9713-5fe7-9a8a-301162cbad3a",
+     "basePrice": 1960,
+     "variants": [
+      {
+       "sku": "daiso:1004144-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "externalId": "daiso:1004151",
+   "basePrice": 500,
+   "variants": [
+    {
+     "sku": "daiso:1004151-default",
+     "optionName": "option",
+     "optionValue": "기본",
+     "priceDelta": 0,
+     "stock": 100,
+     "status": "ACTIVE"
+    }
+   ],
+   "malls": {
+    "merchant-a": {
+     "id": "6cc3613e-a2b8-52e5-9a23-0ec4d917063f",
+     "basePrice": 540,
+     "variants": [
+      {
+       "sku": "daiso:1004151-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-b": {
+     "id": "84bae21b-b788-5bd4-b2b7-33fca7eadecb",
+     "basePrice": 490,
+     "variants": [
+      {
+       "sku": "daiso:1004151-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-c": {
+     "id": "698f85b2-d422-56f7-af8b-da585b13e7d4",
+     "basePrice": 450,
+     "variants": [
+      {
+       "sku": "daiso:1004151-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "externalId": "daiso:B202503122143",
+   "basePrice": 30000,
+   "variants": [
+    {
+     "sku": "daiso:B202503122143-default",
+     "optionName": "option",
+     "optionValue": "기본",
+     "priceDelta": 0,
+     "stock": 100,
+     "status": "ACTIVE"
+    }
+   ],
+   "malls": {
+    "merchant-a": {
+     "id": "451ac5a6-a82f-5f4d-b125-749bfeb66761",
+     "basePrice": 29200,
+     "variants": [
+      {
+       "sku": "daiso:B202503122143-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-b": {
+     "id": "1f773a93-187f-507f-a5ca-3ab9b81dc025",
+     "basePrice": 28500,
+     "variants": [
+      {
+       "sku": "daiso:B202503122143-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-c": {
+     "id": "15a478bf-1b97-539f-b952-f2873b92abec",
+     "basePrice": 27100,
+     "variants": [
+      {
+       "sku": "daiso:B202503122143-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "externalId": "daiso:B202506235897",
+   "basePrice": 12000,
+   "variants": [
+    {
+     "sku": "daiso:B202506235897-c1",
+     "optionName": "색상",
+     "optionValue": "화이트",
+     "priceDelta": 0,
+     "stock": 100,
+     "status": "ACTIVE"
+    }
+   ],
+   "malls": {
+    "merchant-a": {
+     "id": "e6420335-5056-5d08-ac9c-4cf9dbbc2f4e",
+     "basePrice": 13100,
+     "variants": [
+      {
+       "sku": "daiso:B202506235897-c1",
+       "optionName": "색상",
+       "optionValue": "화이트",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-b": {
+     "id": "57a9986e-3458-5e78-9196-b55d256a19af",
+     "basePrice": 12600,
+     "variants": [
+      {
+       "sku": "daiso:B202506235897-c1",
+       "optionName": "색상",
+       "optionValue": "화이트",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-c": {
+     "id": "b21d9913-1d10-5c0b-8047-3302fc1c330a",
+     "basePrice": 11800,
+     "variants": [
+      {
+       "sku": "daiso:B202506235897-c1",
+       "optionName": "색상",
+       "optionValue": "화이트",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "externalId": "daiso:B202507097671",
+   "basePrice": 24000,
+   "variants": [
+    {
+     "sku": "daiso:B202507097671-default",
+     "optionName": "option",
+     "optionValue": "기본",
+     "priceDelta": 0,
+     "stock": 100,
+     "status": "ACTIVE"
+    }
+   ],
+   "malls": {
+    "merchant-a": {
+     "id": "fb25283f-cc4a-5db5-b5a1-bab6cd7650d5",
+     "basePrice": 22000,
+     "variants": [
+      {
+       "sku": "daiso:B202507097671-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 0,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-b": {
+     "id": "5b1d5072-e1fe-5c8a-8ac6-7c848ed05a96",
+     "basePrice": 22800,
+     "variants": [
+      {
+       "sku": "daiso:B202507097671-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-c": {
+     "id": "0c7f4411-c376-5a56-900d-918854e78d77",
+     "basePrice": 23900,
+     "variants": [
+      {
+       "sku": "daiso:B202507097671-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "externalId": "daiso:B202508138634",
+   "basePrice": 40000,
+   "variants": [
+    {
+     "sku": "daiso:B202508138634-default",
+     "optionName": "option",
+     "optionValue": "기본",
+     "priceDelta": 0,
+     "stock": 100,
+     "status": "ACTIVE"
+    }
+   ],
+   "malls": {
+    "merchant-a": {
+     "id": "89b64e84-fbc5-5bbd-9181-e9794bce7498",
+     "basePrice": 41000,
+     "variants": [
+      {
+       "sku": "daiso:B202508138634-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-b": {
+     "id": "a856baed-f931-5418-89b5-f1458232153c",
+     "basePrice": 40900,
+     "variants": [
+      {
+       "sku": "daiso:B202508138634-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-c": {
+     "id": "5f6bb566-4e4a-526a-af8b-1405f26e64ae",
+     "basePrice": 38900,
+     "variants": [
+      {
+       "sku": "daiso:B202508138634-default",
+       "optionName": "option",
+       "optionValue": "기본",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "externalId": "kurly:1000017436",
+   "basePrice": 8700,
+   "variants": [
+    {
+     "sku": "kurly:1000017436-M00000006362",
+     "optionName": "option",
+     "optionValue": "[미쟝센] 퍼펙트 오리지널 세럼 컨디셔너 680ml",
+     "priceDelta": 100,
+     "stock": 100,
+     "status": "ACTIVE"
+    },
+    {
+     "sku": "kurly:1000017436-M00000006361",
+     "optionName": "option",
+     "optionValue": "[미쟝센] 퍼펙트 오리지널 세럼 샴푸 680ml",
+     "priceDelta": 0,
+     "stock": 100,
+     "status": "ACTIVE"
+    }
+   ],
+   "malls": {
+    "merchant-a": {
+     "id": "db93e024-2a0c-57c7-855e-f45ce0649436",
+     "basePrice": 8210,
+     "variants": [
+      {
+       "sku": "kurly:1000017436-M00000006362",
+       "optionName": "option",
+       "optionValue": "[미쟝센] 퍼펙트 오리지널 세럼 컨디셔너 680ml",
+       "priceDelta": 100,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000017436-M00000006361",
+       "optionName": "option",
+       "optionValue": "[미쟝센] 퍼펙트 오리지널 세럼 샴푸 680ml",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-b": {
+     "id": "c3f30444-86ff-5535-bb3a-ec10d8c57142",
+     "basePrice": 9460,
+     "variants": [
+      {
+       "sku": "kurly:1000017436-M00000006362",
+       "optionName": "option",
+       "optionValue": "[미쟝센] 퍼펙트 오리지널 세럼 컨디셔너 680ml",
+       "priceDelta": 110,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000017436-M00000006361",
+       "optionName": "option",
+       "optionValue": "[미쟝센] 퍼펙트 오리지널 세럼 샴푸 680ml",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-c": {
+     "id": "955f280a-cf4f-5ae7-acea-275a0a189562",
+     "basePrice": 8700,
+     "variants": [
+      {
+       "sku": "kurly:1000017436-M00000006362",
+       "optionName": "option",
+       "optionValue": "[미쟝센] 퍼펙트 오리지널 세럼 컨디셔너 680ml",
+       "priceDelta": 100,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000017436-M00000006361",
+       "optionName": "option",
+       "optionValue": "[미쟝센] 퍼펙트 오리지널 세럼 샴푸 680ml",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "externalId": "kurly:1000025270",
+   "basePrice": 11590,
+   "variants": [
+    {
+     "sku": "kurly:1000025270-M00000008360",
+     "optionName": "option",
+     "optionValue": "무항생제 1등급 암퇘지 삼겹(찌개용) 300g*2pk (냉장)",
+     "priceDelta": 10000,
+     "stock": 100,
+     "status": "ACTIVE"
+    },
+    {
+     "sku": "kurly:1000025270-MK0000036024",
+     "optionName": "option",
+     "optionValue": "무항생제 1등급 암퇘지 삼겹 찌개용 300g (냉장)",
+     "priceDelta": 0,
+     "stock": 100,
+     "status": "ACTIVE"
+    }
+   ],
+   "malls": {
+    "merchant-a": {
+     "id": "501428ec-7d6b-5652-aea6-1741e4db53f4",
+     "basePrice": 10500,
+     "variants": [
+      {
+       "sku": "kurly:1000025270-M00000008360",
+       "optionName": "option",
+       "optionValue": "무항생제 1등급 암퇘지 삼겹(찌개용) 300g*2pk (냉장)",
+       "priceDelta": 9100,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000025270-MK0000036024",
+       "optionName": "option",
+       "optionValue": "무항생제 1등급 암퇘지 삼겹 찌개용 300g (냉장)",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-b": {
+     "id": "09ebdf58-ca9b-5ef6-a189-1003423a5297",
+     "basePrice": 12200,
+     "variants": [
+      {
+       "sku": "kurly:1000025270-M00000008360",
+       "optionName": "option",
+       "optionValue": "무항생제 1등급 암퇘지 삼겹(찌개용) 300g*2pk (냉장)",
+       "priceDelta": 10500,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000025270-MK0000036024",
+       "optionName": "option",
+       "optionValue": "무항생제 1등급 암퇘지 삼겹 찌개용 300g (냉장)",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-c": {
+     "id": "2b44e3f4-4573-507c-a2ac-47246fc323a2",
+     "basePrice": 11600,
+     "variants": [
+      {
+       "sku": "kurly:1000025270-M00000008360",
+       "optionName": "option",
+       "optionValue": "무항생제 1등급 암퇘지 삼겹(찌개용) 300g*2pk (냉장)",
+       "priceDelta": 10100,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000025270-MK0000036024",
+       "optionName": "option",
+       "optionValue": "무항생제 1등급 암퇘지 삼겹 찌개용 300g (냉장)",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "externalId": "kurly:1000025282",
+   "basePrice": 7590,
+   "variants": [
+    {
+     "sku": "kurly:1000025282-M00000008364",
+     "optionName": "option",
+     "optionValue": "무항생제 1등급 한돈 등심(카레용) 600g (냉장)",
+     "priceDelta": 5310,
+     "stock": 100,
+     "status": "ACTIVE"
+    },
+    {
+     "sku": "kurly:1000025282-MK0000029479",
+     "optionName": "option",
+     "optionValue": "무항생제 1등급 한돈 등심 카레용 300g (냉장)",
+     "priceDelta": 0,
+     "stock": 100,
+     "status": "ACTIVE"
+    }
+   ],
+   "malls": {
+    "merchant-a": {
+     "id": "db38313c-1c9d-5177-8d31-7f938d73d0d4",
+     "basePrice": 7470,
+     "variants": [
+      {
+       "sku": "kurly:1000025282-M00000008364",
+       "optionName": "option",
+       "optionValue": "무항생제 1등급 한돈 등심(카레용) 600g (냉장)",
+       "priceDelta": 5220,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000025282-MK0000029479",
+       "optionName": "option",
+       "optionValue": "무항생제 1등급 한돈 등심 카레용 300g (냉장)",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-b": {
+     "id": "d9f68e68-c069-5d68-8950-b5f6476290b9",
+     "basePrice": 8100,
+     "variants": [
+      {
+       "sku": "kurly:1000025282-M00000008364",
+       "optionName": "option",
+       "optionValue": "무항생제 1등급 한돈 등심(카레용) 600g (냉장)",
+       "priceDelta": 5660,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000025282-MK0000029479",
+       "optionName": "option",
+       "optionValue": "무항생제 1등급 한돈 등심 카레용 300g (냉장)",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-c": {
+     "id": "9ab61eb1-0ae2-5ab9-83fc-e7241df9ed2f",
+     "basePrice": 8200,
+     "variants": [
+      {
+       "sku": "kurly:1000025282-M00000008364",
+       "optionName": "option",
+       "optionValue": "무항생제 1등급 한돈 등심(카레용) 600g (냉장)",
+       "priceDelta": 5730,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000025282-MK0000029479",
+       "optionName": "option",
+       "optionValue": "무항생제 1등급 한돈 등심 카레용 300g (냉장)",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "externalId": "kurly:1000029138",
+   "basePrice": 6800,
+   "variants": [
+    {
+     "sku": "kurly:1000029138-M00000010321",
+     "optionName": "option",
+     "optionValue": "[홍루이젠] 에그 참치마요 샌드위치 2개입",
+     "priceDelta": 400,
+     "stock": 100,
+     "status": "ACTIVE"
+    },
+    {
+     "sku": "kurly:1000029138-M00000010322",
+     "optionName": "option",
+     "optionValue": "[홍루이젠] 에그 포테이토 샌드위치 2개입",
+     "priceDelta": 0,
+     "stock": 100,
+     "status": "ACTIVE"
+    },
+    {
+     "sku": "kurly:1000029138-M00000148115",
+     "optionName": "option",
+     "optionValue": "[홍루이젠] 에그듬뿍 샌드위치 2개입",
+     "priceDelta": 0,
+     "stock": 100,
+     "status": "ACTIVE"
+    }
+   ],
+   "malls": {
+    "merchant-a": {
+     "id": "0843bbef-2d2a-5beb-8021-c928fa938db2",
+     "basePrice": 6380,
+     "variants": [
+      {
+       "sku": "kurly:1000029138-M00000010321",
+       "optionName": "option",
+       "optionValue": "[홍루이젠] 에그 참치마요 샌드위치 2개입",
+       "priceDelta": 380,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000029138-M00000010322",
+       "optionName": "option",
+       "optionValue": "[홍루이젠] 에그 포테이토 샌드위치 2개입",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000029138-M00000148115",
+       "optionName": "option",
+       "optionValue": "[홍루이젠] 에그듬뿍 샌드위치 2개입",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-b": {
+     "id": "ca9bc35a-24be-54e9-9c49-0c6825a61533",
+     "basePrice": 7070,
+     "variants": [
+      {
+       "sku": "kurly:1000029138-M00000010321",
+       "optionName": "option",
+       "optionValue": "[홍루이젠] 에그 참치마요 샌드위치 2개입",
+       "priceDelta": 410,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000029138-M00000010322",
+       "optionName": "option",
+       "optionValue": "[홍루이젠] 에그 포테이토 샌드위치 2개입",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000029138-M00000148115",
+       "optionName": "option",
+       "optionValue": "[홍루이젠] 에그듬뿍 샌드위치 2개입",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    },
+    "merchant-c": {
+     "id": "95e06925-8221-569b-9623-2da64e2eec3e",
+     "basePrice": 6510,
+     "variants": [
+      {
+       "sku": "kurly:1000029138-M00000010321",
+       "optionName": "option",
+       "optionValue": "[홍루이젠] 에그 참치마요 샌드위치 2개입",
+       "priceDelta": 390,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000029138-M00000010322",
+       "optionName": "option",
+       "optionValue": "[홍루이젠] 에그 포테이토 샌드위치 2개입",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      },
+      {
+       "sku": "kurly:1000029138-M00000148115",
+       "optionName": "option",
+       "optionValue": "[홍루이젠] 에그듬뿍 샌드위치 2개입",
+       "priceDelta": 0,
+       "stock": 100,
+       "status": "ACTIVE"
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

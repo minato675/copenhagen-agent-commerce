@@ -1,0 +1,85 @@
+spring:
+  application:
+    name: pay-service
+  datasource:
+    url: ${PAY_DB_URL:jdbc:postgresql://pay-db:5432/pay-db}
+    username: ${PAY_DB_USER:pay}
+    password: ${PAY_DB_PASSWORD:pay-dev-password}
+  flyway:
+    enabled: true
+
+pay:
+  auth:
+    user-tokens: {}
+    service-tokens: {}
+    merchant-tokens: {}
+    # JSON maps principal subject to an opaque token. Values are injected only through environment variables or Secrets.
+    user-tokens-json: ${PAY_AUTH_USER_TOKENS_JSON:}
+    core-service-tokens-json: ${PAY_AUTH_CORE_SERVICE_TOKENS_JSON:}
+    merchant-service-tokens-json: ${PAY_AUTH_MERCHANT_SERVICE_TOKENS_JSON:}
+    jwt:
+      enabled: ${PAY_AUTH_JWT_ENABLED:false}
+      issuer: ${PAY_AUTH_JWT_ISSUER:}
+      audience: ${PAY_AUTH_JWT_AUDIENCE:pay-service}
+      jwk-set-json: ${PAY_AUTH_JWT_JWK_SET_JSON:}
+      clock-skew-seconds: ${PAY_AUTH_JWT_CLOCK_SKEW_SECONDS:60}
+  pin:
+    # Set PAY_PIN_PEPPER in deployed environments. It must never be stored in pay-db.
+    pepper: ${PAY_PIN_PEPPER:}
+  approval:
+    expiration-seconds: ${PAY_APPROVAL_EXPIRATION_SECONDS:300}
+    challenge-expiration-seconds: ${PAY_APPROVAL_CHALLENGE_EXPIRATION_SECONDS:60}
+    # 세션 만료 = max(min(판매처별 checkout 만료), expiration-seconds).
+    # false 로 두면 하한 없이 가장 이른 checkout 만료를 그대로 쓴다.
+    expiration-floor-enabled: ${PAY_APPROVAL_EXPIRATION_FLOOR_ENABLED:true}
+  mandate:
+    issuer: ${PAY_MANDATE_ISSUER:pay-service}
+    key-id: ${PAY_MANDATE_KEY_ID:pay-signing-key-1}
+    signing-private-key: ${PAY_MANDATE_SIGNING_PRIVATE_KEY:}
+    # Public JWK is optional when the active public key can be derived from the private key.
+    public-key-jwk: ${PAY_MANDATE_PUBLIC_KEY_JWK:}
+    previous-verification-keys-json: ${PAY_MANDATE_PREVIOUS_VERIFICATION_KEYS_JSON:[]}
+    profile-cache-seconds: ${PAY_MANDATE_PROFILE_CACHE_SECONDS:300}
+    # Keep false for local development only; deployed environments should set it to true.
+    require-configured-key: ${PAY_MANDATE_REQUIRE_CONFIGURED_KEY:false}
+    encryption-key: ${PAY_MANDATE_ENCRYPTION_KEY:}
+  reconciliation:
+    enabled: ${PAY_RECONCILIATION_ENABLED:true}
+    poll-delay-millis: ${PAY_RECONCILIATION_POLL_MILLIS:5000}
+    batch-size: ${PAY_RECONCILIATION_BATCH_SIZE:10}
+    lease-duration-seconds: ${PAY_RECONCILIATION_LEASE_SECONDS:60}
+    retry-delay-seconds: ${PAY_RECONCILIATION_RETRY_SECONDS:60}
+  notification:
+    fcm:
+      enabled: ${PAY_FCM_ENABLED:false}
+      project-id: ${PAY_FCM_PROJECT_ID:}
+      service-account-json: ${PAY_FCM_SERVICE_ACCOUNT_JSON:}
+    worker:
+      enabled: ${PAY_NOTIFICATION_WORKER_ENABLED:false}
+      poll-delay-millis: ${PAY_NOTIFICATION_POLL_MILLIS:5000}
+      batch-size: ${PAY_NOTIFICATION_BATCH_SIZE:10}
+      lease-duration-seconds: ${PAY_NOTIFICATION_LEASE_SECONDS:60}
+      retry-delay-seconds: ${PAY_NOTIFICATION_RETRY_SECONDS:60}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+services:
+  merchant:
+    # Merchant의 공개 Profile에서 Checkout 검증키를 조회한다. 실제 주소는 배포 환경에서 주입한다.
+    base-url: ${MERCHANT_SERVICE_URL:http://ucp-merchant-mock:8080}
+    profile-path: ${PAY_MERCHANT_PROFILE_PATH:/.well-known/ucp}
+    connect-timeout-millis: ${PAY_MERCHANT_CONNECT_TIMEOUT_MILLIS:1000}
+    request-timeout-millis: ${PAY_MERCHANT_REQUEST_TIMEOUT_MILLIS:3000}
+    allowed-algorithms: ${PAY_MERCHANT_CHECKOUT_ALLOWED_ALGORITHMS:ES256}
+  pg:
+    base-url: ${PG_SERVICE_URL:http://pg-mock:8080}
+    connect-timeout-millis: ${PG_CONNECT_TIMEOUT_MILLIS:1000}
+    request-timeout-millis: ${PG_REQUEST_TIMEOUT_MILLIS:3000}

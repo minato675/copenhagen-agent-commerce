@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/copenhagen_canvas" />
+    <!-- Match the Compose harbor's canvas; do not flash an already assembled logo first. -->
+</layer-list>

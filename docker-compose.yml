@@ -1,0 +1,257 @@
+name: copenhagen
+
+services:
+  nginx:
+    image: docker.io/library/nginx:1.28-alpine
+    ports:
+      - "${NGINX_PORT:-8080}:80"
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro,Z
+    depends_on:
+      core-service:
+        condition: service_healthy
+      mcp-server:
+        condition: service_healthy
+      pay-service:
+        condition: service_healthy
+      pg-mock:
+        condition: service_healthy
+    restart: unless-stopped
+
+  core-service:
+    image: ${CORE_IMAGE:-copenhagen/core-service:local}
+    build:
+      context: ./backend
+      dockerfile: apps/core-service/Dockerfile
+    environment:
+      CORE_DB_URL: jdbc:postgresql://core-db:5432/core-db
+      CORE_DB_USER: ${CORE_DB_USER:-core}
+      CORE_DB_PASSWORD: ${CORE_DB_PASSWORD:-core-dev-password}
+      # 개인정보 암호화 키. 아래 기본값은 CORE_DB_PASSWORD와 같은 성격의 개발 전용 값이다.
+      # 운영 배포에서는 반드시 환경변수로 덮어써야 하며, 값이 없으면 core-service가 기동에 실패한다.
+      CORE_PII_ENC_KEY: ${CORE_PII_ENC_KEY:-ZGV2LW9ubHktY29yZS1waWkta2V5LTMyLWJ5dGVzISE=}
+      CORE_PII_HASH_PEPPER: ${CORE_PII_HASH_PEPPER:-dev-only-core-pii-hash-pepper-value-do-not-use-in-prod}
+      # 로그인 Access Token 서명 키. 미설정 시 core-service가 기동마다 새 키 쌍을 생성해
+      # pay-service가 토큰을 검증하지 못한다. 아래 기본값은 CORE_PII_ENC_KEY와 같은 성격의
+      # 공개된 개발 전용 키이며, 운영 배포에서는 반드시 .env로 덮어써야 한다.
+      # 공개키 쌍은 pay-service의 PAY_AUTH_JWT_JWK_SET_JSON(kid=A207)에 들어간다.
+      CORE_AUTH_JWT_PRIVATE_KEY: ${CORE_AUTH_JWT_PRIVATE_KEY:-MEECAQAwEwYHKoZIzj0CAQYIKoZIzj0DAQcEJzAlAgEBBCAyh5K36nStp8dccrpgKa1lO1LnP8Uh45CWJ0ElrxvBFA}
+      # Agent OAuth 인가 서버 issuer/audience. 운영 배포에서는 반드시 실제 값으로 덮어써야 한다.
+      AGENT_OAUTH_ISSUER: ${AGENT_OAUTH_ISSUER:-http://localhost:8080}
+      AGENT_OAUTH_MCP_AUDIENCE: ${AGENT_OAUTH_MCP_AUDIENCE:-http://localhost:8080/mcp}
+      AGENT_OAUTH_JWT_PRIVATE_KEY: ${AGENT_OAUTH_JWT_PRIVATE_KEY:-}
+      AGENT_OAUTH_JWT_KEY_ID: ${AGENT_OAUTH_JWT_KEY_ID:-agent-oauth-dev}
+      PAY_SERVICE_URL: http://pay-service:8080
+      MERCHANT_SERVICE_URL: http://ucp-merchant-mock:8080
+      # Pay 내부 API(승인 세션 생성·조회) 호출용 토큰. pay-service의 PAY_AUTH_CORE_SERVICE_TOKENS_JSON의
+      # core-service 항목과 정확히 같은 값이어야 한다. 값이 없으면 해당 호출이 전부 401이 된다(이슈 410).
+      CORE_PAY_SERVICE_TOKEN: ${CORE_PAY_SERVICE_TOKEN:-}
+      CORE_PAYMENT_WORKER_ENABLED: ${CORE_PAYMENT_WORKER_ENABLED:-false}
+      CORE_PAYMENT_WORKER_POLL_INTERVAL_SECONDS: ${CORE_PAYMENT_WORKER_POLL_INTERVAL_SECONDS:-3}
+    depends_on:
+      core-db:
+        condition: service_healthy
+      pay-service:
+        condition: service_healthy
+      ucp-merchant-mock:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+
+  mcp-server:
+    image: ${MCP_IMAGE:-copenhagen/mcp-server:local}
+    build:
+      context: ./backend
+      dockerfile: apps/mcp-server/Dockerfile
+    environment:
+      CORE_SERVICE_URL: http://core-service:8080
+      # Opt in only after Core clients and service authentication keys are configured.
+      SPRING_PROFILES_ACTIVE: ${MCP_SPRING_PROFILES_ACTIVE:-}
+      MCP_AUTH_RESOURCE: ${MCP_AUTH_RESOURCE:-https://j15a207.p.ssafy.io/mcp}
+      MCP_AUTH_ISSUER: ${MCP_AUTH_ISSUER:-}
+      MCP_AUTH_JWKS_URI: ${MCP_AUTH_JWKS_URI:-}
+      CORE_TOKEN_URI: ${CORE_TOKEN_URI:-}
+      CORE_MCP_CLIENT_ID: ${CORE_MCP_CLIENT_ID:-copenhagen-mcp}
+      CORE_MCP_PRIVATE_JWK_FILE: /run/secrets/mcp/client.jwk
+      MCP_ALLOWED_HOSTS: ${MCP_ALLOWED_HOSTS:-j15a207.p.ssafy.io,mcp-server:8080,localhost:8080}
+      MCP_DIAGNOSTICS_ADMIN_USER_REFS: ${MCP_DIAGNOSTICS_ADMIN_USER_REFS:-}
+      MCP_DIAGNOSTICS_ENABLED: ${MCP_DIAGNOSTICS_ENABLED:-false}
+      MCP_ALLOWED_ORIGINS: ${MCP_ALLOWED_ORIGINS:-https://chatgpt.com}
+    volumes:
+      # An empty directory is harmless for the default profile; integration requires client.jwk.
+      - type: bind
+        source: ${MCP_SECRETS_DIR:-./.secrets/mcp}
+        target: /run/secrets/mcp
+        read_only: true
+    depends_on:
+      core-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+
+  pay-service:
+    image: ${PAY_IMAGE:-copenhagen/pay-service:local}
+    build:
+      context: ./backend
+      dockerfile: apps/pay-service/Dockerfile
+    environment:
+      PAY_DB_URL: jdbc:postgresql://pay-db:5432/pay-db
+      PAY_DB_USER: ${PAY_DB_USER:-pay}
+      PAY_DB_PASSWORD: ${PAY_DB_PASSWORD:-pay-dev-password}
+      PG_SERVICE_URL: http://pg-mock:8080
+      PAY_AUTH_USER_TOKENS_JSON: ${PAY_AUTH_USER_TOKENS_JSON:-}
+      PAY_AUTH_CORE_SERVICE_TOKENS_JSON: ${PAY_AUTH_CORE_SERVICE_TOKENS_JSON:-}
+      PAY_AUTH_MERCHANT_SERVICE_TOKENS_JSON: ${PAY_AUTH_MERCHANT_SERVICE_TOKENS_JSON:-}
+      PAY_FCM_ENABLED: ${PAY_FCM_ENABLED:-false}
+      PAY_FCM_PROJECT_ID: ${PAY_FCM_PROJECT_ID:-}
+      PAY_FCM_SERVICE_ACCOUNT_JSON: ${PAY_FCM_SERVICE_ACCOUNT_JSON:-}
+      PAY_NOTIFICATION_WORKER_ENABLED: ${PAY_NOTIFICATION_WORKER_ENABLED:-false}
+      PAY_NOTIFICATION_POLL_MILLIS: ${PAY_NOTIFICATION_POLL_MILLIS:-5000}
+      PAY_NOTIFICATION_BATCH_SIZE: ${PAY_NOTIFICATION_BATCH_SIZE:-10}
+      PAY_NOTIFICATION_LEASE_SECONDS: ${PAY_NOTIFICATION_LEASE_SECONDS:-60}
+      PAY_NOTIFICATION_RETRY_SECONDS: ${PAY_NOTIFICATION_RETRY_SECONDS:-60}
+      PAY_AUTH_JWT_ENABLED: ${PAY_AUTH_JWT_ENABLED:-false}
+      PAY_AUTH_JWT_ISSUER: ${PAY_AUTH_JWT_ISSUER:-}
+      PAY_AUTH_JWT_AUDIENCE: ${PAY_AUTH_JWT_AUDIENCE:-pay-service}
+      PAY_AUTH_JWT_JWK_SET_JSON: ${PAY_AUTH_JWT_JWK_SET_JSON:-}
+      PAY_AUTH_JWT_CLOCK_SKEW_SECONDS: ${PAY_AUTH_JWT_CLOCK_SKEW_SECONDS:-60}
+      PAY_RECONCILIATION_ENABLED: ${PAY_RECONCILIATION_ENABLED:-true}
+      PAY_RECONCILIATION_POLL_MILLIS: ${PAY_RECONCILIATION_POLL_MILLIS:-5000}
+      PAY_RECONCILIATION_BATCH_SIZE: ${PAY_RECONCILIATION_BATCH_SIZE:-10}
+      PAY_RECONCILIATION_LEASE_SECONDS: ${PAY_RECONCILIATION_LEASE_SECONDS:-60}
+      PAY_RECONCILIATION_RETRY_SECONDS: ${PAY_RECONCILIATION_RETRY_SECONDS:-60}
+    depends_on:
+      pay-db:
+        condition: service_healthy
+      pg-mock:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+
+  # 가상 몰 셋을 컨테이너 하나가 서빙한다(ucp-merchant-mock DESIGN.md 3.3·5.7절, ADR 0008). 몰은 application.yml 의
+  # merchant.malls 목록이고 경로 /api/ucp/v1/{merchantId}/... 의 세그먼트가 어느 몰인지 말한다. 카탈로그 풀 하나가 한 DB 에 들어간다.
+  # Core services.merchants[] 와 Pay merchant_accounts 에 몰 셋이 등록돼 있다. 몰별 결제는 PAY_MERCHANT_TOKENS_JSON 에 토큰 셋이 필요하다.
+  # 옛 경로 /.well-known/ucp·/ucp/v1/** 는 merchant-a 별칭으로 산다. Pay 가 Profile 을 옛 경로로 가져간다.
+  ucp-merchant-mock:
+    image: ${MERCHANT_MOCK_IMAGE:-copenhagen/ucp-merchant-mock:local}
+    build:
+      context: ./backend
+      dockerfile: mocks/ucp-merchant-mock/Dockerfile
+    environment:
+      MERCHANT_DB_URL: jdbc:postgresql://merchant-db:5432/merchant-db
+      MERCHANT_DB_USER: ${MERCHANT_DB_USER:-merchant}
+      MERCHANT_DB_PASSWORD: ${MERCHANT_DB_PASSWORD:-merchant-dev-password}
+      PAY_SERVICE_URL: http://pay-service:8080
+      PAY_MERCHANT_TOKEN: ${PAY_MERCHANT_TOKEN:-}
+      PAY_MERCHANT_TOKENS_JSON: ${PAY_MERCHANT_TOKENS_JSON:-}
+      # 시연 카탈로그. 풀 하나(100,262건)를 몰 셋이 공유하고 몰별 가격·재고 편차는 로더가 계산한다. 비우면 V3 시드 5건만 뜬다.
+      # 0 은 전량(약 10만 건 × 몰 셋). EC2 RAM 16GB 확인(2026-09-21). 줄이려면 앞 N 건만 싣는 N 을 준다.
+      MERCHANT_CATALOG_POOL_FILE: ${MERCHANT_CATALOG_POOL_FILE:-classpath:catalog/pool.json.gz}
+      MERCHANT_CATALOG_POOL_LIMIT: ${MERCHANT_CATALOG_POOL_LIMIT:-0}
+    depends_on:
+      merchant-db:
+        condition: service_healthy
+      pay-service:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+
+  pg-mock:
+    image: ${PG_MOCK_IMAGE:-copenhagen/pg-mock:local}
+    build:
+      context: ./backend
+      dockerfile: mocks/pg-mock/Dockerfile
+    environment:
+      PG_MOCK_OUTCOME: ${PG_MOCK_OUTCOME:-SUCCESS}
+      PG_MOCK_LOOKUP_OUTCOME: ${PG_MOCK_LOOKUP_OUTCOME:-UNKNOWN}
+      PG_MOCK_RESPONSE_DELAY_MILLIS: ${PG_MOCK_RESPONSE_DELAY_MILLIS:-0}
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+
+  core-db:
+    image: docker.io/library/postgres:17-alpine
+    environment:
+      POSTGRES_DB: core-db
+      POSTGRES_USER: ${CORE_DB_USER:-core}
+      POSTGRES_PASSWORD: ${CORE_DB_PASSWORD:-core-dev-password}
+    volumes:
+      - core-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+
+  pay-db:
+    image: docker.io/library/postgres:17-alpine
+    environment:
+      POSTGRES_DB: pay-db
+      POSTGRES_USER: ${PAY_DB_USER:-pay}
+      POSTGRES_PASSWORD: ${PAY_DB_PASSWORD:-pay-dev-password}
+    volumes:
+      - pay-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+
+  merchant-db:
+    image: docker.io/library/postgres:17-alpine
+    environment:
+      POSTGRES_DB: merchant-db
+      POSTGRES_USER: ${MERCHANT_DB_USER:-merchant}
+      POSTGRES_PASSWORD: ${MERCHANT_DB_PASSWORD:-merchant-dev-password}
+    volumes:
+      - merchant-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+
+  redis:
+    image: docker.io/library/redis:7.4-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+
+volumes:
+  core-db-data:
+  pay-db-data:
+  merchant-db-data:
+  redis-data:

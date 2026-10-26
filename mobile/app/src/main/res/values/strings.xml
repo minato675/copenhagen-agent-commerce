@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name" translatable="false">Copenhagen</string>
+    <string name="brand_logo_description">Copenhagen 로고</string>
+    <string name="harbor_splash_description">Copenhagen 시작 화면</string>
+</resources>

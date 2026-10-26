@@ -1,0 +1,30 @@
+# Gradle
+.gradle/
+**/build/
+
+# Java and IDEs
+*.class
+*.log
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+.vscode/
+
+# Operating systems
+.DS_Store
+Thumbs.db
+
+# Local configuration and secrets
+.secrets/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Runtime data
+data/
+tmp/
+docker-images/

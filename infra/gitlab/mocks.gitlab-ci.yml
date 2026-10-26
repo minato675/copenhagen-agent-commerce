@@ -1,0 +1,281 @@
+.merchant-mock-verify-rules:
+  rules:
+    - if: >-
+        ($CI_PIPELINE_SOURCE == "merge_request_event" &&
+        $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") ||
+        ($CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop")
+      changes:
+        - backend/mocks/ucp-merchant-mock/**/*
+        - backend/libs/ucp-contract/**/*
+        - backend/libs/payment-handler-contract/**/*
+        - backend/libs/test-support/**/*
+        - backend/gradle.properties
+        - backend/build.gradle
+        - backend/settings.gradle
+        - backend/gradle/**/*
+        - backend/gradlew
+        - backend/gradlew.bat
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+        - infra/gitlab/common.gitlab-ci.yml
+        - infra/gitlab/mocks.gitlab-ci.yml
+      variables:
+        REQUIRE_TEST_ARTIFACT: "true"
+
+.merchant-mock-delivery-rules:
+  rules:
+    - if: >-
+        $CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop"
+      changes:
+        - backend/mocks/ucp-merchant-mock/**/*
+        - backend/libs/ucp-contract/**/*
+        - backend/libs/payment-handler-contract/**/*
+        - backend/libs/test-support/**/*
+        - backend/gradle.properties
+        - backend/build.gradle
+        - backend/settings.gradle
+        - backend/gradle/**/*
+        - backend/gradlew
+        - backend/gradlew.bat
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+        - infra/gitlab/common.gitlab-ci.yml
+        - infra/gitlab/mocks.gitlab-ci.yml
+    - when: never
+
+.pg-mock-verify-rules:
+  rules:
+    - if: >-
+        ($CI_PIPELINE_SOURCE == "merge_request_event" &&
+        $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") ||
+        ($CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop")
+      changes:
+        - backend/mocks/pg-mock/**/*
+        - backend/libs/payment-handler-contract/**/*
+        - backend/libs/test-support/**/*
+        - backend/gradle.properties
+        - backend/build.gradle
+        - backend/settings.gradle
+        - backend/gradle/**/*
+        - backend/gradlew
+        - backend/gradlew.bat
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+        - infra/gitlab/common.gitlab-ci.yml
+        - infra/gitlab/mocks.gitlab-ci.yml
+      variables:
+        REQUIRE_TEST_ARTIFACT: "true"
+
+.pg-mock-delivery-rules:
+  rules:
+    - if: >-
+        $CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop"
+      changes:
+        - backend/mocks/pg-mock/**/*
+        - backend/libs/payment-handler-contract/**/*
+        - backend/libs/test-support/**/*
+        - backend/gradle.properties
+        - backend/build.gradle
+        - backend/settings.gradle
+        - backend/gradle/**/*
+        - backend/gradlew
+        - backend/gradlew.bat
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+        - infra/gitlab/common.gitlab-ci.yml
+        - infra/gitlab/mocks.gitlab-ci.yml
+    - when: never
+
+merchant-mock-test:
+  extends:
+    - .gradle-test-job
+    - .merchant-mock-verify-rules
+  stage: test
+  variables:
+    GRADLE_MODULE: mocks/ucp-merchant-mock
+    GRADLE_TASK: :mocks:ucp-merchant-mock:test
+
+pg-mock-test:
+  extends:
+    - .gradle-test-job
+    - .pg-mock-verify-rules
+  stage: test
+  variables:
+    GRADLE_MODULE: mocks/pg-mock
+    GRADLE_TASK: :mocks:pg-mock:test
+
+merchant-mock-build:
+  extends:
+    - .gradle-jar-job
+    - .merchant-mock-verify-rules
+  stage: build
+  needs:
+    - job: merchant-mock-test
+      artifacts: true
+      optional: true
+  variables:
+    GRADLE_MODULE: mocks/ucp-merchant-mock
+    GRADLE_TASK: :mocks:ucp-merchant-mock:bootJar
+  artifacts:
+    paths:
+      - backend/mocks/ucp-merchant-mock/build/libs/app.jar
+      - backend/mocks/ucp-merchant-mock/build/libs/app.jar.metadata
+    expire_in: 1 day
+  rules:
+    - !reference [.merchant-mock-verify-rules, rules]
+    - if: >-
+        ($CI_PIPELINE_SOURCE == "merge_request_event" &&
+        $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") ||
+        ($CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop")
+      changes:
+        - backend/**/*
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - infra/gitlab/**/*
+        - infra/nginx/**/*
+        - infra/docker/smoke.override.yml
+        - infra/docker/https.override.yml
+        - scripts/deploy-dev-nginx.sh
+        - infra/docker/smoke-gradle-cache.Dockerfile
+        - scripts/smoke-dockerfiles.py
+        - scripts/deploy-smoke.sh
+        - scripts/smoke-base.sh
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+      variables:
+        REQUIRE_TEST_ARTIFACT: "false"
+    - when: never
+
+pg-mock-build:
+  extends:
+    - .gradle-jar-job
+    - .pg-mock-verify-rules
+  stage: build
+  needs:
+    - job: pg-mock-test
+      artifacts: true
+      optional: true
+  variables:
+    GRADLE_MODULE: mocks/pg-mock
+    GRADLE_TASK: :mocks:pg-mock:bootJar
+  artifacts:
+    paths:
+      - backend/mocks/pg-mock/build/libs/app.jar
+      - backend/mocks/pg-mock/build/libs/app.jar.metadata
+    expire_in: 1 day
+  rules:
+    - !reference [.pg-mock-verify-rules, rules]
+    - if: >-
+        ($CI_PIPELINE_SOURCE == "merge_request_event" &&
+        $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") ||
+        ($CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop")
+      changes:
+        - backend/**/*
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - infra/gitlab/**/*
+        - infra/nginx/**/*
+        - infra/docker/smoke.override.yml
+        - infra/docker/https.override.yml
+        - scripts/deploy-dev-nginx.sh
+        - infra/docker/smoke-gradle-cache.Dockerfile
+        - scripts/smoke-dockerfiles.py
+        - scripts/deploy-smoke.sh
+        - scripts/smoke-base.sh
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+      variables:
+        REQUIRE_TEST_ARTIFACT: "false"
+    - when: never
+
+merchant-mock-docker-build:
+  extends:
+    - .docker-build-job
+    - .merchant-mock-delivery-rules
+  stage: docker-build
+  needs:
+    - job: deploy-smoke
+      artifacts: false
+    - job: merchant-mock-build
+      artifacts: true
+  variables:
+    GRADLE_MODULE: mocks/ucp-merchant-mock
+    CONTAINER_IMAGE: copenhagen/ucp-merchant-mock:$CI_COMMIT_SHA
+
+pg-mock-docker-build:
+  extends:
+    - .docker-build-job
+    - .pg-mock-delivery-rules
+  stage: docker-build
+  needs:
+    - job: deploy-smoke
+      artifacts: false
+    - job: pg-mock-build
+      artifacts: true
+  variables:
+    GRADLE_MODULE: mocks/pg-mock
+    CONTAINER_IMAGE: copenhagen/pg-mock:$CI_COMMIT_SHA
+
+merchant-mock-deploy-dev:
+  extends:
+    - .deploy-dev-job
+    - .merchant-mock-delivery-rules
+  stage: deploy-dev
+  needs:
+    - job: deploy-smoke
+      artifacts: false
+    - job: merchant-mock-docker-build
+      artifacts: false
+  resource_group: development-ec2
+  variables:
+    COMPOSE_SERVICE: ucp-merchant-mock
+    DEPLOY_IMAGE_VARIABLE: MERCHANT_MOCK_IMAGE
+    CONTAINER_IMAGE: copenhagen/ucp-merchant-mock:$CI_COMMIT_SHA
+
+pg-mock-deploy-dev:
+  extends:
+    - .deploy-dev-job
+    - .pg-mock-delivery-rules
+  stage: deploy-dev
+  needs:
+    - job: deploy-smoke
+      artifacts: false
+    - job: pg-mock-docker-build
+      artifacts: false
+  resource_group: development-ec2
+  variables:
+    COMPOSE_SERVICE: pg-mock
+    DEPLOY_IMAGE_VARIABLE: PG_MOCK_IMAGE
+    CONTAINER_IMAGE: copenhagen/pg-mock:$CI_COMMIT_SHA

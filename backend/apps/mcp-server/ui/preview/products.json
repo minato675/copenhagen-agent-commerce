@@ -1,0 +1,20 @@
+[
+  {
+    "id": "daiso:1032383",
+    "name": "아이스 유리컵 370 ml",
+    "imageUrl": "https://cdn.daisomall.co.kr/file/PD/20231130/rR1vmuaoqmU7Dg1oXDuB1032383_00_00rR1vmuaoqmU7Dg1oXDuB.jpg",
+    "price": 1080
+  },
+  {
+    "id": "kurly:1001817762",
+    "name": "[르난세] 밀로 머그컵 2P (3종) 택1",
+    "imageUrl": "https://3p-image.kurly.com/files/42acf0ab-1bb3-46e0-96d6-e3e8ad877b5d/7237f65a-76e3-469e-abd2-489f6f97743e.jpg",
+    "price": 12800
+  },
+  {
+    "id": "kurly:1001207887",
+    "name": "[써모스] 2WAY 스텝업 베이비보틀/컵 텀블러 5종 (택1)",
+    "imageUrl": "https://3p-image.kurly.com/files/b44ca34a-7766-4dda-b643-d9261546cea3/d2ca787c-e44a-47d7-b784-b31c7159e447.jpg",
+    "price": 25200
+  }
+]

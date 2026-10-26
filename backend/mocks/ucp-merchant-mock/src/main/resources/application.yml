@@ -1,0 +1,478 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: ucp-merchant-mock
+  datasource:
+    url: ${MERCHANT_DB_URL:jdbc:postgresql://merchant-db:5432/merchant-db}
+    username: ${MERCHANT_DB_USER:merchant}
+    password: ${MERCHANT_DB_PASSWORD:merchant-dev-password}
+    hikari:
+      data-source-properties:
+        # 카탈로그 풀 적재의 배치 INSERT 를 다중 VALUES 하나로 다시 쓴다(DESIGN.md 5.7절). 27만 행 첫 적재 시간이다.
+        reWriteBatchedInserts: true
+  flyway:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+# 이 모듈이 외부에 자신을 어떻게 소개하는지. Business Profile 이 이 값을 읽는다.
+merchant:
+  # 컨테이너 하나가 서빙하는 몰 셋(DESIGN.md 3.3·5.7절, ADR 0008). 경로의 두 번째 세그먼트가 id 다.
+  # id 는 Core services.merchants[].id, Pay 토큰 JSON 의 키와 같은 문자열이어야 한다. 이름은 임시(5.7절).
+  # 환경변수로 덮지 않는다 — Spring 은 목록을 소스 단위로 통째로 바꿔 항목 하나만 덮으면 나머지가 사라진다.
+  malls:
+    - id: merchant-a
+      seller-name: 한강마켓
+    - id: merchant-b
+      seller-name: 노을상점
+    - id: merchant-c
+      seller-name: 별빛몰
+  ucp-version: "2026-08-25"
+  currency: KRW
+  # Core 가 Profile 의 endpoint 값에서 읽어 가는 주소의 앞부분. 몰 하나의 endpoint 는 여기에 /api/ucp/v1/{id} 를 붙인 값이다.
+  public-base-url: ${MERCHANT_PUBLIC_BASE_URL:http://ucp-merchant-mock:8080}
+  # 카탈로그 풀(DESIGN.md 5.7절 2026-09-21 개정, ADR 0011). 파일 하나이고 몰 셋의 가격·재고 편차는 로더가 계산한다.
+  # 기본값은 비어 있고 그러면 로더가 아무 일도 하지 않는다. 테스트와 CI 는 V3 fixture 5건만 봐야 하므로
+  # 여기에 경로를 박지 않는다. 시연은 compose 에서 켠다. 예: classpath:catalog/pool.json.gz
+  catalog:
+    pool-file: ${MERCHANT_CATALOG_POOL_FILE:}
+    # 풀의 앞 N 건만 싣는다. 0 이면 전량. 앞 1,592건이 시연 필수라 N 은 그 이상이어야 한다.
+    # compose 기본은 30000 이고 EC2 RAM 이 확인되면 0 으로 올린다(13절).
+    pool-limit: ${MERCHANT_CATALOG_POOL_LIMIT:0}
+    # 연관 상품(DESIGN.md 6.8·6.8.1절, ADR 0014, Jira 511). 기본은 꺼짐 — 꺼져 있으면 빈을 만들지 않아 색인·이웃 파일을 읽지 않고
+    # 엔드포인트도 없다(머지 전과 같다). 켜는 것은 이 기본값을 바꾸는 후속 MR 이다. 롤백 사다리: enabled=false → mode 한 단계씩
+    # (rrf3 → rrf2 → search) → git revert.
+    related:
+      enabled: ${MERCHANT_CATALOG_RELATED_ENABLED:false}
+      mode: ${MERCHANT_CATALOG_RELATED_MODE:rrf3}
+      neighbors-file: ${MERCHANT_CATALOG_RELATED_NEIGHBORS_FILE:classpath:catalog/related-e5nb.bin.gz}
+    # 검색 점수 조정값(DESIGN.md 6.7절, ADR 0012·0013). attribute-words 를 비우고 tail-boost 1.5 면 2차(A10) 점수 규칙,
+    # nori 를 끄면 검색어 정제도 빠져 A10 그 자체다. 3차(S19)의 여덟 규칙은 ADR 0013.
+    search:
+      # 검색어 정제(nori). 어절마다 서술어·조사를 걷어낸다. 상품 색인에는 쓰지 않는다
+      nori: true
+      # 수식어·속성·규격(숫자 든 토큰)·한 글자 토큰의 가중치 배율
+      fluff-weight: 0.2
+      # 머리 명사 가중치의 최솟값. 실제 가중치는 max(tail-boost, 나머지 토큰 가중치 합 + 0.5) — 머리 명사만 맞은 상품이
+      # 수식어 전부 맞은 상품보다 항상 위다
+      tail-boost: 1.5
+      # 속성 낱말(ADR 0013 규칙 6). 상품군이 아니라 규격·용량·형태·용도·등급·색상을 말하는 낱말. 검색어 뒤에 와도("우유 대용량",
+      # "가습기 소형") 머리 명사가 되지 않고 0.2 로 깎인다. 검색어가 전부 속성·수식어면 깎지 않는다. 일반 지식으로 적었고
+      # 실제 호출자(Haiku) query 251개에서 이 목록이 가장 큰 개선 고리였다(장부 3.9절). 숫자가 든 토큰(500ml·10kg)은 목록 없이 규격
+      attribute-words:
+        # 크기·규격
+        - 소형
+        - 중형
+        - 대형
+        - 특대
+        - 미니
+        - 초소형
+        - 라지
+        - 스몰
+        - 미디움
+        - 미디엄
+        - 사이즈
+        - 싱글
+        - 더블
+        - 퀸
+        - 킹
+        - 슈퍼싱글
+        - 1인용
+        - 2인용
+        - 3인용
+        - 4인용
+        - 5인용
+        - 6인용
+        - 1인
+        - 2인
+        - 4인
+        # 용량·수량
+        - 대용량
+        - 소용량
+        - 리필
+        - 세트
+        - 묶음
+        - 낱개
+        - 벌크
+        - 패밀리
+        - 점보
+        # 형태·방식
+        - 자동
+        - 수동
+        - 반자동
+        - 접이식
+        - 휴대용
+        - 무선
+        - 유선
+        - 충전식
+        - 건전지식
+        - 일회용
+        - 다회용
+        - 스탠드형
+        - 벽걸이형
+        - 탁상용
+        # 용도·대상
+        - 가정용
+        - 업소용
+        - 사무용
+        - 차량용
+        - 여행용
+        - 선물용
+        - 남성용
+        - 여성용
+        - 아동용
+        - 유아용
+        - 성인용
+        - 남녀공용
+        - 공용
+        # 등급·상태
+        - 프리미엄
+        - 고급
+        - 고급형
+        - 일반
+        - 기본
+        - 기본형
+        - 신형
+        - 구형
+        - 신상
+        - 최신
+        - 정품
+        - 국내산
+        - 국산
+        - 수입
+        - 수입산
+        - 유기농
+        # 색상
+        - 화이트
+        - 블랙
+        - 그레이
+        - 네이비
+        - 베이지
+        - 브라운
+        - 레드
+        - 블루
+        - 그린
+        - 핑크
+        - 옐로우
+        - 퍼플
+        - 아이보리
+        - 카키
+        - 실버
+        - 골드
+        - 흰색
+        - 검정
+        - 검은색
+        - 회색
+        - 빨강
+        - 파랑
+        - 노랑
+        - 분홍
+        - 초록
+        - 투명
+      # 정보가 없는 수식어. 이 낱말만으로 검색하면 감쇠하지 않는다(그때는 그것이 검색어다).
+      fluff-words:
+        - 맛있는
+        - 신선한
+        - 저렴한
+        - 싼
+        - 가벼운
+        - 좋은
+        - 예쁜
+        - 튼튼한
+        - 괜찮은
+        - 인기
+        - 베스트
+        - 최고
+        - 제일
+        - 가장
+        - 추천
+        - 추천해줘
+        - 추천해
+        - 찾아줘
+        - 보여줘
+        - 알려줘
+        - 이하
+        - 이상
+        - 미만
+        - 만원
+        - 원
+        - 정도
+        - 쯤
+        - 좀
+      # 펫 상품 뒤로(4차, DESIGN.md 6.7절 규칙 10). 검색어에 반려동물 낱말이 없으면 같은 점수 안에서 펫 상품을 뒤로 보낸다.
+      # "치즈" 에 펫 치즈 간식, "간식" 에 강아지 간식이 먼저 나오던 것을 겨눈다. 세 목록을 다 비우면 규칙이 꺼진다.
+      # pet-query-words 는 검색어 안 부분문자열, pet-query-tokens 는 공백으로 가른 낱말 하나와 같아야 한다
+      # ("계란 10개" 의 "개" 가 걸리지 않게)
+      pet-query-words: ["펫", "강아지", "고양이", "반려", "애견", "애완", "사료", "캣", "냥", "댕", "개사료", "개껌"]
+      pet-query-tokens: ["개"]
+      # 제목이나 카테고리에 하나라도 있으면 펫 상품
+      pet-product-markers: ["[펫]", "펫생각", "반려", "강아지", "고양이", "애견"]
+      # 머리 명사 불가 사전(5차, DESIGN.md 6.7절 규칙 13). 3차 속성 사전처럼 일반 지식으로 부류를 정해 적었다(풀 통계로 고르지
+      # 않는다 — 3차 S17 실패). 쓰는 곳(신체 부위) · 쓰는 사람 · 성능·효과·문제를 말하는 명사. "핸드크림 손톱" 의 손톱이 머리가 되어
+      # 손톱깎이가 오던 것을 겨눈다. 세 글자 이상이고 "용" 으로 끝나는 토큰(캠핑용·피부용)은 코드가 같은 취급을 한다
+      head-blocked-words:
+        # 신체 부위
+        - 겨드랑이
+        - 눈가
+        - 두피
+        - 머릿결
+        - 모발
+        - 무릎
+        - 발목
+        - 발바닥
+        - 발톱
+        - 손가락
+        - 손목
+        - 손톱
+        - 어깨
+        - 얼굴
+        - 입술
+        - 잇몸
+        - 치아
+        - 피부
+        - 허리
+        # 대상 사람
+        - 남성
+        - 남자
+        - 노인
+        - 부모님
+        - 성인
+        - 신생아
+        - 아기
+        - 아동
+        - 아빠
+        - 아이
+        - 어르신
+        - 어린이
+        - 엄마
+        - 여성
+        - 여자
+        - 유아
+        - 임산부
+        - 자취생
+        - 직장인
+        - 초등학생
+        - 키즈
+        - 학생
+        # 성능·효과·문제
+        - 가성비
+        - 각질
+        - 고단백
+        - 고속충전
+        - 급속충전
+        - 내구성
+        - 냄새
+        - 루즈핏
+        - 무게
+        - 무설탕
+        - 무소음
+        - 미백
+        - 발열
+        - 방수
+        - 방풍
+        - 보냉
+        - 보습
+        - 보온
+        - 비듬
+        - 사이즈
+        - 색깔
+        - 색상
+        - 성능
+        - 소음
+        - 스트레스
+        - 슬림핏
+        - 안전
+        - 여드름
+        - 예방
+        - 오버핏
+        - 용량
+        - 저당
+        - 저소음
+        - 저칼로리
+        - 진정
+        - 충전
+        - 충치
+        - 컬러
+        - 크기
+        - 탈모
+        - 트러블
+        - 피로
+        - 흡입력
+      # 부속품 뒤로(5차 규칙 14). 제목 낱말이나 카테고리 말단 조각이 이 낱말로 끝나면 부속품으로 보고 같은 점수 안에서 뒤로 보낸다
+      # (운동화끈·칫솔 캡·신발 정리대·이어폰소품). 그 낱말이 검색어나 머리 명사에 있으면 빼고. 리필·파우치는 넣지 않는다 — 샴푸
+      # 리필은 샴푸다
+      accessory-words: ["끈", "솔", "클리너", "커버", "케이스", "거치대", "걸이", "꽂이", "캡", "틀", "보관함", "정리함", "정리대", "탈취제", "세정제", "세척제", "세탁망", "스티커", "패드", "용기", "받침대", "받침", "안전망", "홀더", "스탠드", "필터", "가방"]
+      accessory-title-words: ["건조대"]
+      accessory-category-words: ["소품"]
+      # 머리 명사가 가방 종류면 bag-word 를 부속품에서 뺀다. 다이소 백팩의 말단 칸이 "가방" 이라 진짜 백팩이 뒤로 갔다(장부 10절)
+      bag-heads: ["가방", "백팩", "배낭", "크로스백", "토트백", "숄더백", "에코백"]
+      bag-word: "가방"
+    # 검색 동의어 묶음(470, DESIGN.md 5.7절). 한 묶음 안의 낱말은 서로를 대신한다.
+    #
+    # 카테고리 매칭만으로는 한글 합성어가 안 이어진다. "운동화" 로 쳐도 러닝화 상품의 카테고리가
+    # "스포츠/레저 > 스포츠화" 라 토큰이 없어 안 걸린다(실측 2건). 이 묶음이 그 구멍을 메운다(11건).
+    #
+    # 묶음은 좁게 잡는다. 상위어를 넣으면 정밀도가 무너진다 — "오일" 을 넣었더니 "올리브유" 검색에
+    # 클렌징 오일·립 오일까지 48건이 걸렸다. 같은 물건을 가리키는 말만 넣는다.
+    synonyms:
+      - ["신발", "운동화", "러닝화", "런닝화", "스니커즈", "워킹화", "스포츠화"]
+      - ["올리브유", "올리브오일"]
+      - ["참기름", "참깨기름"]
+      # "노트북 ↔ 랩탑" 은 넣었다가 뺐다. 실측에서 "랩탑 파워뱅크"(보조배터리)가 진짜 노트북보다
+      # 위로 올라왔다. 같은 물건을 가리키는 말이어도 다른 물건 이름에 그 낱말이 박혀 있으면 해가 된다.
+      - ["이어폰", "이어버드"]
+      - ["텀블러", "보온병"]
+      # 영문 브랜드와 표기 흔들림(6.7절 A2). 실측에서 nike·adidas·요쿠르트가 0건이었다.
+      - ["nike", "나이키"]
+      - ["adidas", "아디다스"]
+      - ["puma", "푸마"]
+      - ["newbalance", "뉴발란스"]
+      - ["요쿠르트", "요거트"]
+      - ["초콜렛", "초콜릿"]
+      # 영어 → 한국어(3차, ADR 0013). Haiku 가 영어 발화를 그대로 넘긴다(milk·tent·cheese …). 실측에서 의미 검색(pgvector)이 유일하게
+      # 이긴 자리가 이거였고 여섯 줄로 같은 효과가 난다
+      - ["milk", "우유"]
+      - ["water", "생수"]
+      - ["cheese", "치즈"]
+      - ["tent", "텐트"]
+      - ["keyboard", "키보드"]
+      - ["t-shirt", "tshirt", "티셔츠"]
+      # 4차(DESIGN.md 6.7절 규칙 11). 컬리는 달걀로 쓴다 — 풀 1,146건 중 제목에 계란이 든 것은 8건이고 나머지 계란 검색 결과는
+      # 계란 틀·보관함·타이머였다
+      - ["계란", "달걀"]
+  checkout:
+    # 서명 시각 + 이 값이 expires_at 이다. 설계서 D-03.
+    ttl: PT5M
+    # 만료 스윕 워커(DESIGN.md 7.1절). @Scheduled 가 읽으므로 MerchantProperties 를 거치지 않는다.
+    sweep-interval: PT30S
+    sweep-batch-size: 100
+    # 시나리오 COMPLETE_TIMEOUT_BEFORE_PROCESS·AFTER_ORDER 가 켜졌을 때 Complete 가 기다리는 시간(176, DESIGN.md 9.3절).
+    # Core 의 요청 타임아웃보다 길어야 응답 유실이 재현된다. 꺼져 있으면 안 읽는다.
+    scenario-delay: PT10S
+  fulfillment:
+    # 기본 배송비. 0 이라 일반 지역은 무료 배송이고 도서산간에서만 배송비를 받는다(427).
+    # 배송 불가 지역은 시나리오 API 로 만든다.
+    flat-fee: 0
+    # 도서산간 추가금 구간(427, DESIGN.md 7.1절, ADR 0009).
+    #
+    # 목록은 우체국의 "우편물 송달기준 적용 곤란지역" 이다. 그 기준이 우편번호가 아니라 군·면·섬 이름으로
+    # 돼 있어서 판정 키를 둘 둔다. 제주처럼 대역이 뚜렷한 곳은 postal-prefixes 로, 나머지 섬들은
+    # address-keywords 로 잡는다. exclude-keywords 는 원문의 "~를 제외한 전 지역" 이다.
+    #
+    # 위에서부터 보고 먼저 걸리는 하나만 쓴다. 도서산간을 제주보다 위에 두는 이유는 추자도·우도처럼
+    # 제주 우편번호를 쓰면서 도서산간으로 분류되는 부속섬이 있어서다.
+    remote-areas:
+      - name: 도서산간
+        surcharge: 5000
+        postal-prefixes: ["402"]
+        address-keywords:
+          # 인천 무의도·강화 3개 면·옹진군 전 지역
+          ["무의도", "교동면", "삼산면", "서도면", "옹진군",
+           # 경기 안산 풍도, 화성 섬
+           "풍도", "제부도", "국화도", "음도", "어도", "형도",
+           # 경남 통영 섬, 경북 울릉군 전 지역
+           "한산면", "욕지면", "사량면", "울릉군",
+           # 전남 목포·여수·강진·고흥·구례·무안·보성
+           "달동", "남면", "화정면", "삼간도", "가우도",
+           "상화도", "하화도", "시산도", "득도", "사양도", "봉호도", "연홍도", "죽도",
+           "심원", "탄도", "장도",
+           # 전남 신안·완도·영광·진도·해남
+           "신안군", "완도군", "낙월면", "조도면", "저도", "금호도", "구자도",
+           "상마도", "중마도", "하마도", "어불도",
+           # 전북 군산, 충남 보령·서산·서천·태안
+           "비안도", "두리도", "오천면", "웅도", "우도", "분점도", "고파도", "유부도", "가의도",
+           # 제주 부속섬
+           "추자"]
+        exclude-keywords:
+          # 원문의 제외 지역. 옹진군 북도면·영흥면, 통영 광도면, 신안 압해읍·증도면·지도읍,
+          # 완도 완도읍·군외면·고금면·신지면·약산면
+          ["북도면", "영흥면", "광도면", "압해읍", "증도면", "지도읍",
+           "완도읍", "군외면", "고금면", "신지면", "약산면"]
+      - name: 제주
+        surcharge: 3000
+        postal-prefixes: ["63"]
+  signing:
+    # Merchant Authorization 서명 키. ES256 Compact JWS(DESIGN.md 6.4절).
+    kid: ${MERCHANT_SIGNING_KID:merchant-a-es256-1}
+    algorithm: ES256
+    # 개인키는 설정 파일에 넣지 않는다(설계서 18.5). 둘 중 하나만 채운다.
+    # 둘 다 비어 있으면 기동 때 임시 키 쌍을 만들어 그 공개 절반을 Profile 에 싣는다(3.5절). 재기동하면 키가 바뀐다.
+    private-key-location: ${MERCHANT_SIGNING_PRIVATE_KEY_LOCATION:}
+    private-key-pem: ${MERCHANT_SIGNING_PRIVATE_KEY_PEM:}
+    # Profile 의 keys[] 에 그대로 실린다. 공개키라 값이 노출돼도 된다.
+    # 개발용 키 한 쌍의 공개 절반이다. 개인키는 코펜하겐 폴더 keys/ 에 있고 Git 밖이다.
+    # 환경변수 MERCHANT_SIGNING_PUBLIC_KEY_JWK 로 덮을 수 있다. 플레이스홀더 기본값으로 쓰면
+    # JSON 의 중괄호가 ${...} 를 일찍 닫아 버리므로 리터럴로 둔다.
+    public-key-jwk: '{"kty":"EC","crv":"P-256","x":"Kv4fWw_TEzEQ2EOMOgsbIyH9314FhRdQknrvaPY5Q3Q","y":"d989gH2qhu_9cnv2pmrZs_rlT3kso94QTC_VXvkzEmc","use":"sig","alg":"ES256","kid":"merchant-a-es256-1"}'
+  # Profile 에 광고할 Capability. AP2-like 는 네임스페이스가 Core·Pay 와 합의되면 켠다.
+  capabilities:
+    ap2-like:
+      enabled: ${MERCHANT_AP2_LIKE_ENABLED:false}
+      namespace: com.copenhagen.payment.ap2_like
+  # 이게 없으면 Core 가 결제 흐름을 태우지 않는다. 이름은 미확정이라 설정으로 뺐다.
+  payment-handler:
+    namespace: ${MERCHANT_PAYMENT_HANDLER_NAMESPACE:com.copenhagen.pay}
+    id: copenhagen-pay-handler
+    version: "1"
+  # Checkout Mandate 서명자로 인정할 Platform 목록. 현재 Core 하나.
+  trusted-platforms:
+    - id: core
+      profile-url: ${CORE_SERVICE_URL:http://core-service:8080}/.well-known/ucp
+  scenario:
+    # 시나리오 제어 API 가 바꾸기 전 기본값. default 는 Java 예약어라 initial 로 둔다.
+    initial: NORMAL
+  webhook:
+    # 발송 실패 n회 뒤 다음 시도까지 retry-initial-delay × 2^(n-1). 넘기면 184 워커가 FAILED 로 닫는다(DESIGN.md 7.4절).
+    # 새 행의 next_attempt_at 도 now + retry-initial-delay 다. 첫 시도는 커밋 직후 스레드 몫이고 워커는 그 뒤를 받는다(8.7절).
+    retry-initial-delay: PT10S
+    retry-max-attempts: 8
+    # 재전송 워커(184, DESIGN.md 8.7절).
+    retry-enabled: true
+    retry-interval: PT15S
+    retry-batch-size: 100
+    # 집을 때 next_attempt_at 을 이만큼 민다. 같은 행을 두 번 보내지 않기 위해서다.
+    retry-lease: PT1M
+    # 시나리오 WEBHOOK_DELAYED 가 켜졌을 때 보내기 전에 기다리는 시간(185, DESIGN.md 9.3절). 꺼져 있으면 안 읽는다.
+    scenario-delay: PT5S
+
+core:
+  # Platform Profile 을 가져오는 데만 쓴다. 웹훅 주소는 Profile 의 dev.ucp.shopping.order config.webhook_url 에서 읽는다.
+  base-url: ${CORE_SERVICE_URL:http://core-service:8080}
+  # Profile 을 못 읽거나 webhook_url 이 없을 때만. Core OrderWebhookController 와 technical-flow 8절의 경로다(ADR 0010, DESIGN.md 8.6절).
+  webhook-url-fallback: ${CORE_WEBHOOK_URL:}
+  profile-cache: PT5M
+  connect-timeout: PT1S
+  request-timeout: PT3S
+
+services:
+  pay:
+    base-url: ${PAY_SERVICE_URL:http://pay-service:8080}
+    # Pay 가 merchant-a 에 매핑해 둔 정적 Bearer 토큰(DESIGN.md 19.5절). Pay 쪽은 PAY_AUTH_MERCHANT_SERVICE_TOKENS_JSON.
+    # 비어 있어도 기동은 된다. 첫 청구에서 Pay 가 401 을 돌려주고 결제는 FAILED 로 남는다.
+    bearer-token: ${PAY_MERCHANT_TOKEN:}
+    # 몰별 토큰(393). Pay 는 토큰 하나를 merchantId 하나에 매핑하므로 몰 셋이면 토큰 셋이다.
+    # 예: {"merchant-a":"...","merchant-b":"...","merchant-c":"..."}. 여기 없는 몰은 bearer-token 을 쓴다.
+    bearer-tokens-json: ${PAY_MERCHANT_TOKENS_JSON:}
+    # Pay 자신의 기본값과 같다. 넘으면 UNKNOWN 이고 재청구하지 않는다(DESIGN.md 8.3절).
+    connect-timeout: PT1S
+    request-timeout: PT3S
+    # UNKNOWN 재조회 워커(183, DESIGN.md 8.8절). 재청구가 아니라 조회다.
+    recheck-enabled: true
+    recheck-interval: PT30S
+    recheck-batch-size: 100
+    # 집을 때 payment_next_attempt_at 을 이만큼 민다. 같은 행을 두 번 묻지 않기 위해서다.
+    recheck-lease: PT2M
+    # 확인 실패 n회 뒤 다음 확인까지 recheck-initial-delay × 2^(n-1).
+    # 한도를 넘기면 상태를 바꾸지 않고 스캔에서만 뺀다. UNKNOWN 이 곧 사람이 봐야 하는 상태다.
+    recheck-initial-delay: PT30S
+    recheck-max-attempts: 10

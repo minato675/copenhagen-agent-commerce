@@ -1,0 +1,51 @@
+{
+  "source": "테스트 픽스처",
+  "baseCount": 2,
+  "count": 3,
+  "products": [
+    {
+      "externalId": "kurly:1000000001",
+      "title": "시드 상품 하나",
+      "category": "유제품 > 우유",
+      "brand": "테스트브랜드",
+      "imageUrl": "https://cdn.example.test/seed-1.jpg",
+      "basePrice": 12000,
+      "currency": "KRW",
+      "status": "ACTIVE",
+      "variants": [
+        {"sku": "kurly:1000000001-SKU1", "optionName": "option", "optionValue": "기본",
+         "priceDelta": 0, "stock": 100, "status": "ACTIVE"},
+        {"sku": "kurly:1000000001-SKU2", "optionName": "option", "optionValue": "대용량",
+         "priceDelta": 3000, "stock": 100, "status": "ACTIVE"}
+      ]
+    },
+    {
+      "externalId": "daiso:2000000002",
+      "title": "시드 상품 둘",
+      "category": "주방용품 > 컵",
+      "brand": "",
+      "imageUrl": "https://cdn.example.test/seed-2.jpg",
+      "basePrice": 3000,
+      "currency": "KRW",
+      "status": "ACTIVE",
+      "variants": [
+        {"sku": "daiso:2000000002-default", "optionName": "option", "optionValue": "기본",
+         "priceDelta": 0, "stock": 100, "status": "ACTIVE"}
+      ]
+    },
+    {
+      "externalId": "danawa:3000000003",
+      "title": "시드 상품 셋",
+      "category": "PC 주요 부품 > 키보드",
+      "brand": "",
+      "imageUrl": "https://cdn.example.test/seed-3.jpg",
+      "basePrice": 45000,
+      "currency": "KRW",
+      "status": "ACTIVE",
+      "variants": [
+        {"sku": "danawa:3000000003-default", "optionName": "option", "optionValue": "기본",
+         "priceDelta": 0, "stock": 100, "status": "ACTIVE"}
+      ]
+    }
+  ]
+}

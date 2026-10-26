@@ -1,0 +1,41 @@
+plugins {
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    id 'java'
+}
+
+dependencies {
+    implementation project(':libs:payment-handler-contract')
+    implementation project(':libs:internal-api-contract')
+    implementation libs.spring.boot.starter.web
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.security:spring-security-crypto'
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.80'
+    implementation libs.nimbus.jose.jwt
+    implementation libs.json.canonicalization
+    implementation libs.firebase.admin
+    implementation libs.spring.boot.starter.actuator
+    implementation libs.spring.boot.starter.jdbc
+    implementation libs.spring.boot.flyway
+    implementation libs.flyway.core
+    runtimeOnly libs.flyway.postgresql
+    runtimeOnly libs.postgresql
+
+    testImplementation libs.spring.boot.starter.test
+    testImplementation project(':libs:test-support')
+    testImplementation 'io.zonky.test:embedded-postgres:2.2.2'
+    testImplementation enforcedPlatform('io.zonky.test.postgres:embedded-postgres-binaries-bom:17.9.0')
+}
+
+tasks.named('test') {
+    useJUnitPlatform { excludeTags 'postgres' }
+}
+
+tasks.register('postgresTest', Test) {
+    description = 'Runs reconciliation tests with a disposable real PostgreSQL instance.'
+    group = 'verification'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    useJUnitPlatform { includeTags 'postgres' }
+    shouldRunAfter tasks.named('test')
+}

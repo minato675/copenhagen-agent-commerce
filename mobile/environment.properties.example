@@ -1,0 +1,5 @@
+CORE_BASE_URL=https://core.example.com/
+PAY_BASE_URL=https://pay.example.com/
+# 개발 PC에서 실제로 공개한 PG Mock 포트 또는 개발 게이트웨이 주소
+PG_MOCK_BASE_URL=http://10.0.2.2:8082/
+APP_LINK_HOST=links.example.com

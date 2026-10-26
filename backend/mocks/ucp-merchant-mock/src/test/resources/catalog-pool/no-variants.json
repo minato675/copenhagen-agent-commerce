@@ -1,0 +1,14 @@
+{
+  "count": 1,
+  "products": [
+    {
+      "externalId": "kurly:1000000009",
+      "title": "옵션이 없는 상품",
+      "imageUrl": "https://cdn.example.test/seed-9.jpg",
+      "basePrice": 5000,
+      "currency": "KRW",
+      "status": "ACTIVE",
+      "variants": []
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: mcp-server
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+services:
+  core:
+    auth:
+      enabled: ${CORE_SERVICE_AUTH_ENABLED:false}
+      token-uri: ${CORE_TOKEN_URI:}
+      client-id: ${CORE_MCP_CLIENT_ID:copenhagen-mcp}
+      private-jwk-file: ${CORE_MCP_PRIVATE_JWK_FILE:}
+    base-url: ${CORE_SERVICE_URL:http://core-service:8080}
+    connect-timeout: ${CORE_CONNECT_TIMEOUT:2s}
+    request-timeout: ${CORE_REQUEST_TIMEOUT:5s}
+    max-response-bytes: ${CORE_MAX_RESPONSE_BYTES:262144}
+
+mcp:
+  integration:
+    enabled: ${MCP_INTEGRATION_ENABLED:false}
+  handoff:
+    enabled: ${MCP_HANDOFF_ENABLED:false}
+    write-scopes: ${MCP_HANDOFF_WRITE_SCOPES:}
+    link-base: ${MCP_HANDOFF_LINK_BASE:}
+  cart:
+    enabled: ${MCP_CART_ENABLED:false}
+    read-scopes: ${MCP_CART_READ_SCOPES:}
+    write-scopes: ${MCP_CART_WRITE_SCOPES:}
+  catalog:
+    enabled: ${MCP_CATALOG_ENABLED:false}
+    detail-enabled: ${MCP_CATALOG_DETAIL_ENABLED:false}
+    required-scopes: ${MCP_CATALOG_REQUIRED_SCOPES:}
+  ui:
+    enabled: ${MCP_UI_ENABLED:false}
+  merchants:
+    enabled: ${MCP_MERCHANTS_ENABLED:false}
+    required-scopes: ${MCP_MERCHANTS_REQUIRED_SCOPES:}
+  auth:
+    jwt:
+      enabled: ${MCP_AUTH_JWT_ENABLED:false}
+      jwks-uri: ${MCP_AUTH_JWKS_URI:}
+    issuer: ${MCP_AUTH_ISSUER:}
+    resource: ${MCP_AUTH_RESOURCE:}
+    required-scopes: ${MCP_AUTH_REQUIRED_SCOPES:}
+  server:
+    request-timeout: ${MCP_REQUEST_TIMEOUT:10s}
+    max-request-bytes: ${MCP_MAX_REQUEST_BYTES:262144}
+    allowed-origins: ${MCP_ALLOWED_ORIGINS:http://localhost:*,http://127.0.0.1:*}
+    allowed-hosts: ${MCP_ALLOWED_HOSTS:localhost:*,127.0.0.1:*,[::1]:*,mcp-server:*}

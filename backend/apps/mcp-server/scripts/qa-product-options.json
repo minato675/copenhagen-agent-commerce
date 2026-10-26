@@ -1,0 +1,12 @@
+{
+  "format": 1,
+  "mode": "QA",
+  "note": "Local demonstration selections, not verified seller SKUs or stock. Source variants take precedence.",
+  "products": {
+    "danawa:42339224": {
+      "colors": ["라이트블루", "다크네이비", "아이보리"],
+      "sizesMm": [230, 240, 250, 260, 270, 280],
+      "evidence": "The provided bundle has no product_variants, colors_json or sizes_json for this product. Light blue appears in specs; comparison color links do not establish purchasable SKU combinations. All combinations and availability here are synthetic."
+    }
+  }
+}

@@ -1,0 +1,32 @@
+plugins {
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    id 'java'
+}
+
+dependencies {
+    implementation project(':libs:ucp-contract')
+    implementation project(':libs:internal-api-contract')
+    implementation libs.spring.boot.starter.web
+    implementation libs.spring.boot.starter.actuator
+    implementation libs.spring.boot.starter.jdbc
+    implementation 'org.springframework.security:spring-security-crypto'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation libs.nimbus.jose.jwt
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.80'
+    implementation libs.spring.boot.flyway
+    implementation libs.flyway.core
+    runtimeOnly libs.flyway.postgresql
+    runtimeOnly libs.postgresql
+
+    testImplementation libs.spring.boot.starter.test
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testImplementation project(':libs:test-support')
+}
+
+tasks.withType(Test).configureEach {
+    // CI 콘솔에도 DB 연결 실패 등 최하위 예외의 메시지를 남긴다.
+    testLogging {
+        exceptionFormat = 'full'
+    }
+}

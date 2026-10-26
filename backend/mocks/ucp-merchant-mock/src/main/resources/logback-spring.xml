@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  로그 한 줄에 추적 식별자 다섯을 찍는다(DESIGN.md 12.1절, Jira 187).
+  req=requestId co=checkoutId pay=paymentId ord=orderId wh=webhookId. 비어 있으면 빈 칸이다.
+  audit 로거는 한 줄 JSON 을 그대로 내보낸다. 접두어 AUDIT 로 grep 한다.
+-->
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <appender name="APP" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %5p [%15.15t] %-36.36logger{36} req=%X{requestId:-} co=%X{checkoutId:-} pay=%X{paymentId:-} ord=%X{orderId:-} wh=%X{webhookId:-} : %m%n%wEx</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="AUDIT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} AUDIT %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="audit" level="INFO" additivity="false">
+        <appender-ref ref="AUDIT"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="APP"/>
+    </root>
+</configuration>

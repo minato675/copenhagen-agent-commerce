@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AdaptiveIconDrawable enlarges the layer to 150% of the visible icon.
+     Counter that overscan so the padded source retains its original visible margins. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:inset="16.6667%">
+    <bitmap android:src="@drawable/copenhagen_launcher_artwork"
+        android:gravity="fill" android:filter="true" />
+</inset>

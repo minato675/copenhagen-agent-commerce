@@ -1,0 +1,141 @@
+.pay-verify-rules:
+  rules:
+    - if: >-
+        ($CI_PIPELINE_SOURCE == "merge_request_event" &&
+        $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") ||
+        ($CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop")
+      changes:
+        - backend/apps/pay-service/**/*
+        - backend/libs/payment-handler-contract/**/*
+        - backend/libs/internal-api-contract/**/*
+        - backend/libs/test-support/**/*
+        - backend/gradle.properties
+        - backend/build.gradle
+        - backend/settings.gradle
+        - backend/gradle/**/*
+        - backend/gradlew
+        - backend/gradlew.bat
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+        - infra/gitlab/common.gitlab-ci.yml
+        - infra/gitlab/pay.gitlab-ci.yml
+      variables:
+        REQUIRE_TEST_ARTIFACT: "true"
+
+.pay-delivery-rules:
+  rules:
+    - if: >-
+        $CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop"
+      changes:
+        - backend/apps/pay-service/**/*
+        - backend/libs/payment-handler-contract/**/*
+        - backend/libs/internal-api-contract/**/*
+        - backend/libs/test-support/**/*
+        - backend/gradle.properties
+        - backend/build.gradle
+        - backend/settings.gradle
+        - backend/gradle/**/*
+        - backend/gradlew
+        - backend/gradlew.bat
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+        - infra/gitlab/common.gitlab-ci.yml
+        - infra/gitlab/pay.gitlab-ci.yml
+    - when: never
+
+pay-test:
+  extends:
+    - .gradle-test-job
+    - .pay-verify-rules
+  stage: test
+  variables:
+    GRADLE_MODULE: apps/pay-service
+    GRADLE_TASK: :apps:pay-service:test
+
+pay-build:
+  extends:
+    - .gradle-jar-job
+    - .pay-verify-rules
+  stage: build
+  needs:
+    - job: pay-test
+      artifacts: true
+      optional: true
+  variables:
+    GRADLE_MODULE: apps/pay-service
+    GRADLE_TASK: :apps:pay-service:bootJar
+  artifacts:
+    paths:
+      - backend/apps/pay-service/build/libs/app.jar
+      - backend/apps/pay-service/build/libs/app.jar.metadata
+    expire_in: 1 day
+  rules:
+    - !reference [.pay-verify-rules, rules]
+    - if: >-
+        ($CI_PIPELINE_SOURCE == "merge_request_event" &&
+        $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") ||
+        ($CI_PIPELINE_SOURCE == "push" &&
+        $CI_COMMIT_BRANCH == "develop")
+      changes:
+        - backend/**/*
+        - .gitlab-ci.yml
+        - docker-compose.yml
+        - infra/gitlab/**/*
+        - infra/nginx/**/*
+        - infra/docker/smoke.override.yml
+        - infra/docker/https.override.yml
+        - scripts/deploy-dev-nginx.sh
+        - infra/docker/smoke-gradle-cache.Dockerfile
+        - scripts/smoke-dockerfiles.py
+        - scripts/deploy-smoke.sh
+        - scripts/smoke-base.sh
+        - scripts/deploy-dev-service.sh
+        - scripts/ci-jar.sh
+        - scripts/build-ci-jar.sh
+        - scripts/build-ci-image.sh
+        - scripts/run-ci-gradle.sh
+      variables:
+        REQUIRE_TEST_ARTIFACT: "false"
+    - when: never
+
+pay-docker-build:
+  extends:
+    - .docker-build-job
+    - .pay-delivery-rules
+  stage: docker-build
+  needs:
+    - job: deploy-smoke
+      artifacts: false
+    - job: pay-build
+      artifacts: true
+  variables:
+    GRADLE_MODULE: apps/pay-service
+    CONTAINER_IMAGE: copenhagen/pay-service:$CI_COMMIT_SHA
+
+pay-deploy-dev:
+  extends:
+    - .deploy-dev-job
+    - .pay-delivery-rules
+  stage: deploy-dev
+  needs:
+    - job: deploy-smoke
+      artifacts: false
+    - job: pay-docker-build
+      artifacts: false
+  resource_group: development-ec2
+  variables:
+    COMPOSE_SERVICE: pay-service
+    DEPLOY_IMAGE_VARIABLE: PAY_IMAGE
+    CONTAINER_IMAGE: copenhagen/pay-service:$CI_COMMIT_SHA

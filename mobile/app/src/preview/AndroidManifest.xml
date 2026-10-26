@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application android:name=".PreviewApplication" android:label="Copenhagen · 테스트"
+        android:networkSecurityConfig="@xml/preview_network_security"
+        tools:replace="android:label">
+        <meta-data android:name="firebase_messaging_auto_init_enabled" android:value="false" />
+        <meta-data android:name="firebase_analytics_collection_enabled" android:value="false" />
+        <meta-data android:name="firebase_messaging_installation_id_enabled" android:value="false"
+            tools:replace="android:value" />
+        <activity android:name=".MainActivity" tools:node="remove" />
+        <activity android:name=".ApprovalActivity" tools:node="remove" />
+        <service android:name=".ApprovalMessagingService" tools:node="remove" />
+        <provider android:name="com.google.firebase.provider.FirebaseInitProvider" tools:node="remove" />
+        <receiver android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver" tools:node="remove" />
+        <service android:name="com.google.firebase.messaging.FirebaseMessagingService" tools:node="remove" />
+        <service android:name="com.google.firebase.components.ComponentDiscoveryService" tools:node="remove" />
+        <activity android:name=".PreviewApprovalActivity" android:exported="false"
+            android:launchMode="singleTask" android:taskAffinity=""
+            android:excludeFromRecents="true" android:windowSoftInputMode="adjustResize" />
+        <receiver android:name=".PreviewNotificationReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.copenhagen.wallet.preview.NOTIFY" />
+            </intent-filter>
+        </receiver>
+        <activity android:name=".PreviewActivity" android:exported="true"
+            android:launchMode="singleTop" android:theme="@style/Theme.Copenhagen.Starting"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

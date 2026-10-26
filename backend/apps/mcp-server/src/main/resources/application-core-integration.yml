@@ -1,0 +1,19 @@
+# Core OAuth/API 및 MCP 서비스 인증 키가 준비된 서버에서만 활성화한다.
+mcp:
+  integration:
+    enabled: true
+  auth:
+    resource: ${MCP_AUTH_RESOURCE:https://j15a207.p.ssafy.io/mcp}
+    required-scopes: catalog:read,cart:read,cart:write
+    jwt:
+      enabled: true
+  ui:
+    enabled: true
+  server:
+    allowed-hosts: ${MCP_ALLOWED_HOSTS:j15a207.p.ssafy.io,mcp-server:8080,localhost:8080}
+    allowed-origins: ${MCP_ALLOWED_ORIGINS:https://chatgpt.com}
+
+services:
+  core:
+    auth:
+      enabled: true

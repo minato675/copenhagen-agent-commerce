@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Match the padded color icon: retain the existing 21% silhouette inset,
+     then reduce its 58% layer width to two thirds to counter adaptive overscan. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_notification" android:inset="30.6667%" />
